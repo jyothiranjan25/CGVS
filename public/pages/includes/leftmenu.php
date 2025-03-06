@@ -77,6 +77,12 @@
                 <span class="menu-title">Courses</span>
             </a>
         </li>
+        <li class="nav-item">
+            <a class="nav-link" href="./modules.php">
+                <i class="typcn typcn-document-add menu-icon"></i>
+                <span class="menu-title">Modules</span>
+            </a>
+        </li>
     </ul>
 </nav>
 <!-- partial -->

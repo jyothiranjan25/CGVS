@@ -27,9 +27,10 @@ function insertModule($courseId, $moduleName)
     $DuplicateCheckColumn = ['course_id' => $courseId, 'AND', 'module_name' => $moduleName];
     $DuplicateRecord = CheckDuplicateRecordBeforeInsert($conn, $moduleTable, $DuplicateCheckColumn);
 
+
     if ($DuplicateRecord == FALSE) {
         $stmt = $conn->prepare("INSERT INTO $moduleTable (course_id, module_name) VALUES (?, ?)");
-        $stmt->bind_param("is", $courseId, $duration);
+        $stmt->bind_param("is", $courseId, $moduleName);
         return insertDatastmtQuery($conn, $moduleTable, $stmt);
     } else {
         return ["data" => 'DUPLICATE', "id" => $DuplicateRecord];
@@ -38,8 +39,10 @@ function insertModule($courseId, $moduleName)
 
 function getAllModules()
 {
-    global $conn, $moduleTable;
-    return getAllData($conn, $moduleTable);
+    global $conn, $moduleTable, $courseTable;
+    $sql = "SELECT c.course_name,m.* FROM $moduleTable m 
+    LEFT JOIN $courseTable c ON m.course_id = c.id";
+    return isArrayData($conn, $sql);
 }
 
 function getModuleById($id)
