@@ -40,8 +40,11 @@ function insertProject($studentId, $courseId, $projectTitle, $description)
 
 function getAllProjects()
 {
-    global $conn, $projectTable;
-    return getAllData($conn, $projectTable);
+    global $conn, $projectTable, $studentTable, $courseTable;
+    $sql = "SELECT s.full_name,c.course_name,p.* FROM $projectTable p
+    LEFT JOIN $studentTable s ON p.student_id = s.id
+    LEFT JOIN $courseTable c ON p.course_id = c.id";
+    return isArrayData($conn, $sql);
 }
 
 function getProjectById($id)

@@ -86,7 +86,7 @@ if (isset($_GET['delete'])) {
                                 <div class="card-body">
                                     <div class="row">
                                         <div class="col-lg-6 grid-margin stretch-card d-flex align-items-center">
-                                            <h4 class="card-title mb-0">Students table</h4>
+                                            <h4 class="card-title mb-0">Student table</h4>
                                         </div>
                                         <div
                                             class="col-lg-6 grid-margin stretch-card d-flex justify-content-end align-items-center">

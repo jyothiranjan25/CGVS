@@ -3,14 +3,16 @@
 include_once("../../config/dbconfig.php");
 include_once($Base_Path . "/public/code/Queries.php");
 
-$Redirect_URL = "modules.php";
+$Redirect_URL = "projects.php";
 
 
 if (isset($_POST['submit'])) {
-    $course_id = mysqli_real_escape_string($conn, trim($_POST['courseId']));
-    $module_name = mysqli_real_escape_string($conn, trim($_POST['moduleName']));
+    $student_id = mysqli_real_escape_string($conn, trim($_POST['student_id']));
+    $course_id = mysqli_real_escape_string($conn, trim($_POST['course_id']));
+    $project_title = mysqli_real_escape_string($conn, trim($_POST['project_title']));
+    $description = mysqli_real_escape_string($conn, trim($_POST['description']));
     try {
-        $insert = insertModule($course_id, $module_name);
+        $insert = insertProject($student_id, $course_id, $project_title, $description);
     } catch (Exception $e) {
         CatchErrorLogs($e, $Redirect_URL);
     } finally {
@@ -22,23 +24,27 @@ if (isset($_POST['submit'])) {
 if (isset($_REQUEST['edit'])) {
     try {
         $Id = $_GET['edit'];
-        $get = getModuleById($Id);
+        $get = getProjectById($Id);
     } catch (Exception $e) {
         CatchErrorLogs($e, $Redirect_URL);
     }
-    $module_id = $get['id'];
+    $project_id = $get['id'];
+    $student_id = $get['student_id'];
     $course_id = $get['course_id'];
-    $module_name = $get['module_name'];
+    $project_title = $get['project_title'];
+    $description = $get['description'];
 }
 
 if (isset($_POST['update'])) {
     $Id = mysqli_real_escape_string($conn, trim($_POST['id']));
-    $course_id = mysqli_real_escape_string($conn, trim($_POST['courseId']));
-    $module_name = mysqli_real_escape_string($conn, trim($_POST['moduleName']));
+    $student_id = mysqli_real_escape_string($conn, trim($_POST['student_id']));
+    $course_id = mysqli_real_escape_string($conn, trim($_POST['course_id']));
+    $project_title = mysqli_real_escape_string($conn, trim($_POST['project_title']));
+    $description = mysqli_real_escape_string($conn, trim($_POST['description']));
 
     try {
-        $updatedColumns = ["course_id" => "$course_id", "module_name" => "$module_name"];
-        $update = updateModuleById($Id, $updatedColumns);
+        $updatedColumns = ["student_id" => "$student_id", "course_id" => "$course_id", "project_title" => "$project_title", "description" => "$description"];
+        $update = updateProjectById($Id, $updatedColumns);
     } catch (Exception $e) {
         CatchErrorLogs($e, $Redirect_URL);
     } finally {
@@ -50,7 +56,7 @@ if (isset($_POST['update'])) {
 if (isset($_GET['delete'])) {
     try {
         $id = $_GET['delete'];
-        $delete = deleteModuleById($id);
+        $delete = deleteProjectById($id);
     } catch (Exception $e) {
         CatchErrorLogs($e, $Redirect_URL);
     } finally {
@@ -64,7 +70,7 @@ if (isset($_GET['delete'])) {
 
 <head>
     <?php include_once("./includes/header.php") ?>
-    <title>Modules</title>
+    <title>Projects</title>
 </head>
 
 <body>
@@ -84,7 +90,7 @@ if (isset($_GET['delete'])) {
                                 <div class="card-body">
                                     <div class="row">
                                         <div class="col-lg-6 grid-margin stretch-card d-flex align-items-center">
-                                            <h4 class="card-title mb-0">Module table</h4>
+                                            <h4 class="card-title mb-0">Project table</h4>
                                         </div>
                                         <div
                                             class="col-lg-6 grid-margin stretch-card d-flex justify-content-end align-items-center">
@@ -100,14 +106,16 @@ if (isset($_GET['delete'])) {
                                             <thead>
                                                 <tr>
                                                     <th>S.No</th>
+                                                    <th>Student Name</th>
                                                     <th>Course Name</th>
-                                                    <th>Module Name</th>
+                                                    <th>Project Title</th>
+                                                    <th>Description</th>
                                                     <th>Actions</th>
                                                 </tr>
                                             </thead>
                                             <tbody>
                                                 <?php
-                                                $data_result = getAllModules();
+                                                $data_result = getAllProjects();
                                                 // Check if there are any rows returned
                                                 
                                                 // Output data of each row
@@ -116,8 +124,10 @@ if (isset($_GET['delete'])) {
                                                     ?>
                                                     <tr>
                                                         <td><?php echo htmlentities($cnt); ?></td>
+                                                        <td><?php echo htmlentities($row['full_name']); ?></td>
                                                         <td><?php echo htmlentities($row['course_name']); ?></td>
-                                                        <td><?php echo htmlentities($row['module_name']); ?></td>
+                                                        <td><?php echo htmlentities($row['project_title']); ?></td>
+                                                        <td><?php echo htmlentities($row['description']); ?></td>
                                                         <td style="text-align: center;">
                                                             <a href="<?php echo $Redirect_URL ?>?edit=<?php echo ($row['id']); ?>"
                                                                 style="font-size: 25px; color: #007bff;">
@@ -148,7 +158,7 @@ if (isset($_GET['delete'])) {
                         <div class="modal-dialog modal-lg" role="document">
                             <div class="modal-content">
                                 <div class="modal-header">
-                                    <h5 class="modal-title" id="addModalLabel">Add Module</h5>
+                                    <h5 class="modal-title" id="addModalLabel">Add Project</h5>
                                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                                         <span aria-hidden="true">&times;</span>
                                     </button>
@@ -160,9 +170,30 @@ if (isset($_GET['delete'])) {
                                                 <div class="row">
                                                     <div class="col-md-12">
                                                         <div class="form-group row">
+                                                            <label class="col-sm-4 col-form-label">Student</label>
+                                                            <div class="col-sm-8">
+                                                                <select name="student_id" id="student_id"
+                                                                    class="form-control select2" required>
+                                                                    <?php
+                                                                    $array_query_data = getAllStudents();
+                                                                    foreach ($array_query_data as $row) {
+                                                                        ?>
+                                                                        <option required=" required"
+                                                                            value="<?php echo $row['id']; ?>">
+                                                                            <?php echo $row['full_name']; ?>
+                                                                        </option>
+                                                                        <?php
+                                                                    }
+                                                                    ?>
+                                                                </select>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-md-12">
+                                                        <div class="form-group row">
                                                             <label class="col-sm-4 col-form-label">Course</label>
                                                             <div class="col-sm-8">
-                                                                <select name="courseId" id="courseId"
+                                                                <select name="course_id" id="course_id"
                                                                     class="form-control select2" required>
                                                                     <?php
                                                                     $array_query_data = getAllCourses();
@@ -181,11 +212,22 @@ if (isset($_GET['delete'])) {
                                                     </div>
                                                     <div class="col-md-12">
                                                         <div class="form-group row">
-                                                            <label class="col-sm-4 col-form-label">Module Name</label>
+                                                            <label class="col-sm-4 col-form-label">Project
+                                                                Tittle</label>
                                                             <div class="col-sm-8">
-                                                                <input type="text" name="moduleName" id="moduleName"
-                                                                    class="form-control" required
+                                                                <input type="text" name="project_title"
+                                                                    id="project_title" class="form-control" required
                                                                     autocomplete="new-password" />
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-md-12">
+                                                        <div class="form-group row">
+                                                            <label class="col-sm-4 col-form-label">description</label>
+                                                            <div class="col-sm-8">
+                                                                <textarea class="form-control" type="text"
+                                                                    name="description" id="description"
+                                                                    rows="4"></textarea>
                                                             </div>
                                                         </div>
                                                     </div>
@@ -211,7 +253,7 @@ if (isset($_GET['delete'])) {
                         <div class="modal-dialog modal-lg" role="document">
                             <div class="modal-content">
                                 <div class="modal-header">
-                                    <h5 class="modal-title" id="editModalLabel">Edit Module</h5>
+                                    <h5 class="modal-title" id="editModalLabel">Edit Project</h5>
                                     <button type="button" class="close" data-dismiss="modal" aria-label="Close"
                                         onclick="removeQueryParams()">
                                         <span aria-hidden="true">&times;</span>
@@ -222,13 +264,33 @@ if (isset($_GET['delete'])) {
                                         <div class="card-body">
                                             <form class="form-sample" method="POST">
                                                 <input type="hidden" name="id" id="id"
-                                                    value="<?php echo $module_id ?>" />
+                                                    value="<?php echo $project_id ?>" />
                                                 <div class="row">
                                                     <div class="col-md-12">
                                                         <div class="form-group row">
                                                             <label class="col-sm-4 col-form-label">Course</label>
                                                             <div class="col-sm-8">
-                                                                <select name="courseId" id="courseId"
+                                                                <select name="student_id" id="student_id"
+                                                                    class="form-control select2" required>
+                                                                    <?php
+                                                                    $array_query_data = getAllStudents();
+                                                                    foreach ($array_query_data as $row) {
+                                                                        $selected = ($row['id'] === $student_id) ? "selected" : "";
+                                                                        ?>
+                                                                        <option required=" required"
+                                                                            value="<?php echo $row['id']; ?>" <?= $selected ?>><?php echo $row['full_name']; ?></option>
+                                                                        <?php
+                                                                    }
+                                                                    ?>
+                                                                </select>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-md-12">
+                                                        <div class="form-group row">
+                                                            <label class="col-sm-4 col-form-label">Course</label>
+                                                            <div class="col-sm-8">
+                                                                <select name="course_id" id="course_id"
                                                                     class="form-control select2" required>
                                                                     <?php
                                                                     $array_query_data = getAllCourses();
@@ -246,12 +308,23 @@ if (isset($_GET['delete'])) {
                                                     </div>
                                                     <div class="col-md-12">
                                                         <div class="form-group row">
-                                                            <label class="col-sm-4 col-form-label">Module Name</label>
+                                                            <label class="col-sm-4 col-form-label">Project
+                                                                Tittle</label>
                                                             <div class="col-sm-8">
-                                                                <input type="text" name="moduleName" id="moduleName"
-                                                                    class="form-control" required
+                                                                <input type="text" name="project_title"
+                                                                    id="project_title" class="form-control" required
                                                                     autocomplete="new-password"
-                                                                    value="<?php echo $module_name ?>" />
+                                                                    value="<?php echo $project_title ?>" />
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-md-12">
+                                                        <div class="form-group row">
+                                                            <label class="col-sm-4 col-form-label">description</label>
+                                                            <div class="col-sm-8">
+                                                                <textarea class="form-control" type="text"
+                                                                    name="description" id="description"
+                                                                    rows="4"><?php echo $description ?></textarea>
                                                             </div>
                                                         </div>
                                                     </div>

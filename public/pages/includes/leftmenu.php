@@ -83,6 +83,12 @@
                 <span class="menu-title">Modules</span>
             </a>
         </li>
+        <li class="nav-item">
+            <a class="nav-link" href="./projects.php">
+                <i class="typcn typcn-document-add menu-icon"></i>
+                <span class="menu-title">Projects</span>
+            </a>
+        </li>
     </ul>
 </nav>
 <!-- partial -->
