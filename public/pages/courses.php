@@ -8,10 +8,10 @@ $Redirect_URL = "courses.php";
 
 if (isset($_POST['submit'])) {
     $name = mysqli_real_escape_string($conn, trim($_POST['name']));
-    $email = mysqli_real_escape_string($conn, trim($_POST['email']));
-    $mobile = mysqli_real_escape_string($conn, trim($_POST['mobile']));
+    $duration = mysqli_real_escape_string($conn, trim($_POST['duration']));
+    $methodology = mysqli_real_escape_string($conn, trim($_POST['methodology']));
     try {
-        $insert = insertStudent($name, $email, $mobile);
+        $insert = insertCourse($name, $duration, $methodology);
     } catch (Exception $e) {
         CatchErrorLogs($e, $Redirect_URL);
     } finally {
@@ -23,24 +23,24 @@ if (isset($_POST['submit'])) {
 if (isset($_REQUEST['edit'])) {
     try {
         $Id = $_GET['edit'];
-        $get = getStudentById($Id);
+        $get = getCourseById($Id);
     } catch (Exception $e) {
         CatchErrorLogs($e, $Redirect_URL);
     }
-    $student_id = $get['id'];
-    $name = $get['full_name'];
-    $email = $get['email'];
-    $mobile = $get['mobile'];
+    $course_id = $get['id'];
+    $name = $get['course_name'];
+    $duration = $get['duration'];
+    $methodology = $get['evaluation_methodology'];
 }
 
 if (isset($_POST['update'])) {
     $Id = mysqli_real_escape_string($conn, trim($_POST['id']));
     $name = mysqli_real_escape_string($conn, trim($_POST['name']));
-    $email = mysqli_real_escape_string($conn, trim($_POST['email']));
-    $mobile = mysqli_real_escape_string($conn, trim($_POST['mobile']));
+    $duration = mysqli_real_escape_string($conn, trim($_POST['duration']));
+    $methodology = mysqli_real_escape_string($conn, trim($_POST['methodology']));
     try {
-        $updatedColumns = ["full_name" => "$name", "email" => "$email", "mobile" => "$mobile"];
-        $update = updateStudentById($Id, $updatedColumns);
+        $updatedColumns = ["course_name" => "$name", "duration" => "$duration", "evaluation_methodology" => "$methodology"];
+        $update = updateCourseById($Id, $updatedColumns);
     } catch (Exception $e) {
         CatchErrorLogs($e, $Redirect_URL);
     } finally {
@@ -52,11 +52,11 @@ if (isset($_POST['update'])) {
 if (isset($_GET['delete'])) {
     try {
         $id = $_GET['delete'];
-        $delete = deleteStudentById($id);
+        $delete = deleteCourseById($id);
     } catch (Exception $e) {
-        CatchErrorLogs($e, "students.php");
+        CatchErrorLogs($e, $Redirect_URL);
     } finally {
-        header('Location: students.php');
+        header("Location: $Redirect_URL");
         exit;
     }
 }
@@ -66,7 +66,7 @@ if (isset($_GET['delete'])) {
 
 <head>
     <?php include_once("./includes/header.php") ?>
-    <title>Students</title>
+    <title>Courses</title>
 </head>
 
 <body>
@@ -103,14 +103,14 @@ if (isset($_GET['delete'])) {
                                                 <tr>
                                                     <th>S.No</th>
                                                     <th>Name</th>
-                                                    <th>Email</th>
-                                                    <th>Mobile</th>
+                                                    <th>Duration</th>
+                                                    <th>Evaluation Methodology</th>
                                                     <th>Actions</th>
                                                 </tr>
                                             </thead>
                                             <tbody>
                                                 <?php
-                                                $data_result = getAllStudents();
+                                                $data_result = getAllCourses();
                                                 // Check if there are any rows returned
                                                 
                                                 // Output data of each row
@@ -119,9 +119,9 @@ if (isset($_GET['delete'])) {
                                                     ?>
                                                     <tr>
                                                         <td><?php echo htmlentities($cnt); ?></td>
-                                                        <td><?php echo htmlentities($row['full_name']); ?></td>
-                                                        <td><?php echo htmlentities($row['email']); ?></td>
-                                                        <td><?php echo htmlentities($row['mobile']); ?></td>
+                                                        <td><?php echo htmlentities($row['course_name']); ?></td>
+                                                        <td><?php echo htmlentities($row['duration']); ?></td>
+                                                        <td><?php echo htmlentities($row['evaluation_methodology']); ?></td>
                                                         <td style="text-align: center;">
                                                             <a href="<?php echo $Redirect_URL ?>?edit=<?php echo ($row['id']); ?>"
                                                                 style="font-size: 25px; color: #007bff;">
@@ -152,7 +152,7 @@ if (isset($_GET['delete'])) {
                         <div class="modal-dialog modal-lg" role="document">
                             <div class="modal-content">
                                 <div class="modal-header">
-                                    <h5 class="modal-title" id="addModalLabel">Add Student</h5>
+                                    <h5 class="modal-title" id="addModalLabel">Add Course</h5>
                                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                                         <span aria-hidden="true">&times;</span>
                                     </button>
@@ -164,7 +164,7 @@ if (isset($_GET['delete'])) {
                                                 <div class="row">
                                                     <div class="col-md-6">
                                                         <div class="form-group row">
-                                                            <label class="col-sm-4 col-form-label">Full Name</label>
+                                                            <label class="col-sm-4 col-form-label">Name</label>
                                                             <div class="col-sm-8">
                                                                 <input type="text" name="name" id="name"
                                                                     class="form-control" required autocomplete="off" />
@@ -173,9 +173,9 @@ if (isset($_GET['delete'])) {
                                                     </div>
                                                     <div class="col-md-6">
                                                         <div class="form-group row">
-                                                            <label class="col-sm-4 col-form-label">Email</label>
+                                                            <label class="col-sm-4 col-form-label">Duration</label>
                                                             <div class="col-sm-8">
-                                                                <input type="email" name="email" id="email"
+                                                                <input type="text" name="duration" id="duration"
                                                                     class="form-control" required
                                                                     autocomplete="new-password" />
                                                             </div>
@@ -183,15 +183,13 @@ if (isset($_GET['delete'])) {
                                                     </div>
                                                 </div>
                                                 <div class="row">
-                                                    <div class="col-md-6">
+                                                    <div class="col-md-12">
                                                         <div class="form-group row">
-                                                            <label class="col-sm-4 col-form-label">Mobile</label>
-                                                            <div class="col-sm-8">
-                                                                <input type="number" name="mobile" id="mobile"
-                                                                    class="form-control" autocomplete="new-password"
-                                                                    minlength="10" maxlength="10" pattern="[0-9]{10}"
-                                                                    oninput="if(this.value.length > 10) this.value = this.value.slice(0, 10);"
-                                                                    required />
+                                                            <label class="col-sm-4 col-form-label">Methodology</label>
+                                                            <div class="col-sm-12">
+                                                                <textarea class="form-control" type="text"
+                                                                    name="methodology" id="methodology"
+                                                                    rows="4"></textarea>
                                                             </div>
                                                         </div>
                                                     </div>
@@ -217,7 +215,7 @@ if (isset($_GET['delete'])) {
                         <div class="modal-dialog modal-lg" role="document">
                             <div class="modal-content">
                                 <div class="modal-header">
-                                    <h5 class="modal-title" id="editModalLabel">Edit Student</h5>
+                                    <h5 class="modal-title" id="editModalLabel">Edit Course</h5>
                                     <button type="button" class="close" data-dismiss="modal" aria-label="Close"
                                         onclick="removeQueryParams()">
                                         <span aria-hidden="true">&times;</span>
@@ -227,13 +225,13 @@ if (isset($_GET['delete'])) {
                                     <div class="card">
                                         <div class="card-body">
                                             <form class="form-sample" method="POST">
+                                                <input type="hidden" name="id" id="id"
+                                                    value="<?php echo $course_id ?>" />
                                                 <div class="row">
                                                     <div class="col-md-6">
                                                         <div class="form-group row">
-                                                            <label class="col-sm-4 col-form-label">Full Name</label>
+                                                            <label class="col-sm-4 col-form-label">Name</label>
                                                             <div class="col-sm-8">
-                                                                <input type="hidden" name="id" id="id"
-                                                                    value="<?php echo $student_id ?>" />
                                                                 <input type="text" name="name" id="name"
                                                                     class="form-control" required autocomplete="off"
                                                                     value="<?php echo $name ?>" />
@@ -242,26 +240,24 @@ if (isset($_GET['delete'])) {
                                                     </div>
                                                     <div class="col-md-6">
                                                         <div class="form-group row">
-                                                            <label class="col-sm-4 col-form-label">Email</label>
+                                                            <label class="col-sm-4 col-form-label">Duration</label>
                                                             <div class="col-sm-8">
-                                                                <input type="email" name="email" id="email"
+                                                                <input type="text" name="duration" id="duration"
                                                                     class="form-control" required
                                                                     autocomplete="new-password"
-                                                                    value="<?php echo $email ?>" />
+                                                                    value="<?php echo $duration ?>" />
                                                             </div>
                                                         </div>
                                                     </div>
                                                 </div>
                                                 <div class="row">
-                                                    <div class="col-md-6">
+                                                    <div class="col-md-12">
                                                         <div class="form-group row">
-                                                            <label class="col-sm-4 col-form-label">Mobile</label>
-                                                            <div class="col-sm-8">
-                                                                <input type="number" name="mobile" id="mobile"
-                                                                    class="form-control" autocomplete="new-password"
-                                                                    minlength="10" maxlength="10" pattern="[0-9]{10}"
-                                                                    oninput="if(this.value.length > 10) this.value = this.value.slice(0, 10);"
-                                                                    required value="<?php echo $mobile ?>" />
+                                                            <label class="col-sm-4 col-form-label">Methodology</label>
+                                                            <div class="col-sm-12">
+                                                                <textarea class="form-control" type="text"
+                                                                    name="methodology" id="methodology"
+                                                                    rows="4"><?php echo $methodology ?></textarea>
                                                             </div>
                                                         </div>
                                                     </div>

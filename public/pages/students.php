@@ -227,13 +227,13 @@ if (isset($_GET['delete'])) {
                                     <div class="card">
                                         <div class="card-body">
                                             <form class="form-sample" method="POST">
+                                                <input type="hidden" name="id" id="id"
+                                                    value="<?php echo $student_id ?>" />
                                                 <div class="row">
                                                     <div class="col-md-6">
                                                         <div class="form-group row">
                                                             <label class="col-sm-4 col-form-label">Full Name</label>
                                                             <div class="col-sm-8">
-                                                                <input type="hidden" name="id" id="id"
-                                                                    value="<?php echo $student_id ?>" />
                                                                 <input type="text" name="name" id="name"
                                                                     class="form-control" required autocomplete="off"
                                                                     value="<?php echo $name ?>" />
