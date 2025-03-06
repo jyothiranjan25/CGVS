@@ -54,9 +54,9 @@ if (isset($_GET['delete'])) {
         $id = $_GET['delete'];
         $delete = deleteStudentById($id);
     } catch (Exception $e) {
-        CatchErrorLogs($e, "students.php");
+        CatchErrorLogs($e, $Redirect_URL);
     } finally {
-        header('Location: students.php');
+        header("Location: $Redirect_URL");
         exit;
     }
 }
