@@ -18,7 +18,11 @@ include_once $codePathFolder . "/CoreQueries.php";
 // Include Student Table
 include_once $codePathFolder . "/admin.php";
 include_once $codePathFolder . "/student.php";
-
+include_once $codePathFolder . "/course.php";
+include_once $codePathFolder . "/module.php";
+include_once $codePathFolder . "/project.php";
+include_once $codePathFolder . "/certificate.php";
+include_once $codePathFolder . "/certificateVerification.php";
 
 function CatchErrorLogs($e, $Redirect_URL)
 {

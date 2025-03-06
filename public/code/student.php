@@ -24,15 +24,15 @@ function insertStudent($name, $email, $mobile)
     global $conn, $studentTable;
 
     $DucplicateCheckColumn = ['email' => $email];
-    $DuplicadeRecord = CheckDuplicateRecordBeforeInsert($conn, $studentTable, $DucplicateCheckColumn);
+    $DuplicateRecord = CheckDuplicateRecordBeforeInsert($conn, $studentTable, $DucplicateCheckColumn);
 
 
-    if ($DuplicadeRecord == FALSE) {
+    if ($DuplicateRecord == FALSE) {
         $stmt = $conn->prepare("INSERT INTO $studentTable (full_name, email, mobile) VALUES (?, ?, ?)");
         $stmt->bind_param("sss", $name, $email, $mobile);
         return insertDatastmtQuery($conn, $studentTable, $stmt);
     } else {
-        return ["data" => 'DUPLICATE', "id" => $DuplicadeRecord];
+        return ["data" => 'DUPLICATE', "id" => $DuplicateRecord];
     }
 }
 
@@ -62,12 +62,12 @@ function updateStudentById($id, $updatedColumns)
     // To find duplicate record
     $email = $updatedColumns['email'];
     $DucplicateCheckColumn = ['email' => $email];
-    $DuplicadeRecord = CheckDuplicateRecordToUpdate($conn, $id, $studentTable, $DucplicateCheckColumn);
+    $DuplicateRecord = CheckDuplicateRecordToUpdate($conn, $id, $studentTable, $DucplicateCheckColumn);
 
-    if ($DuplicadeRecord == FALSE) {
+    if ($DuplicateRecord == FALSE) {
         return updateTableDataByIdQuery($conn, $studentTable, $id, $updatedColumns);
     } else {
-        $duplicate_data = ["data" => 'DUPLICATE', "id" => $DuplicadeRecord];
+        $duplicate_data = ["data" => 'DUPLICATE', "id" => $DuplicateRecord];
         return $duplicate_data;
     }
 }

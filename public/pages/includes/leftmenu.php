@@ -50,7 +50,7 @@
                 <span class="menu-title">Dashboard</span>
             </a>
         </li>
-        <li class="nav-item">
+        <!-- <li class="nav-item">
             <a class="nav-link" data-toggle="collapse" href="#form-elements" aria-expanded="false"
                 aria-controls="form-elements">
                 <i class="typcn typcn-film menu-icon"></i>
@@ -64,11 +64,17 @@
                     </li>
                 </ul>
             </div>
-        </li>
+        </li> -->
         <li class="nav-item">
             <a class="nav-link" href="./students.php">
                 <i class="typcn typcn-user-add menu-icon"></i>
                 <span class="menu-title">Students</span>
+            </a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" href="./courses.php">
+                <i class="typcn typcn-document-add menu-icon"></i>
+                <span class="menu-title">Courses</span>
             </a>
         </li>
     </ul>

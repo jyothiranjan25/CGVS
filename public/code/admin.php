@@ -73,14 +73,14 @@ function updateAdminById($id, $updatedColumns)
     $email = $updatedColumns['email'];
     $name = $updatedColumns['username'];
     $DucplicateCheckColumn = ['username' => $name, 'OR', 'email' => $email];
-    $DuplicadeRecord = CheckDuplicateRecordToUpdate($conn, $id, $adminTable, $DucplicateCheckColumn);
+    $DuplicateRecord = CheckDuplicateRecordToUpdate($conn, $id, $adminTable, $DucplicateCheckColumn);
 
-    if ($DuplicadeRecord == FALSE) {
+    if ($DuplicateRecord == FALSE) {
         $passw = $updatedColumns['password'];
         $updatedColumns['password'] = md5($passw);
         return updateTableDataByIdQuery($conn, $adminTable, $id, $updatedColumns);
     } else {
-        $duplicate_data = ["data" => 'DUPLICATE', "id" => $DuplicadeRecord];
+        $duplicate_data = ["data" => 'DUPLICATE', "id" => $DuplicateRecord];
         return $duplicate_data;
     }
 }

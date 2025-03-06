@@ -3,7 +3,7 @@
 include_once("../../config/dbconfig.php");
 include_once($Base_Path . "/public/code/Queries.php");
 
-$Redirect_URL = "students.php";
+$Redirect_URL = "courses.php";
 
 
 if (isset($_POST['submit'])) {
