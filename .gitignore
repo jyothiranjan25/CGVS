@@ -1,0 +1,6 @@
+# ignore ALL .log files
+*.log
+# ignore ALL .DS_Store files
+*.DS_Store
+# ignore Config file
+/config/dbconfig.php
