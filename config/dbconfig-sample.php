@@ -1,12 +1,12 @@
 <?php
 session_start();
 date_default_timezone_set('Asia/Kolkata');
-// error_reporting(E_ALL ^ E_NOTICE);
-// error_reporting(E_ALL ^ E_WARNING);
-// error_reporting(0);
+error_reporting(E_ALL ^ E_NOTICE);
+error_reporting(E_ALL ^ E_WARNING);
+error_reporting(0);
 
-ini_set('display_errors', 1);
-error_reporting(E_ALL);
+// ini_set('display_errors', 1);
+// error_reporting(E_ALL);
 
 // define the database credentials
 $servername = "localhost";
