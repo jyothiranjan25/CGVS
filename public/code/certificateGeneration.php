@@ -6,7 +6,7 @@ use Intervention\Image\Typography\FontFactory;
 function generateCertificate($regNo, $name, $startDate, $endDate, $course, $QrCode)
 {
 
-    global $imgPathFolder, $Base_Path, $Base_Path;
+    global $imgPathFolder, $Base_Path;
 
     $tempImgPath = $imgPathFolder . "/certificateTem/certificatetemp.png";
     $tempImgPath = $imgPathFolder . "/certificateTem/sampletemp.png";
