@@ -46,6 +46,53 @@ function generateQRCodeBase64($text)
  * End of QrCode Library
  */
 
+use Intervention\Image\ImageManager;
+use Intervention\Image\Drivers\Gd\Driver;
+use Intervention\Image\Typography\FontFactory;
+function generateCertificate($name, $startDate, $endDate, $course)
+{
+
+    global $imgPathFolder, $Base_URL, $Base_Path;
+
+    $tempImgPath = $imgPathFolder . "/certificateTem/certificatetemp.jpg";
+    $GreatVibesfont = $Base_Path . "/fonts/Greatvibes/GreatVibes-Regular.ttf";
+    $Arialfont = $Base_Path . "/fonts/Arialfont/Arial.ttf";
+
+    // create image manager with desired driver
+    $manager = new ImageManager(new Driver());
+
+    // read image from file system
+    $image = $manager->read($tempImgPath);
+
+    // Set Text
+    $image->text($name, 540, 340, function (FontFactory $font) use ($GreatVibesfont) {
+        $font->file($GreatVibesfont); // Add your font path
+        $font->size(80);
+        $font->color('#000000');
+        $font->align('center');
+    });
+
+    $image->text("from $startDate to $endDate", 540, 420, function (FontFactory $font) use ($Arialfont) {
+        $font->file($Arialfont);
+        $font->size(30);
+        $font->color('#000000');
+        $font->align('center');
+    });
+
+    $image->text("as a $course.", 540, 470, function (FontFactory $font) use ($Arialfont) {
+        $font->file($Arialfont);
+        $font->size(30);
+        $font->color('#000000');
+        $font->align('center');
+    });
+
+    // Save the generated certificate
+    $fileName = strtolower(str_replace(' ', '_', $name)) . '_certificate.png';
+    $image->save($fileName);
+
+    return "Certificate generated: $fileName";
+}
+
 
 /**
  *    <------Tables------->

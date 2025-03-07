@@ -10,7 +10,8 @@ if (!$result->num_rows > 0) {
         'student_id INT(11) NOT NULL',
         'course_id INT(11) NOT NULL',
         'registration_number VARCHAR(256) NOT NULL',
-        "completion_date DATE NOT NULL",
+        'start_date DATE NOT NULL',
+        'completion_date DATE NOT NULL',
         'qr_code LONGTEXT DEFAULT NULL',
         'FOREIGN KEY (student_id) REFERENCES ' . $studentTable . '(id) ON DELETE CASCADE ON UPDATE CASCADE',
         'FOREIGN KEY (course_id) REFERENCES ' . $courseTable . '(id) ON DELETE CASCADE ON UPDATE CASCADE',
@@ -23,7 +24,7 @@ if (!$result->num_rows > 0) {
     $TableCreated = runCreateTable($conn, $certificateTable, $sql);
 }
 
-function insertCertificate($studentId, $courseId, $registrationNumber, $completionDate, $qr_code)
+function insertCertificate($studentId, $courseId, $registrationNumber, $startDate, $completionDate, $qr_code)
 {
     global $conn, $certificateTable;
 
@@ -31,8 +32,8 @@ function insertCertificate($studentId, $courseId, $registrationNumber, $completi
     $DuplicateRecord = CheckDuplicateRecordBeforeInsert($conn, $certificateTable, $DucplicateCheckColumn);
 
     if ($DuplicateRecord == FALSE) {
-        $stmt = $conn->prepare("INSERT INTO $certificateTable (student_id, course_id, registration_number, completion_date, qr_code) VALUES (?, ?, ?, ?, ?)");
-        $stmt->bind_param("iisss", $studentId, $courseId, $registrationNumber, $completionDate, $qr_code);
+        $stmt = $conn->prepare("INSERT INTO $certificateTable (student_id, course_id, registration_number,start_date, completion_date, qr_code) VALUES (?, ?, ?, ?, ?, ?)");
+        $stmt->bind_param("iissss", $studentId, $courseId, $registrationNumber, $startDate, $completionDate, $qr_code);
         return insertDatastmtQuery($conn, $certificateTable, $stmt);
     } else {
         return ["data" => 'DUPLICATE', "id" => $DuplicateRecord];

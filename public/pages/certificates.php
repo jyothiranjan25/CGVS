@@ -10,11 +10,12 @@ if (isset($_POST['submit'])) {
     $student_id = mysqli_real_escape_string($conn, trim($_POST['student_id']));
     $course_id = mysqli_real_escape_string($conn, trim($_POST['course_id']));
     $registration_number = mysqli_real_escape_string($conn, trim($_POST['registration_number']));
+    $start_date = mysqli_real_escape_string($conn, trim($_POST['start_date']));
     $completion_date = mysqli_real_escape_string($conn, trim($_POST['completion_date']));
-    $QrText = $Base_Path_URL . "verifyCertificate.php?registration_number=$registration_number&student_id=$student_id&course_id=$course_id&completion_date=$completion_date";
+    $QrText = $Base_Path_URL . "verifyCertificate.php?registration_number=$registration_number&student_id=$student_id&course_id=$course_id&start_date=$start_date&completion_date=$completion_date";
     $Qrcode = generateQRCodeBase64($QrText);
     try {
-        $insert = insertCertificate($student_id, $course_id, $registration_number, $completion_date, $Qrcode);
+        $insert = insertCertificate($student_id, $course_id, $registration_number, $start_date, $completion_date, $Qrcode);
     } catch (Exception $e) {
         CatchErrorLogs($e, $Redirect_URL);
     } finally {
@@ -34,6 +35,7 @@ if (isset($_REQUEST['edit'])) {
     $student_id = $get['student_id'];
     $course_id = $get['course_id'];
     $registration_number = $get['registration_number'];
+    $start_date = $get['start_date'];
     $completion_date = $get['completion_date'];
 }
 
@@ -42,11 +44,12 @@ if (isset($_POST['update'])) {
     $student_id = mysqli_real_escape_string($conn, trim($_POST['student_id']));
     $course_id = mysqli_real_escape_string($conn, trim($_POST['course_id']));
     $registration_number = mysqli_real_escape_string($conn, trim($_POST['registration_number']));
+    $start_date = mysqli_real_escape_string($conn, trim($_POST['start_date']));
     $completion_date = mysqli_real_escape_string($conn, trim($_POST['completion_date']));
-    $QrText = $Base_Path_URL . "/verifyCertificate.php?registration_number=$registration_number&student_id=$student_id&course_id=$course_id&completion_date=$completion_date";
+    $QrText = $Base_Path_URL . "verifyCertificate.php?registration_number=$registration_number&student_id=$student_id&course_id=$course_id&start_date=$start_date&completion_date=$completion_date";
     $Qrcode = generateQRCodeBase64($QrText);
     try {
-        $updatedColumns = ["student_id" => "$student_id", "course_id" => "$course_id", "registration_number" => "$registration_number", "completion_date" => "$completion_date", "qr_code" => "$Qrcode"];
+        $updatedColumns = ["student_id" => "$student_id", "course_id" => "$course_id", "registration_number" => "$registration_number", "start_date" => $start_date, "completion_date" => "$completion_date", "qr_code" => "$Qrcode"];
         $update = updateCertificateById($Id, $updatedColumns);
     } catch (Exception $e) {
         CatchErrorLogs($e, $Redirect_URL);
@@ -67,6 +70,17 @@ if (isset($_GET['delete'])) {
         exit;
     }
 }
+
+if (isset($_GET['generateCertificate'])) {
+    try {
+        $id = $_GET['generateCertificate'];
+        $certificate = generateCertificate("Test Name", "Test Date", "Test date", "Test Course");
+    } catch (Exception $e) {
+        echo $e->getMessage();
+    }
+}
+
+
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -112,7 +126,8 @@ if (isset($_GET['delete'])) {
                                                     <th>Student Name</th>
                                                     <th>Course Name</th>
                                                     <th>Registration Number</th>
-                                                    <th>completion_date</th>
+                                                    <th>Start Date</th>
+                                                    <th>Completion Date</th>
                                                     <th>QR Code</th>
                                                     <th>Actions</th>
                                                 </tr>
@@ -131,6 +146,7 @@ if (isset($_GET['delete'])) {
                                                         <td><?php echo htmlentities($row['full_name']); ?></td>
                                                         <td><?php echo htmlentities($row['course_name']); ?></td>
                                                         <td><?php echo htmlentities($row['registration_number']); ?></td>
+                                                        <td><?php echo htmlentities($row['start_date']); ?></td>
                                                         <td><?php echo htmlentities($row['completion_date']); ?></td>
                                                         <td>
                                                             <button type="button" class="btn" data-toggle="modal"
@@ -141,6 +157,10 @@ if (isset($_GET['delete'])) {
                                                             </button>
                                                         </td>
                                                         <td style="text-align: center;">
+                                                            <a href="<?php echo $Redirect_URL ?>?generateCertificate=<?php echo ($row['registration_number']); ?>"
+                                                                style="font-size: 25px; color: #007bff;">
+                                                                <i class="typcn typcn-document"></i>
+                                                            </a>
                                                             <a href="<?php echo $Redirect_URL ?>?edit=<?php echo ($row['id']); ?>"
                                                                 style="font-size: 25px; color: #007bff;">
                                                                 <i class="typcn typcn-edit"></i>
@@ -230,6 +250,16 @@ if (isset($_GET['delete'])) {
                                                                 <input type="text" name="registration_number"
                                                                     id="registration_number" class="form-control"
                                                                     required autocomplete="new-password" required />
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-md-12">
+                                                        <div class="form-group row">
+                                                            <label class="col-sm-4 col-form-label">Start
+                                                                Date</label>
+                                                            <div class="col-sm-8">
+                                                                <input class="form-control" type="date"
+                                                                    name="start_date" id="start_date" required />
                                                             </div>
                                                         </div>
                                                     </div>
@@ -328,6 +358,17 @@ if (isset($_GET['delete'])) {
                                                                     id="registration_number" class="form-control"
                                                                     required autocomplete="new-password" required
                                                                     value="<?php echo $registration_number ?>" />
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-md-12">
+                                                        <div class="form-group row">
+                                                            <label class="col-sm-4 col-form-label">Start
+                                                                Date</label>
+                                                            <div class="col-sm-8">
+                                                                <input class="form-control" type="date"
+                                                                    name="start_date" id="start_date" required
+                                                                    value="<?php echo $start_date ?>" />
                                                             </div>
                                                         </div>
                                                     </div>
