@@ -134,7 +134,7 @@ if (isset($_GET['delete'])) {
                                                         <td><?php echo htmlentities($row['completion_date']); ?></td>
                                                         <td>
                                                             <button type="button" class="btn" data-toggle="modal"
-                                                                data-target="#imageViewModal"
+                                                                style="padding: 0" data-target="#imageViewModal"
                                                                 data-whatever="<?php echo htmlentities($row['qr_code']); ?>">
                                                                 <img src="<?php echo htmlentities($row['qr_code']); ?>"
                                                                     width="100" height="100" alt="QR Code">
@@ -364,7 +364,7 @@ if (isset($_GET['delete'])) {
                         <div class="modal-dialog" role="document">
                             <div class="modal-content">
                                 <div class="modal-header">
-                                    <h5 class="modal-title" id="imageViewLabel">Qr Code</h5>
+                                    <h4 class="modal-title" id="imageViewLabel">Qr Code</h4>
                                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                                         <span aria-hidden="true">&times;</span>
                                     </button>
