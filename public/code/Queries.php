@@ -54,7 +54,7 @@ function generateCertificate($name, $startDate, $endDate, $course)
 
     global $imgPathFolder, $Base_URL, $Base_Path;
 
-    $tempImgPath = $imgPathFolder . "/certificateTem/certificatetemp.png";
+    $tempImgPath = $imgPathFolder . "/certificateTem/sampletemp.png";
     $GreatVibesfont = $Base_Path . "/public/fonts/Greatvibes/GreatVibes-Regular.ttf";
     $Arialfont = $Base_Path . "/public/fonts/Arialfont/Arial.ttf";
 
@@ -63,8 +63,6 @@ function generateCertificate($name, $startDate, $endDate, $course)
 
     // read image from file system
     $image = $manager->read($tempImgPath);
-
-    // $image = ImageManager::imagick()->read($tempImgPath);
 
     // Set Text
     $image->text($name, 540, 340, function (FontFactory $font) use ($GreatVibesfont) {
