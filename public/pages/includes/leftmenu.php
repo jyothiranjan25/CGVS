@@ -95,7 +95,12 @@
                 <span class="menu-title">Certificates</span>
             </a>
         </li>
-
+        <li class="nav-item">
+            <a class="nav-link" href="./certificateVerification.php">
+                <i class="typcn typcn-document-add menu-icon"></i>
+                <span class="menu-title">Certificate Verification</span>
+            </a>
+        </li>
     </ul>
 </nav>
 <!-- partial -->
