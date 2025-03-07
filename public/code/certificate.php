@@ -86,3 +86,32 @@ function deleteCertificateById($id)
     global $conn, $certificateTable;
     return deleteTableDataByIdQuery($conn, $certificateTable, $id);
 }
+
+function getCertificateDetailsByRegNo($registrationNumber)
+{
+    global $conn, $certificateTable, $studentTable, $courseTable;
+    $sql = "SELECT s.full_name, c.course_name, cert.registration_number, cert.completion_date, cert.qr_code
+            FROM $certificateTable cert
+            JOIN $studentTable s ON cert.student_id = s.id
+            JOIN $courseTable c ON cert.course_id = c.id
+            WHERE cert.registration_number = $registrationNumber";
+
+    return isSingleRowData($conn, $sql);
+}
+
+function getverificationDetailsByRegNo($registrationNumber)
+{
+    global $conn, $certificateTable, $studentTable, $courseTable, $moduleTable, $projectTable;
+    $sql = "SELECT s.full_name, c.course_name, c.duration, c.evaluation_methodology,
+                    GROUP_CONCAT(m.module_name SEPARATOR ', ') AS modules_covered,
+                    GROUP_CONCAT(p.project_title SEPARATOR ', ') AS projects_completed,
+                    cert.completion_date
+            FROM $certificateTable cert
+            JOIN $studentTable s ON cert.student_id = s.id
+            JOIN $courseTable c ON cert.course_id = c.id
+            LEFT JOIN $moduleTable m ON c.id = m.course_id
+            LEFT JOIN $projectTable p ON s.id = p.student_id AND c.id = p.course_id
+            WHERE cert.registration_number = $certificateTable";
+
+    return isSingleRowData($conn, $sql);
+}

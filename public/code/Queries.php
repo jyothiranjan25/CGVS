@@ -115,8 +115,7 @@ function generateCertificate($name, $startDate, $endDate, $course)
     });
 
     // Save the generated certificate
-    // $fileName = strtolower(str_replace(' ', '_', $name)) . '_certificate.png';
-    $fileName = 'certificate.png';
+    $fileName = strtolower(str_replace(' ', '_', $name)) . '_certificate.png';
     $savePath = $imgPathFolder . "/certificates/";
 
     // create directory if not exists
@@ -125,6 +124,7 @@ function generateCertificate($name, $startDate, $endDate, $course)
     }
     $savePath .= $fileName;
     $image->save($savePath);
+    return $savePath;
 }
 
 
