@@ -122,26 +122,26 @@ if (isset($_GET['delete'])) {
                                                 $cnt = 1;
                                                 foreach ($data_result as $row) {
                                                     ?>
-                                                    <tr>
-                                                        <td><?php echo htmlentities($cnt); ?></td>
-                                                        <td><?php echo htmlentities($row['full_name']); ?></td>
-                                                        <td><?php echo htmlentities($row['course_name']); ?></td>
-                                                        <td><?php echo htmlentities($row['project_title']); ?></td>
-                                                        <td><?php echo htmlentities($row['description']); ?></td>
-                                                        <td style="text-align: center;">
-                                                            <a href="<?php echo $Redirect_URL ?>?edit=<?php echo ($row['id']); ?>"
-                                                                style="font-size: 25px; color: #007bff;">
-                                                                <i class="typcn typcn-edit"></i>
-                                                            </a>
-                                                            &nbsp;
-                                                            <a href="<?php echo $Redirect_URL ?>?delete=<?php echo ($row['id']); ?>"
-                                                                style="font-size: 25px; color: #dc3545;">
-                                                                <i class="typcn typcn-delete"></i>
-                                                            </a>
-                                                        </td>
-                                                    </tr>
-                                                    <?php
-                                                    $cnt++;
+                                                                <tr>
+                                                                    <td><?php echo htmlentities($cnt); ?></td>
+                                                                    <td><?php echo htmlentities($row['full_name']); ?></td>
+                                                                    <td><?php echo htmlentities($row['course_name']); ?></td>
+                                                                    <td><?php echo htmlentities($row['project_title']); ?></td>
+                                                                    <td><?php echo htmlentities($row['description']); ?></td>
+                                                                    <td style="text-align: center;">
+                                                                        <a href="<?php echo $Redirect_URL ?>?edit=<?php echo ($row['id']); ?>"
+                                                                            style="font-size: 25px; color: #007bff;">
+                                                                            <i class="typcn typcn-edit"></i>
+                                                                        </a>
+                                                                        &nbsp;
+                                                                        <a href="<?php echo $Redirect_URL ?>?delete=<?php echo ($row['id']); ?>"
+                                                                            style="font-size: 25px; color: #dc3545;">
+                                                                            <i class="typcn typcn-delete"></i>
+                                                                        </a>
+                                                                    </td>
+                                                                </tr>
+                                                                <?php
+                                                                $cnt++;
                                                 }
                                                 ?>
                                             </tbody>
@@ -178,11 +178,11 @@ if (isset($_GET['delete'])) {
                                                                     $array_query_data = getAllStudents();
                                                                     foreach ($array_query_data as $row) {
                                                                         ?>
-                                                                        <option required=" required"
-                                                                            value="<?php echo $row['id']; ?>">
-                                                                            <?php echo $row['full_name']; ?>
-                                                                        </option>
-                                                                        <?php
+                                                                                    <option required=" required"
+                                                                                        value="<?php echo $row['id']; ?>">
+                                                                                        <?php echo $row['full_name']; ?>
+                                                                                    </option>
+                                                                                    <?php
                                                                     }
                                                                     ?>
                                                                 </select>
@@ -199,11 +199,11 @@ if (isset($_GET['delete'])) {
                                                                     $array_query_data = getAllCourses();
                                                                     foreach ($array_query_data as $row) {
                                                                         ?>
-                                                                        <option required=" required"
-                                                                            value="<?php echo $row['id']; ?>">
-                                                                            <?php echo $row['course_name']; ?>
-                                                                        </option>
-                                                                        <?php
+                                                                                    <option required=" required"
+                                                                                        value="<?php echo $row['id']; ?>">
+                                                                                        <?php echo $row['course_name']; ?>
+                                                                                    </option>
+                                                                                    <?php
                                                                     }
                                                                     ?>
                                                                 </select>
@@ -277,9 +277,9 @@ if (isset($_GET['delete'])) {
                                                                     foreach ($array_query_data as $row) {
                                                                         $selected = ($row['id'] === $student_id) ? "selected" : "";
                                                                         ?>
-                                                                        <option required=" required"
-                                                                            value="<?php echo $row['id']; ?>" <?= $selected ?>><?php echo $row['full_name']; ?></option>
-                                                                        <?php
+                                                                                    <option required=" required"
+                                                                                        value="<?php echo $row['id']; ?>" <?= $selected ?>><?php echo $row['full_name']; ?></option>
+                                                                                    <?php
                                                                     }
                                                                     ?>
                                                                 </select>
@@ -297,9 +297,9 @@ if (isset($_GET['delete'])) {
                                                                     foreach ($array_query_data as $row) {
                                                                         $selected = ($row['id'] === $course_id) ? "selected" : "";
                                                                         ?>
-                                                                        <option required=" required"
-                                                                            value="<?php echo $row['id']; ?>" <?= $selected ?>><?php echo $row['course_name']; ?></option>
-                                                                        <?php
+                                                                                    <option required=" required"
+                                                                                        value="<?php echo $row['id']; ?>" <?= $selected ?>><?php echo $row['course_name']; ?></option>
+                                                                                    <?php
                                                                     }
                                                                     ?>
                                                                 </select>

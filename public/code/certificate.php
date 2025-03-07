@@ -13,8 +13,8 @@ if (!$result->num_rows > 0) {
         'start_date DATE NOT NULL',
         'completion_date DATE NOT NULL',
         'qr_code LONGTEXT DEFAULT NULL',
-        'FOREIGN KEY (student_id) REFERENCES ' . $studentTable . '(id) ON DELETE CASCADE ON UPDATE CASCADE',
-        'FOREIGN KEY (course_id) REFERENCES ' . $courseTable . '(id) ON DELETE CASCADE ON UPDATE CASCADE',
+        'FOREIGN KEY (student_id) REFERENCES ' . $studentTable . '(id) ON DELETE RESTRICT ON UPDATE CASCADE',
+        'FOREIGN KEY (course_id) REFERENCES ' . $courseTable . '(id) ON DELETE RESTRICT ON UPDATE CASCADE',
     ];
     $extraColumns = ['created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP'];
     // Merge common columns with extra columns
@@ -51,8 +51,12 @@ function getAllCertificates()
 
 function getCertificateById($id)
 {
-    global $conn, $certificateTable;
-    return getDataById($conn, $certificateTable, $id);
+    global $conn, $certificateTable, $studentTable, $courseTable;
+    $sql = "SELECT s.full_name,c.course_name, ct.* FROM $certificateTable ct
+            LEFT JOIN $studentTable s ON ct.student_id = s.id
+            LEFT JOIN $courseTable c ON ct.course_id = c.id
+            WHERE ct.id = $id";
+    return isSingleRowData($conn, $sql);
 }
 
 
@@ -84,7 +88,14 @@ function updateCertificateById($id, $updatedColumns)
 function deleteCertificateById($id)
 {
     global $conn, $certificateTable;
-    return deleteTableDataByIdQuery($conn, $certificateTable, $id);
+    $deleted = deleteTableDataByIdQuery($conn, $certificateTable, $id);
+    if ($deleted) {
+        $certificateDetails = getCertificateById($id);
+        $name = $certificateDetails['full_name'];
+        $regNo = $certificateDetails['registration_number'];
+        deleteCertificate($name, $regNo);
+    }
+    return $deleted;
 }
 
 function getCertificateDetailsByRegNo($registrationNumber)
@@ -94,7 +105,7 @@ function getCertificateDetailsByRegNo($registrationNumber)
             FROM $certificateTable cert
             JOIN $studentTable s ON cert.student_id = s.id
             JOIN $courseTable c ON cert.course_id = c.id
-            WHERE cert.registration_number = $registrationNumber";
+            WHERE cert.registration_number = '$registrationNumber'";
 
     return isSingleRowData($conn, $sql);
 }
@@ -111,7 +122,7 @@ function getverificationDetailsByRegNo($registrationNumber)
             JOIN $courseTable c ON cert.course_id = c.id
             LEFT JOIN $moduleTable m ON c.id = m.course_id
             LEFT JOIN $projectTable p ON s.id = p.student_id AND c.id = p.course_id
-            WHERE cert.registration_number = $certificateTable";
+            WHERE cert.registration_number = '$registrationNumber'";
 
     return isSingleRowData($conn, $sql);
 }

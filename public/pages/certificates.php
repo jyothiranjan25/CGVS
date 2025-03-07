@@ -46,7 +46,7 @@ if (isset($_POST['update'])) {
     $registration_number = mysqli_real_escape_string($conn, trim($_POST['registration_number']));
     $start_date = mysqli_real_escape_string($conn, trim($_POST['start_date']));
     $completion_date = mysqli_real_escape_string($conn, trim($_POST['completion_date']));
-    $QrText = $Base_Path_URL . "verifyCertificate.php?registration_number=$registration_number&student_id=$student_id&course_id=$course_id&start_date=$start_date&completion_date=$completion_date";
+    $QrText = $Base_Path_URL . "verifyCertificate.php?registration_number=$registration_number";
     $Qrcode = generateQRCodeBase64($QrText);
     try {
         $updatedColumns = ["student_id" => "$student_id", "course_id" => "$course_id", "registration_number" => "$registration_number", "start_date" => $start_date, "completion_date" => "$completion_date", "qr_code" => "$Qrcode"];
@@ -79,9 +79,18 @@ if (isset($_GET['generateCertificate'])) {
         $start_date = $certificate_details['start_date'];
         $completion_date = $certificate_details['completion_date'];
         $course_name = $certificate_details['course_name'];
-        $certificate = generateCertificate($student_name, $start_date, $completion_date, $course_name);
+        $qr_code = $certificate_details['qr_code'];
+        $certificate = generateCertificate($regNo, $student_name, $start_date, $completion_date, $course_name, $qr_code);
+
+        // download the certificate
+        header('Content-Type: application/octet-stream');
+        header('Content-Disposition: attachment; filename="' . $student_name . '_certificate.png"');
+        readfile($certificate);
     } catch (Exception $e) {
         CatchErrorLogs($e, $Redirect_URL);
+    } finally {
+        header("Location: $Redirect_URL");
+        exit;
     }
 }
 
