@@ -90,7 +90,7 @@ function deleteCertificateById($id)
 function getCertificateDetailsByRegNo($registrationNumber)
 {
     global $conn, $certificateTable, $studentTable, $courseTable;
-    $sql = "SELECT s.full_name, c.course_name, cert.registration_number, cert.completion_date, cert.qr_code
+    $sql = "SELECT s.full_name, c.course_name, cert.registration_number, cert.start_date, cert.completion_date, cert.qr_code
             FROM $certificateTable cert
             JOIN $studentTable s ON cert.student_id = s.id
             JOIN $courseTable c ON cert.course_id = c.id

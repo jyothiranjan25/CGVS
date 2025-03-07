@@ -145,9 +145,15 @@ include_once $codePathFolder . "/certificateVerification.php";
 
 function CatchErrorLogs($e, $Redirect_URL)
 {
+
     global $Base_Path;
     $error_log = "Error: " . $e->getMessage() . " - " . date('d-M-Y h:i:s A') . "\r";
-    error_log($error_log, 3, $Base_Path . "/logs/data.log");
+    $fileName = date('d_M_Y') . "_error_log.log";
+    $filePath = $Base_Path . "/logs/" . $fileName;
+    if (!file_exists($Base_Path . "/logs")) {
+        mkdir($Base_Path . "/logs", 0777, true);
+    }
+    error_log($error_log, 3, $filePath);
     header("Location: $Redirect_URL");
     exit;
 }

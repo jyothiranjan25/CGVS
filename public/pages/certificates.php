@@ -72,8 +72,17 @@ if (isset($_GET['delete'])) {
 }
 
 if (isset($_GET['generateCertificate'])) {
-    $id = $_GET['generateCertificate'];
-    $certificate = generateCertificate("Kumar Jyothi Ranjan", "2024-02-10", "2024-02-10", "Test Course");
+    try {
+        $regNo = $_GET['generateCertificate'];
+        $certificate_details = getCertificateDetailsByRegNo($regNo);
+        $student_name = $certificate_details['full_name'];
+        $start_date = $certificate_details['start_date'];
+        $completion_date = $certificate_details['completion_date'];
+        $course_name = $certificate_details['course_name'];
+        $certificate = generateCertificate($student_name, $start_date, $completion_date, $course_name);
+    } catch (Exception $e) {
+        CatchErrorLogs($e, $Redirect_URL);
+    }
 }
 
 
