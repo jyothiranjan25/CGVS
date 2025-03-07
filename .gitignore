@@ -4,5 +4,5 @@
 *.DS_Store
 # ignore Config file
 /config/dbconfig.php
-# certificates in images/certificates
-/images/certificates/*
+# certificates folder
+public/images/certificates/*
