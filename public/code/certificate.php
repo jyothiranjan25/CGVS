@@ -11,7 +11,7 @@ if (!$result->num_rows > 0) {
         'course_id INT(11) NOT NULL',
         'registration_number VARCHAR(256) NOT NULL',
         "completion_date DATE NOT NULL",
-        'qr_code TEXT DEFAULT NULL',
+        'qr_code LONGTEXT DEFAULT NULL',
         'FOREIGN KEY (student_id) REFERENCES ' . $studentTable . '(id) ON DELETE CASCADE ON UPDATE CASCADE',
         'FOREIGN KEY (course_id) REFERENCES ' . $courseTable . '(id) ON DELETE CASCADE ON UPDATE CASCADE',
     ];
@@ -41,8 +41,11 @@ function insertCertificate($studentId, $courseId, $registrationNumber, $completi
 
 function getAllCertificates()
 {
-    global $conn, $certificateTable;
-    return getAllData($conn, $certificateTable);
+    global $conn, $certificateTable, $studentTable, $courseTable;
+    $sql = "SELECT s.full_name,c.course_name, ct.* FROM $certificateTable ct
+            LEFT JOIN $studentTable s ON ct.student_id = s.id
+            LEFT JOIN $courseTable c ON ct.course_id = c.id";
+    return isArrayData($conn, $sql);
 }
 
 function getCertificateById($id)

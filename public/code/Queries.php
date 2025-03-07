@@ -3,11 +3,49 @@
 // Don't Change the Name of the file
 $codePathFolder = $Base_Path . "/public/code";
 
+// Don't Change the Name of the file
+$libPathFolder = $Base_Path . "/public/libraries";
+
+// Don't Change the Name of the file
+$imgPathFolder = $Base_Path . "/public/images";
+
 // Include Enum class
 include_once $codePathFolder . "/Enums.php";
 
 // Include Core Queries
 include_once $codePathFolder . "/CoreQueries.php";
+
+// included External Libraries
+require $libPathFolder . "/vendor/autoload.php";
+
+
+/**
+ *    <------Libraries------->
+ *  QrCode Library
+ */
+
+use Endroid\QrCode\QrCode;
+use Endroid\QrCode\Writer\PngWriter;
+
+function generateQRCodeBase64($text)
+{
+    $qr_Code = new QrCode(trim($text)); // Create QR Code instance
+    $writer = new PngWriter(); // Initialize PNG Writer
+
+    // Write QR Code
+    $result = $writer->write($qr_Code);
+
+    // Convert image content to Base64
+    $base64 = base64_encode($result->getString());
+
+    return 'data:image/png;base64,' . $base64;
+}
+
+
+/**
+ * End of QrCode Library
+ */
+
 
 /**
  *    <------Tables------->
