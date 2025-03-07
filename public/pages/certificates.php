@@ -133,8 +133,12 @@ if (isset($_GET['delete'])) {
                                                         <td><?php echo htmlentities($row['registration_number']); ?></td>
                                                         <td><?php echo htmlentities($row['completion_date']); ?></td>
                                                         <td>
-                                                            <img src="<?php echo htmlentities($row['qr_code']); ?>"
-                                                                width="100" height="100" alt="QR Code">
+                                                            <button type="button" class="btn" data-toggle="modal"
+                                                                data-target="#imageViewModal"
+                                                                data-whatever="<?php echo htmlentities($row['qr_code']); ?>">
+                                                                <img src="<?php echo htmlentities($row['qr_code']); ?>"
+                                                                    width="100" height="100" alt="QR Code">
+                                                            </button>
                                                         </td>
                                                         <td style="text-align: center;">
                                                             <a href="<?php echo $Redirect_URL ?>?edit=<?php echo ($row['id']); ?>"
@@ -353,6 +357,27 @@ if (isset($_GET['delete'])) {
                         </div>
                     </div>
                     <!-- End Edit Modal -->
+
+                    <!-- View Modal -->
+                    <div class="modal fade" id="imageViewModal" tabindex="-1" role="dialog"
+                        aria-labelledby="imageViewLabel" aria-hidden="true">
+                        <div class="modal-dialog" role="document">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h5 class="modal-title" id="imageViewLabel">Qr Code</h5>
+                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                        <span aria-hidden="true">&times;</span>
+                                    </button>
+                                </div>
+                                <div class="modal-body">
+                                    <form>
+                                        <img src="" id="qr_code" width="100%" height="100%" alt="QR Code">
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- End View Modal -->
                 </div>
                 <!-- content-wrapper ends -->
                 <!-- partial:partials/_footer.html -->
@@ -364,6 +389,16 @@ if (isset($_GET['delete'])) {
         <!-- page-body-wrapper ends -->
     </div>
     <!-- container-scroller -->
+    <script>
+        $('#imageViewModal').on('show.bs.modal', function (event) {
+            var button = $(event.relatedTarget) // Button that triggered the modal
+            var recipient = button.data('whatever') // Extract info from data-* attributes
+            // If necessary, you could initiate an AJAX request here (and then do the updating in a callback).
+            // Update the modal's content. We'll use jQuery here, but you could use a data binding library or other methods instead.
+            var modal = $(this)
+            modal.find('#qr_code').attr('src', recipient);
+        })
+    </script>
 </body>
 
 </html>
