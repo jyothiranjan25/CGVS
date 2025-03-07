@@ -55,14 +55,16 @@ function generateCertificate($name, $startDate, $endDate, $course)
     global $imgPathFolder, $Base_URL, $Base_Path;
 
     $tempImgPath = $imgPathFolder . "/certificateTem/certificatetemp.jpg";
-    $GreatVibesfont = $Base_Path . "/fonts/Greatvibes/GreatVibes-Regular.ttf";
-    $Arialfont = $Base_Path . "/fonts/Arialfont/Arial.ttf";
+    $GreatVibesfont = $Base_Path . "/public/fonts/Greatvibes/GreatVibes-Regular.ttf";
+    $Arialfont = $Base_Path . "/public/fonts/Arialfont/Arial.ttf";
 
     // create image manager with desired driver
     $manager = new ImageManager(new Driver());
 
     // read image from file system
     $image = $manager->read($tempImgPath);
+
+    // $image = ImageManager::imagick()->read($tempImgPath);
 
     // Set Text
     $image->text($name, 540, 340, function (FontFactory $font) use ($GreatVibesfont) {
@@ -88,9 +90,14 @@ function generateCertificate($name, $startDate, $endDate, $course)
 
     // Save the generated certificate
     $fileName = strtolower(str_replace(' ', '_', $name)) . '_certificate.png';
-    $image->save($fileName);
+    $savePath = $imgPathFolder . "/certificates/";
 
-    return "Certificate generated: $fileName";
+    // create directory if not exists
+    if (!file_exists($savePath)) {
+        mkdir($savePath, 0777, true);
+    }
+    $savePath .= $fileName;
+    $image->save($savePath);
 }
 
 

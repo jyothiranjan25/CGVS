@@ -72,12 +72,8 @@ if (isset($_GET['delete'])) {
 }
 
 if (isset($_GET['generateCertificate'])) {
-    try {
-        $id = $_GET['generateCertificate'];
-        $certificate = generateCertificate("Test Name", "Test Date", "Test date", "Test Course");
-    } catch (Exception $e) {
-        echo $e->getMessage();
-    }
+    $id = $_GET['generateCertificate'];
+    $certificate = generateCertificate("Test Name", "Test Date", "Test date", "Test Course");
 }
 
 
