@@ -54,7 +54,7 @@ function generateCertificate($name, $startDate, $endDate, $course)
 
     global $imgPathFolder, $Base_URL, $Base_Path;
 
-    $tempImgPath = $imgPathFolder . "/certificateTem/certificatetemp.jpg";
+    $tempImgPath = $imgPathFolder . "/certificateTem/certificatetemp.png";
     $GreatVibesfont = $Base_Path . "/public/fonts/Greatvibes/GreatVibes-Regular.ttf";
     $Arialfont = $Base_Path . "/public/fonts/Arialfont/Arial.ttf";
 
