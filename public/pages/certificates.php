@@ -73,7 +73,7 @@ if (isset($_GET['delete'])) {
 
 if (isset($_GET['generateCertificate'])) {
     $id = $_GET['generateCertificate'];
-    $certificate = generateCertificate("Test Name", "Test Date", "Test date", "Test Course");
+    $certificate = generateCertificate("Kumar Jyothi Ranjan", "2024-02-10", "2024-02-10", "Test Course");
 }
 
 

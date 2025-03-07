@@ -65,29 +65,58 @@ function generateCertificate($name, $startDate, $endDate, $course)
     $image = $manager->read($tempImgPath);
 
     // Set Text
-    $image->text($name, 540, 340, function (FontFactory $font) use ($GreatVibesfont) {
+    $image->text($name, 1830, 1180, function (FontFactory $font) use ($GreatVibesfont) {
         $font->file($GreatVibesfont); // Add your font path
-        $font->size(80);
+        $font->size(250);
         $font->color('#000000');
         $font->align('center');
+        $font->valign('middle');
     });
 
-    $image->text("from $startDate to $endDate", 540, 420, function (FontFactory $font) use ($Arialfont) {
+    // formate dates
+    $startDate = date("Y-m-d", strtotime($startDate));
+    $endDate = date("Y-m-d", strtotime($endDate));
+
+    // formate date as 2024 april 12
+    $startDate = date("jS F, Y", strtotime($startDate));
+    $endDate = date("jS F, Y", strtotime($endDate));
+
+
+
+    $line1 = "has completed an internship at EDFLIX™ from $startDate to $endDate as a $course.";
+
+    $image->text($line1, 1750, 1450, function (FontFactory $font) use ($Arialfont) {
         $font->file($Arialfont);
-        $font->size(30);
+        $font->size(50);
         $font->color('#000000');
         $font->align('center');
+        $font->valign('middle');
     });
 
-    $image->text("as a $course.", 540, 470, function (FontFactory $font) use ($Arialfont) {
+    $line2 = "During the internship, he was punctual and has displayed professionalism, hardworking and inquisitive.";
+
+    $image->text($line2, 1700, 1580, function (FontFactory $font) use ($Arialfont) {
         $font->file($Arialfont);
-        $font->size(30);
+        $font->size(50);
         $font->color('#000000');
         $font->align('center');
+        $font->valign('middle');
+    });
+
+    $line3 = "During his time with us, he worked under the guidance and leadership team who have expressed their gratitude for his contributions to the team";
+    $image->text($line3, 1750, 1750, function (FontFactory $font) use ($Arialfont) {
+        $font->file($Arialfont);
+        $font->size(50);
+        $font->color('#000000');
+        $font->align('center');
+        $font->valign('middle');
+        $font->lineHeight(2);
+        $font->wrap(2700);
     });
 
     // Save the generated certificate
-    $fileName = strtolower(str_replace(' ', '_', $name)) . '_certificate.png';
+    // $fileName = strtolower(str_replace(' ', '_', $name)) . '_certificate.png';
+    $fileName = 'certificate.png';
     $savePath = $imgPathFolder . "/certificates/";
 
     // create directory if not exists
