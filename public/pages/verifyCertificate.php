@@ -3,8 +3,6 @@
 include_once("../../config/dbconfig.php");
 include_once($Base_Path . "/public/code/Queries.php");
 
-
-
 if (isset($_REQUEST['verify'])) {
     try {
         $reqistration_no = mysqli_real_escape_string($conn, trim($_REQUEST['registration_number']));

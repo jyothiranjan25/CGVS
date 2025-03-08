@@ -1,5 +1,4 @@
 <?php
-
 // Don't Change the Name of the file
 $codePathFolder = $Base_Path . "/public/code";
 

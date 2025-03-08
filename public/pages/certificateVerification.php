@@ -2,6 +2,7 @@
 // include database context file and other required
 include_once("../../config/dbconfig.php");
 include_once($Base_Path . "/public/code/Queries.php");
+include_once($Base_Path . "/public/code/sessionCheck.php");
 ?>
 <!DOCTYPE html>
 <html lang="en">
