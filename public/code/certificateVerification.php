@@ -21,14 +21,28 @@ if (!$result->num_rows > 0) {
 
 function insertCertificateVerification($certificateId, $ipAddress)
 {
-    global $conn, $certificateVerificationTable;
-    $stmt = $conn->prepare("INSERT INTO $certificateVerificationTable (certificate_id, ip_address) VALUES (?, ?)");
-    $stmt->bind_param("is", $certificateId, $ipAddress);
-    return insertDatastmtQuery($conn, $certificateVerificationTable, $stmt);
+    try {
+        global $conn, $certificateVerificationTable;
+        $stmt = $conn->prepare("INSERT INTO $certificateVerificationTable (certificate_id, ip_address) VALUES (?, ?)");
+        $stmt->bind_param("is", $certificateId, $ipAddress);
+        return insertDatastmtQuery($conn, $certificateVerificationTable, $stmt);
+    } finally {
+        unset($_SESSION['toasts_title']);
+        unset($_SESSION['toasts_message']);
+        unset($_SESSION['toasts_type']);
+        unset($_SESSION['inserted_id']);
+    }
 }
 
 function getAllCertificateVerifications()
 {
+    global $conn, $certificateVerificationTable, $certificateTable;
+    $sql = "SELECT cv.*, c.registration_number FROM $certificateVerificationTable cv JOIN $certificateTable c ON cv.certificate_id = c.id ORDER BY cv.id DESC";
+    return isArrayData($conn, $sql);
+}
+
+function getCertificateVerificationByCustomColumns($customColumns, $array)
+{
     global $conn, $certificateVerificationTable;
-    return getAllData($conn, $certificateVerificationTable);
+    return getTableDataByCustomColumnsQuery($conn, $certificateVerificationTable, $customColumns, $array);
 }

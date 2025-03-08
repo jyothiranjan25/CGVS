@@ -93,5 +93,12 @@ function deleteAdminById($id)
 
 function insertInitialData()
 {
-    insertAdmin('admin', 'admin@gmail.com', 'admin', null);
+    try {
+        insertAdmin('admin', 'admin@gmail.com', 'admin', null);
+    } finally {
+        unset($_SESSION['toasts_title']);
+        unset($_SESSION['toasts_message']);
+        unset($_SESSION['toasts_type']);
+        unset($_SESSION['inserted_id']);
+    }
 }

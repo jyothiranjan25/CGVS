@@ -35,6 +35,7 @@ function getTableDataByCustomColumnsQuery($conn, $tableName, $customColumns, $ar
             $query .= $key . " = " . '"' . $value . '"';
         }
     }
+    $query .= ' ORDER BY id DESC';
 
     if ($array == TRUE) {
         return isArrayData($conn, $query);

@@ -51,6 +51,8 @@ function CatchErrorLogs($e, $Redirect_URL)
         mkdir($Base_Path . "/logs", 0777, true);
     }
     error_log($error_log, 3, $filePath);
-    header("Location: $Redirect_URL");
-    exit;
+    if ($Redirect_URL) {
+        header("Location: $Redirect_URL");
+        exit;
+    }
 }

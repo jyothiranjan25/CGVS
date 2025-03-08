@@ -3,12 +3,15 @@
 include_once("../../config/dbconfig.php");
 include_once($Base_Path . "/public/code/Queries.php");
 
+
+
 if (isset($_REQUEST['verify'])) {
     try {
         $reqistration_no = mysqli_real_escape_string($conn, trim($_REQUEST['registration_number']));
         $certificate = getverificationDetailsByRegNo($reqistration_no);
 
 
+        $certificateId = $certificate['id'];
         $Student_Name = $certificate['full_name'];
         $Course_Name = $certificate['course_name'];
         $Course_Duration = $certificate['duration'];
@@ -17,15 +20,25 @@ if (isset($_REQUEST['verify'])) {
         $Projects_Completed = $certificate['projects_completed'];
         $Completion_Date = $certificate['completion_date'];
 
-
-
-
-
         // get certificate path
         $certificatePath = getcertificatePath($Student_Name, $reqistration_no);
         if (file_exists($certificatePath['path'])) {
             $certificateExists = true;
             $certificateUrl = $certificatePath['url'];
+        }
+
+        // insert data in certificate verification table
+        if ($certificate && $certificateExists) {
+            // store data in database
+            $ipAddress = $_SERVER['REMOTE_ADDR'];
+            $customColumns = ['certificate_id' => $certificateId, 'AND', 'ip_address' => $ipAddress];
+            $checkData = getCertificateVerificationByCustomColumns($customColumns, false);
+            $checkData = $checkData['created_at'];
+            $createdAt = date('Y-m-d H:i:s', strtotime($checkData));
+            $checkTime = date('Y-m-d H:i:s', strtotime('-30 minutes'));
+            if ($checkData == false || $createdAt < $checkTime) {
+                $storeData = insertCertificateVerification($certificateId, $ipAddress);
+            }
         }
 
         $share_url = "https://" . $_SERVER['HTTP_HOST'] . $_SERVER['REQUEST_URI'];
@@ -37,7 +50,7 @@ if (isset($_REQUEST['verify'])) {
         $twitter_share_url = "https://twitter.com/intent/tweet?text=<?= urlencode($share_text) ?>&url=<?= urlencode($url) ?>";
         $facebook_share_url = "https://www.facebook.com/sharer/sharer.php?u=<?= urlencode($url) ?>";
     } catch (Exception $e) {
-        CatchErrorLogs($e, $Redirect_URL);
+        CatchErrorLogs($e, null);
     }
 }
 ?>

@@ -41,7 +41,7 @@ function getAllModules()
 {
     global $conn, $moduleTable, $courseTable;
     $sql = "SELECT c.course_name,m.* FROM $moduleTable m 
-    LEFT JOIN $courseTable c ON m.course_id = c.id";
+    LEFT JOIN $courseTable c ON m.course_id = c.id ORDER BY m.id DESC";
     return isArrayData($conn, $sql);
 }
 
