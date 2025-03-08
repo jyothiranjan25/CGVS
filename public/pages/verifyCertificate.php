@@ -79,6 +79,11 @@ if (isset($_REQUEST['verify'])) {
     <meta property="og:image" content="<?= $image ?>" />
     <meta property="og:url" content="<?= $url ?>" />
     <meta http-equiv="Content-Security-Policy" content="upgrade-insecure-requests">
+
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="<?= $title ?>">
+    <meta name="twitter:description" content="<?= $description ?>">
+    <meta name="twitter:image" content="<?= $image ?>">
 </head>
 
 <body>
