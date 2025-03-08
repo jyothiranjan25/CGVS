@@ -181,13 +181,12 @@ function getCertificatePath($name, $regNo, $path = null)
     return $date;
 }
 
-function deleteCertificate($name, $regNo)
+function deleteCertificate($name, $regNo, $path = null)
 {
-    $savePath = getCertificatePath($name, $regNo);
+    $savePath = getCertificatePath($name, $regNo, $path);
 
     if (file_exists($savePath['path'])) {
         unlink($savePath['path']);
     }
-
     return true;
 }
