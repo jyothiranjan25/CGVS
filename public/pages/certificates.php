@@ -84,7 +84,7 @@ if (isset($_GET['generateCertificate'])) {
         $course_name = $certificate_details['course_name'];
         $qr_code = $certificate_details['qr_code'];
         $certificate = generateCertificate($regNo, $student_name, $start_date, $completion_date, $course_name, $qr_code);
-        $certificatePath = $certificate['certificatePath'];
+        $certificatePath = $certificate['path'];
 
         // download the certificate
         header('Content-Type: application/octet-stream');
@@ -127,11 +127,14 @@ if (isset($_GET['generateCertificate'])) {
                                         <div class="col-lg-6 grid-margin stretch-card d-flex align-items-center">
                                             <h4 class="card-title mb-0">Certificates table</h4>
                                         </div>
-                                        <div
-                                            class="col-lg-6 grid-margin stretch-card d-flex justify-content-end align-items-center">
+                                        <div class="col-lg-6 grid-margin stretch-card d-flex justify-content-end align-items-center"
+                                            style="gap: 10px;">
                                             <button type="button" class="btn btn-light btn-sm" data-toggle="modal"
                                                 data-target="#addModal">
                                                 Add
+                                            </button>
+                                            <button type="button" class="btn btn-light btn-sm" id="bulkDownload">
+                                                Bulk Download
                                             </button>
                                         </div>
                                     </div>
@@ -469,6 +472,32 @@ if (isset($_GET['generateCertificate'])) {
             var modal = $(this)
             modal.find('#qr_code').attr('src', recipient);
         })
+    </script>
+    <script>
+        $(document).ready(function () {
+            // Handle the subcribe button click
+            $("#bulkDownload").click(function () {
+                // Perform an AJAX request
+                $.ajax({
+                    type: "POST",
+                    url: "./helper/bulkDownloadCertificate.php",
+                    success: function (response) {
+                        var result = JSON.parse(response);
+                        const responseObject = JSON.parse(response);
+                        if (responseObject.status === "success") {
+                            // Show the success message
+                            alert("Bulk Download Success");
+                        } else {
+                            // Handle other scenarios if needed
+                        }
+                    },
+                    error: function (xhr, textStatus, errorThrown) {
+                        // Handle any errors that occur during the AJAX request
+                        console.error(error);
+                    }
+                });
+            });
+        });
     </script>
 </body>
 

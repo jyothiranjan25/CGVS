@@ -3,9 +3,8 @@
 use Intervention\Image\ImageManager;
 use Intervention\Image\Drivers\Gd\Driver;
 use Intervention\Image\Typography\FontFactory;
-function generateCertificate($regNo, $name, $startDate, $endDate, $course, $QrCode)
+function generateCertificate($regNo, $name, $startDate, $endDate, $course, $QrCode, $path = null)
 {
-
     global $imgPathFolder, $Base_Path;
 
     $tempImgPath = $imgPathFolder . "/certificateTem/certificatetemp.png";
@@ -132,7 +131,7 @@ function generateCertificate($regNo, $name, $startDate, $endDate, $course, $QrCo
         $font->wrap(2700);
     });
 
-    $savePath = getCertificatePath($name, $regNo);
+    $savePath = getCertificatePath($name, $regNo, $path);
     $image->save($savePath['path']);
 
     // remove the qr code image
@@ -147,12 +146,16 @@ function generateCertificate($regNo, $name, $startDate, $endDate, $course, $QrCo
     exit;
 }
 
-function getCertificatePath($name, $regNo)
+function getCertificatePath($name, $regNo, $path = null)
 {
     global $imgPathFolder, $imgUrlPathFolder;
 
     // folder name
     $folderName = "/certificates/";
+
+    if ($path != null) {
+        $folderName = "/certificates/" . $path;
+    }
 
     // Save the generated certificate
     $fileName = strtolower(str_replace(' ', '_', $name)) . "_" . $regNo . '_certificate.png';
