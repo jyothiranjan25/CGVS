@@ -481,14 +481,41 @@ if (isset($_GET['generateCertificate'])) {
                 $.ajax({
                     type: "POST",
                     url: "./helper/bulkDownloadCertificate.php",
+                    data: {
+                        type: 'bulkDownlaod'
+                    },
                     success: function (response) {
                         var result = JSON.parse(response);
                         const responseObject = JSON.parse(response);
                         if (responseObject.status === "success") {
-                            // Show the success message
-                            alert("Bulk Download Success");
+                            var zipFileURL = responseObject.zipFileURL;
+                            try {
+                                // Create a hidden anchor element and trigger a download
+                                var downloadLink = document.createElement("a");
+                                downloadLink.href = zipFileURL;
+                                downloadLink.download = "bulkCert.zip"; // Set the filename
+                                document.body.appendChild(downloadLink);
+                                downloadLink.click();
+                                document.body.removeChild(downloadLink);
+                            } finally {
+                                butterup.toast({
+                                    title: "Success",
+                                    message: responseObject.message,
+                                    type: "success",
+                                    dismissable: true,
+                                    icon: true,
+                                });
+                                deleteZipFolder(responseObject.zipFolder);
+                            }
                         } else {
                             // Handle other scenarios if needed
+                            butterup.toast({
+                                title: "Something went wrong",
+                                message: responseObject.message,
+                                type: "error",
+                                dismissable: true,
+                                icon: true,
+                            });
                         }
                     },
                     error: function (xhr, textStatus, errorThrown) {
@@ -498,6 +525,31 @@ if (isset($_GET['generateCertificate'])) {
                 });
             });
         });
+
+        function deleteZipFolder(value) {
+            $.ajax({
+                type: "POST",
+                url: "./helper/bulkDownloadCertificate.php",
+                data: {
+                    type: 'deleteZipFolder',
+                    value: value
+                },
+                success: function (response) {
+                    var result = JSON.parse(response);
+                    const responseObject = JSON.parse(response);
+                    if (responseObject.status === "success") {
+                        // something
+                    } else {
+                        // something
+                    }
+                },
+                error: function (xhr, textStatus, errorThrown) {
+                    // Handle any errors that occur during the AJAX request
+                    console.error(error);
+                }
+            });
+        }
+
     </script>
 </body>
 
