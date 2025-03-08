@@ -60,6 +60,8 @@ if (isset($_REQUEST['verify'])) {
     <!-- favicon -->
     <link rel="shortcut icon" href="../images/EF-icon.png" />
 
+    <title>Certificate Verification</title>
+
 
     <!-- Open Graph Meta Tags -->
     <meta property="og:title" content="<?= $title ?>" />
@@ -123,7 +125,7 @@ if (isset($_REQUEST['verify'])) {
 
                                                                     <h4 class="mb-3 font-weight-bold">
                                                                         <?php echo $Student_Name; ?>'s
-                                                                        account is verified. Coursera certifies their
+                                                                        account is verified. Edflix certifies their
                                                                         successful completion of
                                                                         <u><?php echo $Course_Name; ?></u>
                                                                     </h4>
