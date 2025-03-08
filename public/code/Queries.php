@@ -8,6 +8,7 @@ $libPathFolder = $Base_Path . "/public/libraries";
 
 // Don't Change the Name of the file
 $imgPathFolder = $Base_Path . "/public/images";
+$imgUrlPathFolder = $Base_URL . "/public/images";
 
 // Include Enum class
 include_once $codePathFolder . "/Enums.php";

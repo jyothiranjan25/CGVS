@@ -12,7 +12,7 @@ if (isset($_POST['submit'])) {
     $registration_number = mysqli_real_escape_string($conn, trim($_POST['registration_number']));
     $start_date = mysqli_real_escape_string($conn, trim($_POST['start_date']));
     $completion_date = mysqli_real_escape_string($conn, trim($_POST['completion_date']));
-    $QrText = $Base_Path_URL . "verifyCertificate.php?registration_number=$registration_number&student_id=$student_id&course_id=$course_id&start_date=$start_date&completion_date=$completion_date";
+    $QrText = $Base_Path_URL . "verifyCertificate.php?registration_number=$registration_number&verify=true";
     $Qrcode = generateQRCodeBase64($QrText);
     try {
         $insert = insertCertificate($student_id, $course_id, $registration_number, $start_date, $completion_date, $Qrcode);
@@ -46,7 +46,7 @@ if (isset($_POST['update'])) {
     $registration_number = mysqli_real_escape_string($conn, trim($_POST['registration_number']));
     $start_date = mysqli_real_escape_string($conn, trim($_POST['start_date']));
     $completion_date = mysqli_real_escape_string($conn, trim($_POST['completion_date']));
-    $QrText = $Base_Path_URL . "verifyCertificate.php?registration_number=$registration_number";
+    $QrText = $Base_Path_URL . "verifyCertificate.php?registration_number=$registration_number&verify=true";
     $Qrcode = generateQRCodeBase64($QrText);
     try {
         $updatedColumns = ["student_id" => "$student_id", "course_id" => "$course_id", "registration_number" => "$registration_number", "start_date" => $start_date, "completion_date" => "$completion_date", "qr_code" => "$Qrcode"];

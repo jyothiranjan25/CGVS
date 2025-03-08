@@ -133,39 +133,58 @@ function generateCertificate($regNo, $name, $startDate, $endDate, $course, $QrCo
     });
 
     $savePath = getCertificatePath($name, $regNo);
-    $image->save($savePath);
+    $image->save($savePath['path']);
 
     // remove the qr code image
     unlink($qrCodeImage);
 
 
-    return $savePath;
+    return $savePath['url'];
 
     // Test the certificate
-    echo "<img src='$savePath' alt='Certificate' width='100%' />";
+    $certificateUrl = $savePath['url'];
+    echo "<img src='$certificateUrl' alt='Certificate' width='100%' />";
     exit;
 }
 
 function getCertificatePath($name, $regNo)
 {
-    global $imgPathFolder;
+    global $imgPathFolder, $imgUrlPathFolder;
+
+    // folder name
+    $folderName = "/certificates/";
+
     // Save the generated certificate
     $fileName = strtolower(str_replace(' ', '_', $name)) . "_" . $regNo . '_certificate.png';
-    $savePath = $imgPathFolder . "/certificates/";
+
+    // base folder path
+    $savePath = $imgPathFolder . $folderName;
 
     // create directory if not exists
     if (!file_exists($savePath)) {
         mkdir($savePath, 0777, true);
     }
+
     $savePath .= $fileName;
-    return $savePath;
+
+    // base url path
+    $saveUrlPath = $imgUrlPathFolder . $folderName . $fileName;
+
+    $date = [
+        "path" => $savePath,
+        "url" => $saveUrlPath
+    ];
+
+    return $date;
 }
 
 function deleteCertificate($name, $regNo)
 {
-    global $imgPathFolder;
-    $fileName = strtolower(str_replace(' ', '_', $name)) . "_" . $regNo . '_certificate.png';
-    $savePath = $imgPathFolder . "/certificates/";
-    $savePath .= $fileName;
-    unlink($savePath);
+    $savePath = getCertificatePath($name, $regNo);
+
+    if (file_exists($savePath['path'])) {
+        unlink($savePath['path']);
+    }
+
+    return true;
 }

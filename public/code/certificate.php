@@ -88,11 +88,15 @@ function updateCertificateById($id, $updatedColumns)
 function deleteCertificateById($id)
 {
     global $conn, $certificateTable;
+
+    // get certificate details
+    $certificateDetails = getCertificateById($id);
+    $name = $certificateDetails['full_name'];
+    $regNo = $certificateDetails['registration_number'];
+
+    // delete certificate from database
     $deleted = deleteTableDataByIdQuery($conn, $certificateTable, $id);
     if ($deleted) {
-        $certificateDetails = getCertificateById($id);
-        $name = $certificateDetails['full_name'];
-        $regNo = $certificateDetails['registration_number'];
         deleteCertificate($name, $regNo);
     }
     return $deleted;
