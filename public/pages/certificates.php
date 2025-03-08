@@ -81,11 +81,12 @@ if (isset($_GET['generateCertificate'])) {
         $course_name = $certificate_details['course_name'];
         $qr_code = $certificate_details['qr_code'];
         $certificate = generateCertificate($regNo, $student_name, $start_date, $completion_date, $course_name, $qr_code);
+        $certificatePath = $certificate['certificatePath'];
 
         // download the certificate
         header('Content-Type: application/octet-stream');
         header('Content-Disposition: attachment; filename="' . $student_name . '_certificate.png"');
-        readfile($certificate);
+        readfile($certificatePath);
     } catch (Exception $e) {
         CatchErrorLogs($e, $Redirect_URL);
     } finally {

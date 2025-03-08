@@ -139,7 +139,7 @@ function generateCertificate($regNo, $name, $startDate, $endDate, $course, $QrCo
     unlink($qrCodeImage);
 
 
-    return $savePath['url'];
+    return $savePath;
 
     // Test the certificate
     $certificateUrl = $savePath['url'];

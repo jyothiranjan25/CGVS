@@ -10,6 +10,7 @@ if (isset($_REQUEST['verify'])) {
 
 
         $certificateId = $certificate['id'];
+        $registration_number = $certificate['registration_number'];
         $Student_Name = $certificate['full_name'];
         $Course_Name = $certificate['course_name'];
         $Course_Duration = $certificate['duration'];
@@ -22,6 +23,13 @@ if (isset($_REQUEST['verify'])) {
         $certificatePath = getcertificatePath($Student_Name, $reqistration_no);
         if (file_exists($certificatePath['path'])) {
             $certificateExists = true;
+            $certificateUrl = $certificatePath['url'];
+        } else if ($registration_number != null) {
+            $certificateExists = true;
+            $start_date = $certificate['start_date'];
+            $end_date = $certificate['end_date'];
+            $qr_code = $certificate['qr_code'];
+            $certificateUrl = generateCertificate($registration_number, $Student_Name, $start_date, $end_date, $Course_Name, $qr_code);
             $certificateUrl = $certificatePath['url'];
         }
 

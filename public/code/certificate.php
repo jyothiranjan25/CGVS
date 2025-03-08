@@ -120,7 +120,7 @@ function getverificationDetailsByRegNo($registrationNumber)
     $sql = "SELECT s.full_name, c.course_name, c.duration, c.evaluation_methodology,
                     GROUP_CONCAT(m.module_name SEPARATOR ', ') AS modules_covered,
                     GROUP_CONCAT(p.project_title SEPARATOR ', ') AS projects_completed,
-                    cert.completion_date, cert.id
+                    cert.*
             FROM $certificateTable cert
             JOIN $studentTable s ON cert.student_id = s.id
             JOIN $courseTable c ON cert.course_id = c.id
