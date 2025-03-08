@@ -163,7 +163,7 @@ if (isset($_GET['delete'])) {
                                         <div class="card-body">
                                             <form class="form-sample" method="POST">
                                                 <div class="row">
-                                                    <div class="col-md-6">
+                                                    <div class="col-md-12">
                                                         <div class="form-group row">
                                                             <label class="col-sm-4 col-form-label">Full Name</label>
                                                             <div class="col-sm-8">
@@ -172,7 +172,9 @@ if (isset($_GET['delete'])) {
                                                             </div>
                                                         </div>
                                                     </div>
-                                                    <div class="col-md-6">
+                                                </div>
+                                                <div class="row">
+                                                    <div class="col-md-12">
                                                         <div class="form-group row">
                                                             <label class="col-sm-4 col-form-label">Email</label>
                                                             <div class="col-sm-8">
@@ -184,7 +186,7 @@ if (isset($_GET['delete'])) {
                                                     </div>
                                                 </div>
                                                 <div class="row">
-                                                    <div class="col-md-6">
+                                                    <div class="col-md-12">
                                                         <div class="form-group row">
                                                             <label class="col-sm-4 col-form-label">Mobile</label>
                                                             <div class="col-sm-8">
@@ -231,7 +233,7 @@ if (isset($_GET['delete'])) {
                                                 <input type="hidden" name="id" id="id"
                                                     value="<?php echo $student_id ?>" />
                                                 <div class="row">
-                                                    <div class="col-md-6">
+                                                    <div class="col-md-12">
                                                         <div class="form-group row">
                                                             <label class="col-sm-4 col-form-label">Full Name</label>
                                                             <div class="col-sm-8">
@@ -241,7 +243,9 @@ if (isset($_GET['delete'])) {
                                                             </div>
                                                         </div>
                                                     </div>
-                                                    <div class="col-md-6">
+                                                </div>
+                                                <div class="row">
+                                                    <div class="col-md-12">
                                                         <div class="form-group row">
                                                             <label class="col-sm-4 col-form-label">Email</label>
                                                             <div class="col-sm-8">
@@ -254,7 +258,7 @@ if (isset($_GET['delete'])) {
                                                     </div>
                                                 </div>
                                                 <div class="row">
-                                                    <div class="col-md-6">
+                                                    <div class="col-md-12">
                                                         <div class="form-group row">
                                                             <label class="col-sm-4 col-form-label">Mobile</label>
                                                             <div class="col-sm-8">
