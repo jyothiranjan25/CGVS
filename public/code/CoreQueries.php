@@ -200,7 +200,7 @@ function updateTableDataByIdQuery($conn, $tableName, $Id, $updatedColumns)
 {
     $setClause = '';
     foreach ($updatedColumns as $column => $value) {
-        if (empty($value) || $value == 'null' || $value == 'NULL') {
+        if ($value === null || $value === 'null' || $value === 'NULL' || $value === '') {
             $setClause .= "$column = NULL, ";
         } else {
             $setClause .= "$column = '$value', ";

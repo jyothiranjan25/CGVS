@@ -16,7 +16,7 @@ if (!$result->num_rows > 0) {
         'FOREIGN KEY (student_id) REFERENCES ' . $studentTable . '(id) ON DELETE RESTRICT ON UPDATE CASCADE',
         'FOREIGN KEY (course_id) REFERENCES ' . $courseTable . '(id) ON DELETE RESTRICT ON UPDATE CASCADE',
     ];
-    $extraColumns = ['created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP'];
+    $extraColumns = ["status CHAR(1) DEFAULT '1'", 'created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP'];
     // Merge common columns with extra columns
     $columns = array_merge($commonColumns, $extraColumns);
     // Construct the SQL query

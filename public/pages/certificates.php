@@ -37,6 +37,7 @@ if (isset($_REQUEST['edit'])) {
     $registration_number = $get['registration_number'];
     $start_date = $get['start_date'];
     $completion_date = $get['completion_date'];
+    $status = $get['status'];
 }
 
 if (isset($_POST['update'])) {
@@ -46,10 +47,12 @@ if (isset($_POST['update'])) {
     $registration_number = mysqli_real_escape_string($conn, trim($_POST['registration_number']));
     $start_date = mysqli_real_escape_string($conn, trim($_POST['start_date']));
     $completion_date = mysqli_real_escape_string($conn, trim($_POST['completion_date']));
+    $status = mysqli_real_escape_string($conn, trim($_POST['status']));
     $QrText = $Base_Path_URL . "verifyCertificate.php?registration_number=$registration_number&verify=true";
     $Qrcode = generateQRCodeBase64($QrText);
+
     try {
-        $updatedColumns = ["student_id" => "$student_id", "course_id" => "$course_id", "registration_number" => "$registration_number", "start_date" => $start_date, "completion_date" => "$completion_date", "qr_code" => "$Qrcode"];
+        $updatedColumns = ["student_id" => "$student_id", "course_id" => "$course_id", "registration_number" => "$registration_number", "start_date" => $start_date, "completion_date" => "$completion_date", "qr_code" => "$Qrcode", "status" => "$status"];
         $update = updateCertificateById($Id, $updatedColumns);
     } catch (Exception $e) {
         CatchErrorLogs($e, $Redirect_URL);
@@ -395,6 +398,18 @@ if (isset($_GET['generateCertificate'])) {
                                                                 <input class="form-control" type="date"
                                                                     name="completion_date" id="completion_date" required
                                                                     value="<?php echo $completion_date ?>" />
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-md-12">
+                                                        <div class="form-group row">
+                                                            <label class="col-sm-4 col-form-label">Status</label>
+                                                            <div class="col-sm-8">
+                                                                <select name="status" id="status"
+                                                                    class="form-control select2" required>
+                                                                    <option value="1" <?= $status == '1' ? 'selected' : '' ?>>Active</option>
+                                                                    <option value="0" <?= $status == '0' ? 'selected' : '' ?>>Inactive</option>
+                                                                </select>
                                                             </div>
                                                         </div>
                                                     </div>
