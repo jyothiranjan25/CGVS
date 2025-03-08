@@ -156,7 +156,8 @@ if (isset($_REQUEST['verify'])) {
                                                                     <label class="font-weight-bold">Share this
                                                                         Certificate</label>
 
-                                                                    <div class="d-flex mb-3" style="gap: 20px;">
+                                                                    <div class="d-flex mb-3"
+                                                                        style="gap: 20px;align-items: baseline;">
                                                                         <!-- LinkedIn Share Button -->
                                                                         <button type="button" class="btn btn-rounded btn-icon"
                                                                             onclick="shareOnLinkedin()">
@@ -188,7 +189,7 @@ if (isset($_REQUEST['verify'])) {
                                                                         </button>
 
                                                                         <!-- Facebook Share Button -->
-                                                                        <button type="button" class="btn btn-rounded btn-icon"
+                                                                        <button type="button" class="btn btn-icon"
                                                                             onclick="shareOnTwitter()">
                                                                             <svg xmlns="http://www.w3.org/2000/svg" x="0px"
                                                                                 y="0px" width="50" height="50"
@@ -200,9 +201,24 @@ if (isset($_REQUEST['verify'])) {
                                                                         </button>
 
                                                                         <a href="<?php echo $certificateUrl; ?>" download
-                                                                            class="btn btn btn-dark">
+                                                                            class="btn btn btn-dark d-none d-sm-block">
                                                                             <i class="mdi mdi-download"></i> Download
                                                                             Certificate
+                                                                        </a>
+
+
+                                                                        <a href="<?php echo $certificateUrl; ?>" download
+                                                                            class="btn btn-icon d-block d-sm-none">
+                                                                            <svg xmlns="http://www.w3.org/2000/svg" x="0px"
+                                                                                y="0px" width="45" height="45"
+                                                                                viewBox="0 0 24 24" fill="none"
+                                                                                stroke="currentColor" stroke-width="2"
+                                                                                stroke-linecap="round" stroke-linejoin="round">
+                                                                                <path
+                                                                                    d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4" />
+                                                                                <polyline points="7 10 12 15 17 10" />
+                                                                                <line x1="12" y1="15" x2="12" y2="3" />
+                                                                            </svg>
                                                                         </a>
                                                                     </div>
 
