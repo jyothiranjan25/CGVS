@@ -41,14 +41,11 @@ if (isset($_REQUEST['verify'])) {
             }
         }
 
-        $share_url = "https://" . $_SERVER['HTTP_HOST'] . $_SERVER['REQUEST_URI'];
-        $title = "Certificate of Achievement";
-        $share_text = urlencode("I have successfully completed the $Course_Name course! Check out my certificate here: $share_url");
+        $share_url = $_SERVER['HTTP_HOST'] . $_SERVER['REQUEST_URI'];
+        $title = "Certificate Verification - Edflix";
+        $description = "Verify and authenticate course completion certificates.";
         $image = $certificateUrl;
-        $url = $share_url;
-        $linkedin_share_url = "https://www.linkedin.com/sharing/share-offsite/?url=<?= urlencode($url) ?>";
-        $twitter_share_url = "https://twitter.com/intent/tweet?text=<?= urlencode($share_text) ?>&url=<?= urlencode($url) ?>";
-        $facebook_share_url = "https://www.facebook.com/sharer/sharer.php?u=<?= urlencode($url) ?>";
+        $url = urlencode("https://" . $share_url);
     } catch (Exception $e) {
         CatchErrorLogs($e, null);
     }
@@ -81,9 +78,6 @@ if (isset($_REQUEST['verify'])) {
     <meta property="og:description" content="<?= $description ?>" />
     <meta property="og:image" content="<?= $image ?>" />
     <meta property="og:url" content="<?= $url ?>" />
-    <meta property="og:type" content="website" />
-    <!-- Force LinkedIn to read Open Graph -->
-    <meta name="robots" content="index, follow">
     <meta http-equiv="Content-Security-Policy" content="upgrade-insecure-requests">
 </head>
 
@@ -267,15 +261,15 @@ if (isset($_REQUEST['verify'])) {
 
     <script>
         function shareOnLinkedin() {
-            window.open("<?php echo $linkedin_share_url; ?>", "_blank");
-        }
-
-        function shareOnTwitter() {
-            window.open("<?php echo $twitter_share_url; ?>", "_blank");
+            window.open("https://www.linkedin.com/sharing/share-offsite/?url=<?= $share_url ?>", "_blank");
         }
 
         function shareOnFacebook() {
-            window.open("<?php echo $facebook_share_url; ?>", "_blank");
+            window.open("https://www.facebook.com/sharer/sharer.php?u=<?= $share_url ?>", "_blank");
+        }
+
+        function shareOnTwitter() {
+            window.open("https://twitter.com/intent/tweet?url=<?= $share_url ?>&text=Check out this verified certificate!", "_blank");
         }
     </script>
 </body>
