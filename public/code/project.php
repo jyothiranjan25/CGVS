@@ -19,7 +19,7 @@ if (!$result->num_rows > 0) {
     $columns = array_merge($commonColumns, $extraColumns);
     // Construct the SQL query
     $sql = "CREATE TABLE IF NOT EXISTS $projectTable (" . implode(', ', $columns) . ")";
-    $TableCreated = runCreateTable($conn, $projectTable, $sql);
+    $TableCreated = runQuery($conn, $projectTable, $sql);
 }
 
 function insertProject($studentId, $courseId, $projectTitle, $description)
@@ -82,4 +82,11 @@ function deleteProjectById($id)
 {
     global $conn, $projectTable;
     return deleteTableDataByIdQuery($conn, $projectTable, $id);
+}
+
+function getTotalProjects()
+{
+    global $conn, $projectTable;
+    $count = getCount($conn, $projectTable);
+    return $count;
 }

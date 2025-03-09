@@ -16,7 +16,7 @@ if (!$result->num_rows > 0) {
     $columns = array_merge($commonColumns, $extraColumns);
     // Construct the SQL query
     $sql = "CREATE TABLE IF NOT EXISTS $certificateVerificationTable (" . implode(', ', $columns) . ")";
-    $TableCreated = runCreateTable($conn, $certificateVerificationTable, $sql);
+    $TableCreated = runQuery($conn, $certificateVerificationTable, $sql);
 }
 
 function insertCertificateVerification($certificateId, $ipAddress)

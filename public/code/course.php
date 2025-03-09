@@ -17,7 +17,7 @@ if (!$result->num_rows > 0) {
     $columns = array_merge($commonColumns, $extraColumns);
     // Construct the SQL query
     $sql = "CREATE TABLE IF NOT EXISTS $courseTable (" . implode(', ', $columns) . ")";
-    $TableCreated = runCreateTable($conn, $courseTable, $sql);
+    $TableCreated = runQuery($conn, $courseTable, $sql);
 }
 
 function insertCourse($name, $duration, $description = NULL, $methodology = NULL)
@@ -78,4 +78,11 @@ function deleteCourseById($id)
 {
     global $conn, $courseTable;
     return deleteTableDataByIdQuery($conn, $courseTable, $id);
+}
+
+function getTotalCourses()
+{
+    global $conn, $courseTable;
+    $count = getCount($conn, $courseTable);
+    return $count;
 }

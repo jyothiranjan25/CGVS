@@ -17,7 +17,7 @@ if (!$result->num_rows > 0) {
     $columns = array_merge($commonColumns, $extraColumns);
     // Construct the SQL query
     $sql = "CREATE TABLE IF NOT EXISTS $adminTable (" . implode(', ', $columns) . ")";
-    $TableCreated = runCreateTable($conn, $adminTable, $sql);
+    $TableCreated = runQuery($conn, $adminTable, $sql);
     if ($TableCreated) {
         insertInitialData();
     }

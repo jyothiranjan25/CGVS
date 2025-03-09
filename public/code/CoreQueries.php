@@ -1,7 +1,7 @@
 <?php
 
 // Function to run create table query with modifiedby columns
-function runCreateTable($conn, $tableName, $query)
+function runQuery($conn, $tableName, $query)
 {
     if ($conn->query($query) === TRUE) {
         return TRUE;
@@ -282,4 +282,11 @@ function deleteTabledataByCustomColumnsQuery($conn, $tableName, $customColumns)
     $_SESSION['toasts_message'] = 'The data has been deleted successfully.';
     $_SESSION['toasts_type'] = 'info';
     return TRUE;
+}
+
+function getCount($conn, $tableName)
+{
+    $query = "SELECT COUNT(*) FROM $tableName";
+    $result = isSingleRowData($conn, $query);
+    return $result['COUNT(*)'];
 }

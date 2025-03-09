@@ -21,7 +21,7 @@ if (!$result->num_rows > 0) {
     $columns = array_merge($commonColumns, $extraColumns);
     // Construct the SQL query
     $sql = "CREATE TABLE IF NOT EXISTS $certificateTable (" . implode(', ', $columns) . ")";
-    $TableCreated = runCreateTable($conn, $certificateTable, $sql);
+    $TableCreated = runQuery($conn, $certificateTable, $sql);
 }
 
 function insertCertificate($studentId, $courseId, $registrationNumber, $startDate, $completionDate, $qr_code)
@@ -129,4 +129,23 @@ function getverificationDetailsByRegNo($registrationNumber)
             WHERE cert.registration_number = '$registrationNumber'";
 
     return isSingleRowData($conn, $sql);
+}
+
+function getTotalCertificates()
+{
+    global $conn, $certificateTable;
+    $count = getCount($conn, $certificateTable);
+    return $count;
+}
+
+function getStudentsForCourses()
+{
+    global $conn, $certificateTable, $studentTable, $courseTable;
+    $sql = "SELECT c.course_name, COUNT(cert.id) AS total_certificates
+            FROM $certificateTable cert
+            JOIN $studentTable s ON cert.student_id = s.id
+            JOIN $courseTable c ON cert.course_id = c.id
+            GROUP BY cert.course_id
+            ORDER BY total_certificates DESC";
+    return isArrayData($conn, $sql);
 }

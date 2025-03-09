@@ -16,7 +16,7 @@ if (!$result->num_rows > 0) {
     $columns = array_merge($commonColumns, $extraColumns);
     // Construct the SQL query
     $sql = "CREATE TABLE IF NOT EXISTS $moduleTable (" . implode(', ', $columns) . ")";
-    $TableCreated = runCreateTable($conn, $moduleTable, $sql);
+    $TableCreated = runQuery($conn, $moduleTable, $sql);
 }
 
 

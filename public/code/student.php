@@ -16,7 +16,7 @@ if (!$result->num_rows > 0) {
     $columns = array_merge($commonColumns, $extraColumns);
     // Construct the SQL query
     $sql = "CREATE TABLE IF NOT EXISTS $studentTable (" . implode(', ', $columns) . ")";
-    $TableCreated = runCreateTable($conn, $studentTable, $sql);
+    $TableCreated = runQuery($conn, $studentTable, $sql);
 }
 
 function insertStudent($name, $email, $mobile)
@@ -76,4 +76,11 @@ function deleteStudentById($id)
 {
     global $conn, $studentTable;
     return deleteTableDataByIdQuery($conn, $studentTable, $id);
+}
+
+function getTotalStudents()
+{
+    global $conn, $studentTable;
+    $count = getCount($conn, $studentTable);
+    return $count;
 }
