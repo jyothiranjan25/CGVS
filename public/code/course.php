@@ -9,6 +9,7 @@ if (!$result->num_rows > 0) {
         'id INT(11) AUTO_INCREMENT PRIMARY KEY',
         'course_name VARCHAR(256) NOT NULL',
         'duration VARCHAR(64) NOT NULL',
+        'description VARCHAR(256) DEFAULT NULL',
         'evaluation_methodology TEXT DEFAULT NULL',
     ];
     $extraColumns = ['created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP'];
@@ -19,7 +20,7 @@ if (!$result->num_rows > 0) {
     $TableCreated = runCreateTable($conn, $courseTable, $sql);
 }
 
-function insertCourse($name, $duration, $methodology)
+function insertCourse($name, $duration, $description, $methodology)
 {
     global $conn, $courseTable;
 
@@ -28,8 +29,8 @@ function insertCourse($name, $duration, $methodology)
 
 
     if ($DuplicateRecord == FALSE) {
-        $stmt = $conn->prepare("INSERT INTO $courseTable (course_name, duration, evaluation_methodology) VALUES (?, ?, ?)");
-        $stmt->bind_param("sss", $name, $duration, $methodology);
+        $stmt = $conn->prepare("INSERT INTO $courseTable (course_name, duration, description, evaluation_methodology) VALUES (?, ?, ?, ?)");
+        $stmt->bind_param("ssss", $name, $duration, $description, $methodology);
         return insertDatastmtQuery($conn, $courseTable, $stmt);
     } else {
         return ["data" => 'DUPLICATE', "id" => $DuplicateRecord];

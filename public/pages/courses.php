@@ -10,9 +10,10 @@ $Redirect_URL = "courses.php";
 if (isset($_POST['submit'])) {
     $name = mysqli_real_escape_string($conn, trim($_POST['name']));
     $duration = mysqli_real_escape_string($conn, trim($_POST['duration']));
+    $description = mysqli_real_escape_string($conn, trim($_POST['description']));
     $methodology = mysqli_real_escape_string($conn, trim($_POST['methodology']));
     try {
-        $insert = insertCourse($name, $duration, $methodology);
+        $insert = insertCourse($name, $duration, $description, $methodology);
     } catch (Exception $e) {
         CatchErrorLogs($e, $Redirect_URL);
     } finally {
@@ -31,6 +32,7 @@ if (isset($_REQUEST['edit'])) {
     $course_id = $get['id'];
     $name = $get['course_name'];
     $duration = $get['duration'];
+    $description = $get['description'];
     $methodology = $get['evaluation_methodology'];
 }
 
@@ -38,9 +40,10 @@ if (isset($_POST['update'])) {
     $Id = mysqli_real_escape_string($conn, trim($_POST['id']));
     $name = mysqli_real_escape_string($conn, trim($_POST['name']));
     $duration = mysqli_real_escape_string($conn, trim($_POST['duration']));
+    $description = mysqli_real_escape_string($conn, trim($_POST['description']));
     $methodology = mysqli_real_escape_string($conn, trim($_POST['methodology']));
     try {
-        $updatedColumns = ["course_name" => "$name", "duration" => "$duration", "evaluation_methodology" => "$methodology"];
+        $updatedColumns = ["course_name" => "$name", "duration" => "$duration", "description" => "$description", "evaluation_methodology" => "$methodology"];
         $update = updateCourseById($Id, $updatedColumns);
     } catch (Exception $e) {
         CatchErrorLogs($e, $Redirect_URL);
@@ -105,7 +108,8 @@ if (isset($_GET['delete'])) {
                                                     <th>S.No</th>
                                                     <th>Name</th>
                                                     <th>Duration</th>
-                                                    <th>Evaluation Methodology</th>
+                                                    <th>Description</th>
+                                                    </th>Evaluation Methodology</th>
                                                     <th>Actions</th>
                                                 </tr>
                                             </thead>
@@ -122,6 +126,7 @@ if (isset($_GET['delete'])) {
                                                         <td><?php echo htmlentities($cnt); ?></td>
                                                         <td><?php echo htmlentities($row['course_name']); ?></td>
                                                         <td><?php echo htmlentities($row['duration']); ?></td>
+                                                        <td><?php echo htmlentities($row['description']); ?></td>
                                                         <td><?php echo htmlentities($row['evaluation_methodology']); ?></td>
                                                         <td style="text-align: center;">
                                                             <a href="<?php echo $Redirect_URL ?>?edit=<?php echo ($row['id']); ?>"
@@ -181,6 +186,17 @@ if (isset($_GET['delete'])) {
                                                                 <input type="text" name="duration" id="duration"
                                                                     class="form-control" required
                                                                     autocomplete="new-password" />
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="row">
+                                                    <div class="col-md-12">
+                                                        <div class="form-group row">
+                                                            <label class="col-sm-4 col-form-label">Description</label>
+                                                            <div class="col-sm-8">
+                                                                <input type="text" name="description" id="description"
+                                                                    class="form-control" autocomplete="new-password" />
                                                             </div>
                                                         </div>
                                                     </div>
@@ -251,6 +267,18 @@ if (isset($_GET['delete'])) {
                                                                     class="form-control" required
                                                                     autocomplete="new-password"
                                                                     value="<?php echo $duration ?>" />
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="row">
+                                                    <div class="col-md-12">
+                                                        <div class="form-group row">
+                                                            <label class="col-sm-4 col-form-label">Description</label>
+                                                            <div class="col-sm-8">
+                                                                <input type="text" name="description" id="description"
+                                                                    class="form-control" autocomplete="new-password"
+                                                                    value="<?php echo $description ?>" />
                                                             </div>
                                                         </div>
                                                     </div>
