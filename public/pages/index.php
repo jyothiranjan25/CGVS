@@ -10,6 +10,14 @@ $total_courses = getTotalCourses();
 $total_projects = getTotalProjects();
 $total_certificates = getTotalCertificates();
 $students_for_courses = getStudentsForCourses();
+
+foreach ($students_for_courses as $student) {
+    $data[] = $student['total_certificates'];
+}
+
+$labels = json_encode($labels);
+$data = json_encode($data);
+
 ?>
 
 
@@ -88,7 +96,7 @@ $students_for_courses = getStudentsForCourses();
                                             <div class="card">
                                                 <div class="card-body">
                                                     <div class="d-flex flex-wrap justify-content-between">
-                                                        <h4 class="card-title mb-3">Card Title</h4>
+                                                        <h4 class="card-title mb-3">Students for courses</h4>
                                                     </div>
                                                     <div class="row">
                                                         <div class="col-12">
@@ -115,11 +123,14 @@ $students_for_courses = getStudentsForCourses();
     </div>
     <!-- container-scroller -->
     <script>
+        var labels = <?php echo $labels; ?>;
+        var data = <?php echo $data; ?>;
+
         var barChartStackedData = {
-            labels: ["jan", "feb", "mar", "apr", "may", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"],
+            labels: labels,
             datasets: [{
-                label: 'Count',
-                data: [10, 20, 15, 30, 20, 10, 20, 15, 30, 20, 10, 20,],
+                label: 'Students',
+                data: data,
                 backgroundColor: [
                     '#2b80ff',
                     '#2b80ff',
