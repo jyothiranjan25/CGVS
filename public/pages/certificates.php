@@ -321,16 +321,16 @@ if (isset($_POST['bulkupload'])) {
                                                         </td>
                                                         <td style="text-align: center;">
                                                             <a href="<?php echo $Redirect_URL ?>?generateCertificate=<?php echo ($row['registration_number']); ?>"
-                                                                style="font-size: 25px; color: #007bff;">
-                                                                <i class="typcn typcn-document"></i>
-                                                            </a>
+                                                                style="font-size: 20px; color: #007bff;"><i
+                                                                    class="typcn typcn-document"></i></a>
+                                                            <a href="verifyCertificate.php?registration_number=<?php echo ($row['registration_number']); ?>&verify=true"
+                                                                style="font-size: 20px; color: #007bff;"><i
+                                                                    class=" typcn typcn-tick-outline"></i></a>
                                                             <a href="<?php echo $Redirect_URL ?>?edit=<?php echo ($row['id']); ?>"
-                                                                style="font-size: 25px; color: #007bff;">
-                                                                <i class="typcn typcn-edit"></i>
-                                                            </a>
-                                                            &nbsp;
+                                                                style="font-size: 20px; color: #007bff;"><i
+                                                                    class="typcn typcn-edit"></i></a>
                                                             <a href="<?php echo $Redirect_URL ?>?delete=<?php echo ($row['id']); ?>"
-                                                                style="font-size: 25px; color: #dc3545;">
+                                                                style="font-size: 20px; color: #dc3545;">
                                                                 <i class="typcn typcn-delete"></i>
                                                             </a>
                                                         </td>

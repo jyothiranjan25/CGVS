@@ -12,6 +12,7 @@ $total_certificates = getTotalCertificates();
 $students_for_courses = getStudentsForCourses();
 
 foreach ($students_for_courses as $student) {
+    $labels[] = $student['course_name'];
     $data[] = $student['total_certificates'];
 }
 
