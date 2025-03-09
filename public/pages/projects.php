@@ -26,14 +26,15 @@ if (isset($_REQUEST['edit'])) {
     try {
         $Id = $_GET['edit'];
         $get = getProjectById($Id);
+
+        $project_id = $get['id'];
+        $student_id = $get['student_id'];
+        $course_id = $get['course_id'];
+        $project_title = $get['project_title'];
+        $description = $get['description'];
     } catch (Exception $e) {
         CatchErrorLogs($e, $Redirect_URL);
     }
-    $project_id = $get['id'];
-    $student_id = $get['student_id'];
-    $course_id = $get['course_id'];
-    $project_title = $get['project_title'];
-    $description = $get['description'];
 }
 
 if (isset($_POST['update'])) {

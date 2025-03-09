@@ -28,16 +28,17 @@ if (isset($_REQUEST['edit'])) {
     try {
         $Id = $_GET['edit'];
         $get = getCertificateById($Id);
+
+        $certificate_id = $get['id'];
+        $student_id = $get['student_id'];
+        $course_id = $get['course_id'];
+        $registration_number = $get['registration_number'];
+        $start_date = $get['start_date'];
+        $completion_date = $get['completion_date'];
+        $status = $get['status'];
     } catch (Exception $e) {
         CatchErrorLogs($e, $Redirect_URL);
     }
-    $certificate_id = $get['id'];
-    $student_id = $get['student_id'];
-    $course_id = $get['course_id'];
-    $registration_number = $get['registration_number'];
-    $start_date = $get['start_date'];
-    $completion_date = $get['completion_date'];
-    $status = $get['status'];
 }
 
 if (isset($_POST['update'])) {
@@ -99,6 +100,143 @@ if (isset($_GET['generateCertificate'])) {
 }
 
 
+if (isset($_POST['bulkupload'])) {
+    try {
+        $add_student = $_POST['add_student'] == "on" ? true : false;
+        $add_course = $_POST['add_course'] == "on" ? true : false;
+
+        $error_File_temp = "certificate.csv";
+        $hasErrors = false; // Flag to track if errors occurred
+
+        // Check if a CSV file is uploaded
+        if (isset($_FILES['csv_file']) && $_FILES['csv_file']['error'] == 0) {
+            $csv_file = $_FILES['csv_file']['tmp_name'];
+            // Open the CSV file
+            if (($handle = fopen($csv_file, "r")) !== FALSE) {
+                // Open the error log file for writing
+                $error_File = fopen($error_File_temp, "w");
+
+                // Loop through the rows of data
+                $i = 1;
+                while (($data = fgetcsv($handle, 1000, ",")) !== FALSE) {
+                    //Get data from Excel
+                    $student_name = trim($conn->real_escape_string($data[0]));
+                    $email = trim($conn->real_escape_string($data[1]));
+                    $mobile = trim($conn->real_escape_string($data[2]));
+                    $course_name = trim($conn->real_escape_string($data[3]));
+                    $duration = trim($conn->real_escape_string($data[4]));
+                    $registration_number = trim($conn->real_escape_string($data[5]));
+                    $start_date = trim($conn->real_escape_string($data[6]));
+                    $completion_date = trim($conn->real_escape_string($data[7]));
+                    //Get data from Excel
+
+                    // Skip the first row (header)
+                    if ($i != 1) {
+                        $error_message = "";
+
+                        if (!empty($email)) {
+                            // get student id
+                            $student_filter = ["email" => $email];
+                            $student = getStudentByCustomColumns($student_filter, false);
+
+                            if ($student == false) {
+                                if ($add_student) {
+                                    if (empty($student_name) || empty($email) || empty($mobile)) {
+                                        $error_message .= "Student name, email and mobile is required - ";
+                                    } else {
+                                        $new_student = insertStudent($student_name, $email, $mobile);
+                                        $student_id = $new_student['id'];
+                                    }
+                                } else {
+                                    $error_message .= "Student is Not Found - ";
+                                }
+                            } else {
+                                $student_id = $student['id'];
+                            }
+                        } else {
+                            $error_message .= "Email is required - ";
+                        }
+
+                        if (!empty($course_name) && !empty($duration)) {
+                            // get course id
+                            $course_filter = ["course_name" => $course_name];
+                            $course = getCourseByCustomColumns($course_filter, false);
+
+                            if ($course == false) {
+                                if ($add_course) {
+                                    $new_course = insertCourse($course_name, $duration);
+                                    $course_id = $new_course['id'];
+                                } else {
+                                    $error_message .= "Course is Not Found - ";
+                                }
+                            } else {
+                                $course_id = $course['id'];
+                            }
+                        } else {
+                            $error_message .= "Course is required and duration is required - ";
+                        }
+
+                        if (!empty($student_id) && !empty($course_id)) {
+                            if (!empty($registration_number) && !empty($start_date) && !empty($completion_date)) {
+
+                                $start_date = date('Y-m-d', strtotime($start_date));
+                                $completion_date = date('Y-m-d', strtotime($completion_date));
+
+                                $QrText = $Base_Path_URL . "verifyCertificate.php?registration_number=$registration_number&verify=true";
+                                $Qrcode = generateQRCodeBase64($QrText);
+
+                                $insert = insertCertificate($student_id, $course_id, $registration_number, $start_date, $completion_date, $Qrcode);
+                            } else {
+                                $error_message .= " Registration number, start date and completion date is required";
+                            }
+                        } else {
+                            CatchUploadErrorLogs(message: "Student id and course id is null");
+                        }
+
+                        if (!empty($error_message)) {
+                            $hasErrors = true;
+                            $data = [$student_name, $email, $mobile, $course_name, $duration, $registration_number, $start_date, $completion_date, $error_message];
+                            fputcsv($error_File, $data);
+                        }
+                    } else {
+                        $data = [$student_name, $email, $mobile, $course_name, $duration, $registration_number, $start_date, $completion_date];
+                        fputcsv($error_File, $data);
+                    }
+                    $i++;
+                }
+                fclose($handle);
+                fclose($error_File);
+
+                if ($hasErrors) {
+                    // Force download of error file
+                    header('Content-Type: text/csv');
+                    header('Content-Disposition: attachment; filename="certificate.csv"');
+                    readfile($error_File_temp);
+                    unlink($error_File_temp);
+                    exit;
+                } else {
+                    $_SESSION['toasts_title'] = 'Success!';
+                    $_SESSION['toasts_message'] = 'CSV file processed successfully!';
+                    $_SESSION['toasts_type'] = 'success';
+                }
+            } else {
+                $_SESSION['toasts_title'] = 'Oops!';
+                $_SESSION['toasts_message'] = 'Error with csv file';
+                $_SESSION['toasts_type'] = 'error';
+            }
+        }
+    } catch (Exception $e) {
+        $_SESSION['toasts_title'] = 'Oops!';
+        $_SESSION['toasts_message'] = "Error with csv file";
+        $_SESSION['toasts_type'] = 'error';
+        CatchErrorLogs($e, $Redirect_URL);
+    } finally {
+        unlink($error_File_temp);
+        header("Location: $Redirect_URL");
+        exit;
+    }
+}
+
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -132,6 +270,10 @@ if (isset($_GET['generateCertificate'])) {
                                             <button type="button" class="btn btn-light btn-sm" data-toggle="modal"
                                                 data-target="#addModal">
                                                 Add
+                                            </button>
+                                            <button type="button" class="btn btn-light btn-sm" data-toggle="modal"
+                                                data-target="#bulkAddModal">
+                                                Bulk Add
                                             </button>
                                             <button type="button" class="btn btn-light btn-sm" id="bulkDownload">
                                                 Bulk Download
@@ -452,6 +594,87 @@ if (isset($_GET['generateCertificate'])) {
                         </div>
                     </div>
                     <!-- End View Modal -->
+
+                    <!-- Bulk Add Modal -->
+                    <div class="modal fade bd-example-modal-lg" id="bulkAddModal" tabindex="-1" role="dialog"
+                        aria-labelledby="bulkAddModalLabel" aria-hidden="true">
+                        <div class="modal-dialog modal-lg" role="document">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h5 class="modal-title" id="bulkAddModalLabel">Bulk Add Certificate</h5>
+                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                        <span aria-hidden="true">&times;</span>
+                                    </button>
+                                </div>
+                                <div class="modal-body">
+                                    <div class="card">
+                                        <div class="card-body">
+                                            <form class="form-sample" method="POST" enctype="multipart/form-data">
+                                                <div class="row">
+                                                    <div class="col-md-12">
+                                                        <div class="form-group row">
+                                                            <label class="col-sm-4 col-form-label">Upload CSV</label>
+                                                            <div class="col-sm-8">
+                                                                <input type="file" class="form-control" name="csv_file"
+                                                                    id="csv_file" accept=".csv" required />
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="row">
+                                                    <div class="col-md-12">
+                                                        <div class="form-group row">
+                                                            <label class="col-sm-4 col-form-label">Upload CSV</label>
+                                                            <div class="col-sm-8" style="align-content: center;">
+                                                                <a href='../csvTemp/certificate.csv' download>sample
+                                                                    File</a>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="row">
+                                                    <div class="col-md-12">
+                                                        <center>
+                                                            <p>Upload Settings</p>
+                                                        </center>
+                                                    </div>
+                                                </div>
+                                                <div class="row">
+                                                    <div class="col-md-12">
+                                                        <div class="form-group row">
+                                                            <label class="col-sm-8 col-form-label">Add Student if not
+                                                                found</label>
+                                                            <div class="col-sm-4" style="align-content: center;">
+                                                                <input type="checkbox" name="add_student"
+                                                                    id="add_student" />
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-md-12">
+                                                        <div class="form-group row">
+                                                            <label class="col-sm-8 col-form-label">Add Course if not
+                                                                found</label>
+                                                            <div class="col-sm-4" style="align-content: center;">
+                                                                <input type="checkbox" name="add_course"
+                                                                    id="add_course" />
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div style="display: flex; justify-content:end; gap: 10px;">
+                                                    <button type="button" class="btn btn-light"
+                                                        data-dismiss="modal">Close</button>
+                                                    <button type="submit" name="bulkupload" id="bulkupload"
+                                                        class="btn btn-dark">Save</button>
+                                                </div>
+                                            </form>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- Bulk Add Modal -->
                 </div>
                 <!-- content-wrapper ends -->
                 <!-- partial:partials/_footer.html -->

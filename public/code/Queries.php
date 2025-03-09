@@ -55,3 +55,22 @@ function CatchErrorLogs($e, $Redirect_URL)
         exit;
     }
 }
+
+function CatchUploadErrorLogs($e = null, $message = null)
+{
+
+    global $Base_Path;
+    if ($e) {
+        $error_log = "Error: " . $e->getMessage() . " - " . date('d-M-Y h:i:s A') . "\r";
+    } else if ($message) {
+        $error_log = "Error: " . $message . " - " . date('d-M-Y h:i:s A') . "\r";
+    } else {
+        $error_log = "Info: " . "debug the method" . " - " . date('d-M-Y h:i:s A') . "\r";
+    }
+    $fileName = date('d_M_Y') . "_upload_error_log.log";
+    $filePath = $Base_Path . "/logs/" . $fileName;
+    if (!file_exists($Base_Path . "/logs")) {
+        mkdir($Base_Path . "/logs", 0777, true);
+    }
+    error_log($error_log, 3, $filePath);
+}

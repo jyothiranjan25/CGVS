@@ -20,7 +20,7 @@ if (!$result->num_rows > 0) {
     $TableCreated = runCreateTable($conn, $courseTable, $sql);
 }
 
-function insertCourse($name, $duration, $description, $methodology)
+function insertCourse($name, $duration, $description = NULL, $methodology = NULL)
 {
     global $conn, $courseTable;
 

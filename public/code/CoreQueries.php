@@ -184,7 +184,7 @@ function insertDatastmtQuery($conn, $tableName, $stmt)
         $insertedId = $conn->insert_id;
         $_SESSION['inserted_id'] = $insertedId;
         $stmt->close();
-        return $insertedId;
+        return ["data" => 'SUCCESS', "id" => $insertedId];
     } else {
         echo "Error inserting data into table $tableName: " . $conn->error;
         $_SESSION['toasts_title'] = 'Something Went Wrong';
@@ -213,7 +213,7 @@ function updateTableDataByIdQuery($conn, $tableName, $Id, $updatedColumns)
         $_SESSION['toasts_title'] = 'Data Updated Successfully';
         $_SESSION['toasts_message'] = 'Your data has been updated successfully.';
         $_SESSION['toasts_type'] = 'success';
-        return $Id;
+        return ["data" => 'SUCCESS', "id" => $Id];
     } else {
         $_SESSION['toasts_title'] = 'Something Went Wrong';
         $_SESSION['toasts_message'] = $updateSql . $conn->error;

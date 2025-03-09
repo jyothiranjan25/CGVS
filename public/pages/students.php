@@ -25,13 +25,14 @@ if (isset($_REQUEST['edit'])) {
     try {
         $Id = $_GET['edit'];
         $get = getStudentById($Id);
+
+        $student_id = $get['id'];
+        $name = $get['full_name'];
+        $email = $get['email'];
+        $mobile = $get['mobile'];
     } catch (Exception $e) {
         CatchErrorLogs($e, $Redirect_URL);
     }
-    $student_id = $get['id'];
-    $name = $get['full_name'];
-    $email = $get['email'];
-    $mobile = $get['mobile'];
 }
 
 if (isset($_POST['update'])) {

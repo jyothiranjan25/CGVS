@@ -26,14 +26,15 @@ if (isset($_REQUEST['edit'])) {
     try {
         $Id = $_GET['edit'];
         $get = getCourseById($Id);
+
+        $course_id = $get['id'];
+        $name = $get['course_name'];
+        $duration = $get['duration'];
+        $description = $get['description'];
+        $methodology = $get['evaluation_methodology'];
     } catch (Exception $e) {
         CatchErrorLogs($e, $Redirect_URL);
     }
-    $course_id = $get['id'];
-    $name = $get['course_name'];
-    $duration = $get['duration'];
-    $description = $get['description'];
-    $methodology = $get['evaluation_methodology'];
 }
 
 if (isset($_POST['update'])) {
@@ -109,16 +110,13 @@ if (isset($_GET['delete'])) {
                                                     <th>Name</th>
                                                     <th>Duration</th>
                                                     <th>Description</th>
-                                                    </th>Evaluation Methodology</th>
+                                                    <th>Evaluation Methodology</th>
                                                     <th>Actions</th>
                                                 </tr>
                                             </thead>
                                             <tbody>
                                                 <?php
                                                 $data_result = getAllCourses();
-                                                // Check if there are any rows returned
-                                                
-                                                // Output data of each row
                                                 $cnt = 1;
                                                 foreach ($data_result as $row) {
                                                     ?>

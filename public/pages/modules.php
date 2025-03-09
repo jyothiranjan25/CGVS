@@ -24,12 +24,13 @@ if (isset($_REQUEST['edit'])) {
     try {
         $Id = $_GET['edit'];
         $get = getModuleById($Id);
+
+        $module_id = $get['id'];
+        $course_id = $get['course_id'];
+        $module_name = $get['module_name'];
     } catch (Exception $e) {
         CatchErrorLogs($e, $Redirect_URL);
     }
-    $module_id = $get['id'];
-    $course_id = $get['course_id'];
-    $module_name = $get['module_name'];
 }
 
 if (isset($_POST['update'])) {
