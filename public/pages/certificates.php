@@ -642,8 +642,8 @@ if (isset($_POST['bulkupload'])) {
                                                 <div class="row">
                                                     <div class="col-md-12">
                                                         <div class="form-group row">
-                                                            <label class="col-sm-8 col-form-label">Add Student if not
-                                                                found</label>
+                                                            <label class="col-sm-8 col-form-label">Add new Student
+                                                                (Create new student if not found in system)</label>
                                                             <div class="col-sm-4" style="align-content: center;">
                                                                 <input type="checkbox" name="add_student"
                                                                     id="add_student" />
@@ -652,8 +652,8 @@ if (isset($_POST['bulkupload'])) {
                                                     </div>
                                                     <div class="col-md-12">
                                                         <div class="form-group row">
-                                                            <label class="col-sm-8 col-form-label">Add Course if not
-                                                                found</label>
+                                                            <label class="col-sm-8 col-form-label">Add Course (Create
+                                                                new course if not found in system)</label>
                                                             <div class="col-sm-4" style="align-content: center;">
                                                                 <input type="checkbox" name="add_course"
                                                                     id="add_course" />
