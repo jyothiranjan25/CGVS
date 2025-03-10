@@ -8,7 +8,6 @@ if (isset($_REQUEST['verify'])) {
         $reqistration_no = mysqli_real_escape_string($conn, trim($_REQUEST['registration_number']));
         $certificate = getverificationDetailsByRegNo($reqistration_no);
 
-
         $certificateId = $certificate['id'];
         $registration_number = $certificate['registration_number'];
         $Student_Name = $certificate['full_name'];
@@ -16,8 +15,8 @@ if (isset($_REQUEST['verify'])) {
         $Course_Duration = $certificate['duration'];
         $Course_Evaluation_Methodology = $certificate['evaluation_methodology'];
         $Modules_Covered = $certificate['modules_covered'];
-        $Projects_Completed = $certificate['projects_completed'];
         $Completion_Date = $certificate['completion_date'];
+        $projects = $certificate['projects'];
 
         // get certificate path
         $certificatePath = getcertificatePath($Student_Name, $reqistration_no);
@@ -242,6 +241,34 @@ if (isset($_REQUEST['verify'])) {
                                                     </div>
                                                 </div>
                                             </div>
+                                            <?php if ($projects) { ?>
+                                                <div class="row">
+                                                    <div class="col-lg-12">
+                                                        <div class="card">
+                                                            <div class="card-body">
+                                                                <h3 class="mb-3 font-weight-bold">
+                                                                    Projects Completed
+                                                                </h3>
+                                                                <?php foreach ($projects as $project) { ?>
+                                                                    <!-- // show project title and description as a list -->
+                                                                    <ul>
+                                                                        <li>
+                                                                            <h4 class="mb-3 font-weight-bold">
+                                                                                <?php echo $project['project_title']; ?>
+                                                                            </h4>
+                                                                            <?php if ($project['description']) { ?>
+                                                                                <p>
+                                                                                    <?php echo $project['description']; ?>
+                                                                                </p>
+                                                                            <?php } ?>
+                                                                        </li>
+                                                                    </ul>
+                                                                <?php } ?>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            <?php } ?>
                                         </div>
                                     </div>
                                 </div>

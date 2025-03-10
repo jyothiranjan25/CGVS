@@ -26,16 +26,9 @@ function insertProject($studentId, $courseId, $projectTitle, $description)
 {
     global $conn, $projectTable;
 
-    $DucplicateCheckColumn = ['student_id' => $studentId, 'AND', 'course_id' => $courseId];
-    $DuplicateRecord = CheckDuplicateRecordBeforeInsert($conn, $projectTable, $DucplicateCheckColumn);
-
-    if ($DuplicateRecord == FALSE) {
-        $stmt = $conn->prepare("INSERT INTO $projectTable (student_id, course_id, project_title, description ) VALUES (?, ?, ?,?)");
-        $stmt->bind_param("iiss", $studentId, $courseId, $projectTitle, $description);
-        return insertDatastmtQuery($conn, $projectTable, $stmt);
-    } else {
-        return ["data" => 'DUPLICATE', "id" => $DuplicateRecord];
-    }
+    $stmt = $conn->prepare("INSERT INTO $projectTable (student_id, course_id, project_title, description ) VALUES (?, ?, ?,?)");
+    $stmt->bind_param("iiss", $studentId, $courseId, $projectTitle, $description);
+    return insertDatastmtQuery($conn, $projectTable, $stmt);
 }
 
 function getAllProjects()
@@ -63,19 +56,7 @@ function getProjectByCustomColumns($customColumns, $array)
 function updateProjectById($id, $updatedColumns)
 {
     global $conn, $projectTable;
-
-    // To find duplicate record
-    $studentId = $updatedColumns['student_id'];
-    $courseId = $updatedColumns['course_id'];
-    $DucplicateCheckColumn = ['student_id' => $studentId, 'AND', 'course_id' => $courseId];
-    $DuplicateRecord = CheckDuplicateRecordToUpdate($conn, $id, $projectTable, $DucplicateCheckColumn);
-
-    if ($DuplicateRecord == FALSE) {
-        return updateTableDataByIdQuery($conn, $projectTable, $id, $updatedColumns);
-    } else {
-        $duplicate_data = ["data" => 'DUPLICATE', "id" => $DuplicateRecord];
-        return $duplicate_data;
-    }
+    return updateTableDataByIdQuery($conn, $projectTable, $id, $updatedColumns);
 }
 
 function deleteProjectById($id)
