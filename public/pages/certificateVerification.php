@@ -58,7 +58,7 @@ include_once($Base_Path . "/public/code/sessionCheck.php");
                                                         <td><?php echo htmlentities($row['certificate_id']); ?></td>
                                                         <td><?php echo htmlentities($row['registration_number']); ?></td>
                                                         <td><?php echo htmlentities($row['ip_address']); ?></td>
-                                                        <td><?php echo htmlentities(date("d-m-Y - h:i:s A", strtotime($row['created_at']))); ?>
+                                                        <td><?php echo htmlentities(date("jS F, Y - h:i:s A", strtotime($row['created_at']))); ?>
                                                         </td>
                                                     </tr>
                                                     <?php

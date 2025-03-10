@@ -3,8 +3,7 @@
 include_once("../../config/dbconfig.php");
 include_once($Base_Path . "/public/code/Queries.php");
 include_once($Base_Path . "/public/code/sessionCheck.php");
-$Redirect_URL = "certificates.php";
-
+$Redirect_URL = $Extract_File_name;
 
 if (isset($_POST['submit'])) {
     $student_id = mysqli_real_escape_string($conn, trim($_POST['student_id']));

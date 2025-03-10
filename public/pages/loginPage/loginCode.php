@@ -11,7 +11,7 @@ unset($_SESSION['login_user_email']);
 unset($_SESSION['login_user_role_name']);
 
 // redirect URL's
-$RedirectToLoginPage = './login.php';
+$RedirectToLoginPage = $Extract_File_name;
 $RedirectToDashboard = $Base_URL . '/public/pages/index.php';
 
 function AppUserLogin($email)
