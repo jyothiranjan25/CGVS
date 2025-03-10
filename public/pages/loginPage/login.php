@@ -72,11 +72,11 @@ if (isset($_POST['submit'])) {
               <form class="pt-3" method="POST" id="login-form">
                 <div class="form-group">
                   <input type="text" name="email" id="email" class="form-control form-control-lg"
-                    id="exampleInputEmail1" placeholder="Username" required value="admin">
+                    id="exampleInputEmail1" placeholder="Username" required>
                 </div>
                 <div class="form-group">
                   <input type="password" name="password" id="password" class="form-control form-control-lg"
-                    id="exampleInputPassword1" placeholder="Password" required value="admin">
+                    id="exampleInputPassword1" placeholder="Password" required>
                 </div>
                 <div class="mt-3">
                   <button class="btn btn-block btn-primary btn-lg font-weight-medium auth-form-btn" type="submit"
