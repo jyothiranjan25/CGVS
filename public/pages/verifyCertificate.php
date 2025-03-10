@@ -276,7 +276,7 @@ if (isset($_REQUEST['verify'])) {
                         </div>
 
                     <?php } else { ?>
-                        <div class="content-wrapper align-items-center text-center">
+                        <div class="content-wrapper align-items-center text-center" style="align-content: center;">
                             <div class="row">
                                 <div class="col-lg-12">
                                     <img src=" ../images/svg/404.svg" alt="Certificate" width="50%">
@@ -285,7 +285,7 @@ if (isset($_REQUEST['verify'])) {
                         </div>
                     <?php }
                 } else { ?>
-                    <div class="content-wrapper align-items-center text-center">
+                    <div class="content-wrapper align-items-center text-center" style="align-content: center;">
                         <div class="row">
                             <div class="col-lg-12">
                                 <img src=" ../images/svg/400.svg" alt="Certificate" width="50%">
