@@ -117,14 +117,14 @@ function getCertificateDetailsByRegNo($registrationNumber)
 function getverificationDetailsByRegNo($registrationNumber)
 {
     global $conn, $certificateTable, $studentTable, $courseTable, $moduleTable, $projectTable;
+
+    // get certificate details
     $sql = "SELECT s.full_name, 
                     c.course_name, c.duration, c.evaluation_methodology,c.id AS course_id,
-                    m.module_name AS modules_covered,
                     cert.*
             FROM $certificateTable cert
             JOIN $studentTable s ON cert.student_id = s.id
             JOIN $courseTable c ON cert.course_id = c.id
-            LEFT JOIN $moduleTable m ON c.id = m.course_id
             WHERE cert.registration_number = '$registrationNumber'";
 
     $certificate = isSingleRowData($conn, $sql);
@@ -132,6 +132,15 @@ function getverificationDetailsByRegNo($registrationNumber)
     $studentId = $certificate['student_id'];
     $courseId = $certificate['course_id'];
 
+    // get modules details
+    $sql = "SELECT m.module_name, m.course_id
+            FROM $moduleTable m
+            WHERE m.course_id = $courseId";
+
+    $modules = isArrayData($conn, $sql);
+    $certificate['modules_covered'] = $modules;
+
+    // get projects details
     $sql = "SELECT p.project_title, p.description, p.course_id
             FROM $projectTable p
             WHERE p.student_id = $studentId AND p.course_id = $courseId";

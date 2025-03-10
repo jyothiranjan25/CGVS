@@ -53,7 +53,7 @@ $data = json_encode($data);
                                     </p>
 
                                     <div class="row mb-3">
-                                        <div class="col-md-6">
+                                        <div class="col-md-6 mb-3">
                                             <div class="card">
                                                 <div class="card-body">
                                                     <h6 class="card-title">Total Students</h6>
@@ -62,7 +62,7 @@ $data = json_encode($data);
                                             </div>
                                         </div>
 
-                                        <div class="col-md-6">
+                                        <div class="col-md-6 mb-3">
                                             <div class="card">
                                                 <div class="card-body">
                                                     <h6 class="card-title">Total Courses</h6>
@@ -73,7 +73,7 @@ $data = json_encode($data);
                                     </div>
 
                                     <div class="row mb-3">
-                                        <div class="col-md-6">
+                                        <div class="col-md-6 mb-3">
                                             <div class="card">
                                                 <div class="card-body">
                                                     <h6 class="card-title">Total Projects</h6>
@@ -82,7 +82,7 @@ $data = json_encode($data);
                                             </div>
                                         </div>
 
-                                        <div class="col-md-6">
+                                        <div class="col-md-6 mb-3">
                                             <div class="card">
                                                 <div class="card-body">
                                                     <h6 class="card-title">Total certificates</h6>
@@ -92,8 +92,8 @@ $data = json_encode($data);
                                         </div>
                                     </div>
 
-                                    <div class="row">
-                                        <div class="col-xl-6 d-flex grid-margin stretch-card">
+                                    <div class="row mb-3">
+                                        <div class="col-xl-6 d-flex grid-margin stretch-card mb-3">
                                             <div class="card">
                                                 <div class="card-body">
                                                     <div class="d-flex flex-wrap justify-content-between">

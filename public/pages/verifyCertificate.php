@@ -14,8 +14,8 @@ if (isset($_REQUEST['verify'])) {
         $Course_Name = $certificate['course_name'];
         $Course_Duration = $certificate['duration'];
         $Course_Evaluation_Methodology = $certificate['evaluation_methodology'];
-        $Modules_Covered = $certificate['modules_covered'];
         $Completion_Date = $certificate['completion_date'];
+        $Modules_Covered = $certificate['modules_covered'];
         $projects = $certificate['projects'];
 
         // get certificate path
@@ -242,32 +242,67 @@ if (isset($_REQUEST['verify'])) {
                                                     </div>
                                                 </div>
                                             </div>
-                                            <?php if ($projects) { ?>
+                                            <?php if ($projects || $Modules_Covered) { ?>
                                                 <div class="row">
-                                                    <div class="col-lg-12">
-                                                        <div class="card">
-                                                            <div class="card-body">
-                                                                <h3 class="mb-3 font-weight-bold">
-                                                                    Projects Completed
-                                                                </h3>
-                                                                <?php foreach ($projects as $project) { ?>
-                                                                    <!-- // show project title and description as a list -->
-                                                                    <ul>
-                                                                        <li>
-                                                                            <h4 class="mb-3 font-weight-bold">
-                                                                                <?php echo $project['project_title']; ?>
-                                                                            </h4>
-                                                                            <?php if ($project['description']) { ?>
-                                                                                <p>
-                                                                                    <?php echo $project['description']; ?>
-                                                                                </p>
-                                                                            <?php } ?>
-                                                                        </li>
-                                                                    </ul>
-                                                                <?php } ?>
+                                                    <?php if ($Modules_Covered) { ?>
+                                                        <div class="col-lg-6 mb-4">
+                                                            <div class="card h-100"> <!-- Ensures equal height -->
+                                                                <div class="card-body d-flex flex-column">
+                                                                    <!-- Makes content stretch -->
+                                                                    <h3 class="mb-3 font-weight-bold">WHAT YOU WILL LEARN</h3>
+                                                                    <div class="d-flex flex-wrap">
+                                                                        <?php foreach ($Modules_Covered as $Modules) { ?>
+                                                                            <div class="w-50 p-1"
+                                                                                style="display: flex; align-items: flex-start; gap: 10px;">
+                                                                                <svg xmlns="http://www.w3.org/2000/svg" x="0px" y="0px"
+                                                                                    width="20" height="20" viewBox="0 0 48 48">
+                                                                                    <path fill="#43A047"
+                                                                                        d="M40.6 12.1L17 35.7 7.4 26.1 4.6 29 17 41.3 43.4 14.9z">
+                                                                                    </path>
+                                                                                </svg>
+                                                                                <span class="font-weight-bold">
+                                                                                    <?php echo htmlspecialchars($Modules['module_name']); ?>
+                                                                                </span>
+                                                                            </div>
+                                                                        <?php } ?>
+                                                                    </div>
+                                                                    <div class="mt-auto"></div>
+                                                                </div>
                                                             </div>
                                                         </div>
-                                                    </div>
+
+                                                    <?php }
+                                                    if ($projects) { ?>
+                                                        <div class="col-lg-6 mb-4">
+
+                                                            <div class="card h-100">
+                                                                <div class="card-body d-flex flex-column">
+                                                                    <!-- Makes content stretch -->
+                                                                    <h3 class="mb-3 font-weight-bold">
+                                                                        Projects Completed
+                                                                    </h3>
+                                                                    <div class="flex-grow-1">
+                                                                        <?php foreach ($projects as $project) { ?>
+                                                                            <ul>
+                                                                                <li>
+                                                                                    <h4 class="mb-3 font-weight-bold">
+                                                                                        <?php echo $project['project_title']; ?>
+                                                                                    </h4>
+                                                                                    <?php if ($project['description']) { ?>
+                                                                                        <p>
+                                                                                            <?php echo $project['description']; ?>
+                                                                                        </p>
+                                                                                    <?php } ?>
+                                                                                </li>
+                                                                            </ul>
+                                                                        <?php } ?>
+                                                                    </div>
+                                                                    <div class="mt-auto"></div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+
+                                                    <?php } ?>
                                                 </div>
                                             <?php } ?>
                                         </div>
@@ -275,7 +310,6 @@ if (isset($_REQUEST['verify'])) {
                                 </div>
                             </div>
                         </div>
-
                     <?php } else { ?>
                         <div class="content-wrapper align-items-center text-center" style="align-content: center;">
                             <div class="row">
