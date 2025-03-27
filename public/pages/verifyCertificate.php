@@ -29,7 +29,7 @@ if (isset($_REQUEST['verify'])) {
             $end_date = $certificate['end_date'];
             $qr_code = $certificate['qr_code'];
             $certificateUrl = generateCertificate($registration_number, $Student_Name, $start_date, $end_date, $Course_Name, $qr_code);
-            $certificateUrl = $certificatePath['path'];
+            $certificateUrl = $certificatePath['url'];
         }
 
         // insert data in certificate verification table
