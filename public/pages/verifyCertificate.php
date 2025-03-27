@@ -46,8 +46,7 @@ if (isset($_REQUEST['verify'])) {
             }
         }
 
-        // $share_url = $_SERVER['HTTP_HOST'] . $_SERVER['REQUEST_URI'];
-        $share_url = $Extract_File_name_with_params;
+        $share_url = $_SERVER['HTTP_HOST'] . $_SERVER['REQUEST_URI'];
         $title = "Certificate Verification - Edflix";
         $description = "Verify and authenticate course completion certificates.";
         $image = $certificateUrl;
