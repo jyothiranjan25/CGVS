@@ -50,7 +50,10 @@ if ($QUERY_STRING != null && !empty($QUERY_STRING)) {
             $checkData = getCertificateVerificationByCustomColumns($customColumns, false);
             $checkData = $checkData['created_at'];
             $createdAt = date('Y-m-d H:i:s', strtotime($checkData));
+            $currentTime = date('Y-m-d H:i:s');
             $checkTime = date('Y-m-d H:i:s', strtotime('-30 minutes'));
+            echo $currentTime;
+            echo "<br>";
             echo $checkTime;
             echo "<br>";
             echo $createdAt;
