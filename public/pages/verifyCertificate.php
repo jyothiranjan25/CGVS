@@ -75,20 +75,7 @@ if (isset($_REQUEST['verify'])) {
     <!-- favicon -->
     <link rel="shortcut icon" href="../images/EF-icon.png" />
 
-    <title>Certificate Verification</title>
-
-
-    <!-- Open Graph Meta Tags -->
-    <!-- <meta property="og:title" content="<?= $title ?>" />
-    <meta property="og:description" content="<?= $description ?>" />
-    <meta property="og:image" content="<?= $image ?>" />
-    <meta property="og:url" content="<?= $url ?>" />
-    <meta http-equiv="Content-Security-Policy" content="upgrade-insecure-requests">
-
-    <meta name="twitter:card" content="summary_large_image">
-    <meta name="twitter:title" content="<?= $title ?>">
-    <meta name="twitter:description" content="<?= $description ?>">
-    <meta name="twitter:image" content="<?= $image ?>"> -->
+    <title>Certificate Verification</title>\
 </head>
 
 <body>
