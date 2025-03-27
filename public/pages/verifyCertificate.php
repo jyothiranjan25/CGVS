@@ -51,6 +51,9 @@ if ($QUERY_STRING != null && !empty($QUERY_STRING)) {
             $checkData = $checkData['created_at'];
             $createdAt = date('Y-m-d H:i:s', strtotime($checkData));
             $checkTime = date('Y-m-d H:i:s', strtotime('-30 minutes'));
+            echo $checkTime;
+            echo "<br>";
+            echo $createdAt;
             if ($checkData == false || $createdAt < $checkTime) {
                 $storeData = insertCertificateVerification($certificateId, $ipAddress);
             }
