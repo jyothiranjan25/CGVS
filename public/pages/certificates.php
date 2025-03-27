@@ -11,7 +11,7 @@ if (isset($_POST['submit'])) {
     $registration_number = mysqli_real_escape_string($conn, trim($_POST['registration_number']));
     $start_date = mysqli_real_escape_string($conn, trim($_POST['start_date']));
     $completion_date = mysqli_real_escape_string($conn, trim($_POST['completion_date']));
-    $QrText = $Base_Path_URL . "verifyCertificate.php?registration_number=$registration_number&verify=true";
+    $QrText = $Base_Path_URL . "verifyCertificate.php?$registration_number";
     $Qrcode = generateQRCodeBase64($QrText);
     try {
         $insert = insertCertificate($student_id, $course_id, $registration_number, $start_date, $completion_date, $Qrcode);
@@ -48,7 +48,7 @@ if (isset($_POST['update'])) {
     $start_date = mysqli_real_escape_string($conn, trim($_POST['start_date']));
     $completion_date = mysqli_real_escape_string($conn, trim($_POST['completion_date']));
     $status = mysqli_real_escape_string($conn, trim($_POST['status']));
-    $QrText = $Base_Path_URL . "verifyCertificate.php?registration_number=$registration_number&verify=true";
+    $QrText = $Base_Path_URL . "verifyCertificate.php?$registration_number";
     $Qrcode = generateQRCodeBase64($QrText);
 
     try {
@@ -181,7 +181,7 @@ if (isset($_POST['bulkupload'])) {
                                 $start_date = date('Y-m-d', strtotime($start_date));
                                 $completion_date = date('Y-m-d', strtotime($completion_date));
 
-                                $QrText = $Base_Path_URL . "verifyCertificate.php?registration_number=$registration_number&verify=true";
+                                $QrText = $Base_Path_URL . "verifyCertificate.php?$registration_number";
                                 $Qrcode = generateQRCodeBase64($QrText);
 
                                 $insert = insertCertificate($student_id, $course_id, $registration_number, $start_date, $completion_date, $Qrcode);
@@ -298,11 +298,11 @@ if (isset($_POST['bulkupload'])) {
                                                 <?php
                                                 $data_result = getAllCertificates();
                                                 // Check if there are any rows returned
-                                                
+
                                                 // Output data of each row
                                                 $cnt = 1;
                                                 foreach ($data_result as $row) {
-                                                    ?>
+                                                ?>
                                                     <tr>
                                                         <td><?php echo htmlentities($cnt); ?></td>
                                                         <td><?php echo htmlentities($row['full_name']); ?></td>
@@ -322,7 +322,7 @@ if (isset($_POST['bulkupload'])) {
                                                             <a href="<?php echo $Redirect_URL ?>?generateCertificate=<?php echo ($row['registration_number']); ?>"
                                                                 style="font-size: 20px; color: #007bff;"><i
                                                                     class="typcn typcn-document"></i></a>
-                                                            <a href="verifyCertificate.php?registration_number=<?php echo ($row['registration_number']); ?>&verify=true"
+                                                            <a href="verifyCertificate.php?<?php echo ($row['registration_number']); ?>"
                                                                 style="font-size: 20px; color: #007bff;"><i
                                                                     class=" typcn typcn-tick-outline"></i></a>
                                                             <a href="<?php echo $Redirect_URL ?>?edit=<?php echo ($row['id']); ?>"
@@ -334,7 +334,7 @@ if (isset($_POST['bulkupload'])) {
                                                             </a>
                                                         </td>
                                                     </tr>
-                                                    <?php
+                                                <?php
                                                     $cnt++;
                                                 }
                                                 ?>
@@ -371,12 +371,12 @@ if (isset($_POST['bulkupload'])) {
                                                                     <?php
                                                                     $array_query_data = getAllStudents();
                                                                     foreach ($array_query_data as $row) {
-                                                                        ?>
+                                                                    ?>
                                                                         <option required=" required"
                                                                             value="<?php echo $row['id']; ?>">
                                                                             <?php echo $row['full_name']; ?>
                                                                         </option>
-                                                                        <?php
+                                                                    <?php
                                                                     }
                                                                     ?>
                                                                 </select>
@@ -392,12 +392,12 @@ if (isset($_POST['bulkupload'])) {
                                                                     <?php
                                                                     $array_query_data = getAllCourses();
                                                                     foreach ($array_query_data as $row) {
-                                                                        ?>
+                                                                    ?>
                                                                         <option required=" required"
                                                                             value="<?php echo $row['id']; ?>">
                                                                             <?php echo $row['course_name']; ?>
                                                                         </option>
-                                                                        <?php
+                                                                    <?php
                                                                     }
                                                                     ?>
                                                                 </select>
@@ -481,10 +481,10 @@ if (isset($_POST['bulkupload'])) {
                                                                     $array_query_data = getAllStudents();
                                                                     foreach ($array_query_data as $row) {
                                                                         $selected = ($row['id'] === $student_id) ? "selected" : "";
-                                                                        ?>
+                                                                    ?>
                                                                         <option required=" required"
                                                                             value="<?php echo $row['id']; ?>" <?= $selected ?>><?php echo $row['full_name']; ?></option>
-                                                                        <?php
+                                                                    <?php
                                                                     }
                                                                     ?>
                                                                 </select>
@@ -501,10 +501,10 @@ if (isset($_POST['bulkupload'])) {
                                                                     $array_query_data = getAllCourses();
                                                                     foreach ($array_query_data as $row) {
                                                                         $selected = ($row['id'] === $course_id) ? "selected" : "";
-                                                                        ?>
+                                                                    ?>
                                                                         <option required=" required"
                                                                             value="<?php echo $row['id']; ?>" <?= $selected ?>><?php echo $row['course_name']; ?></option>
-                                                                        <?php
+                                                                    <?php
                                                                     }
                                                                     ?>
                                                                 </select>
@@ -686,7 +686,7 @@ if (isset($_POST['bulkupload'])) {
     </div>
     <!-- container-scroller -->
     <script>
-        $('#imageViewModal').on('show.bs.modal', function (event) {
+        $('#imageViewModal').on('show.bs.modal', function(event) {
             var button = $(event.relatedTarget) // Button that triggered the modal
             var recipient = button.data('whatever') // Extract info from data-* attributes
             // If necessary, you could initiate an AJAX request here (and then do the updating in a callback).
@@ -696,9 +696,9 @@ if (isset($_POST['bulkupload'])) {
         })
     </script>
     <script>
-        $(document).ready(function () {
+        $(document).ready(function() {
             // Handle the subcribe button click
-            $("#bulkDownload").click(function () {
+            $("#bulkDownload").click(function() {
                 // Perform an AJAX request
                 $.ajax({
                     type: "POST",
@@ -706,7 +706,7 @@ if (isset($_POST['bulkupload'])) {
                     data: {
                         type: 'bulkDownlaod'
                     },
-                    success: function (response) {
+                    success: function(response) {
                         var result = JSON.parse(response);
                         const responseObject = JSON.parse(response);
                         if (responseObject.status === "success") {
@@ -740,7 +740,7 @@ if (isset($_POST['bulkupload'])) {
                             });
                         }
                     },
-                    error: function (xhr, textStatus, errorThrown) {
+                    error: function(xhr, textStatus, errorThrown) {
                         // Handle any errors that occur during the AJAX request
                         console.error(error);
                     }
@@ -756,7 +756,7 @@ if (isset($_POST['bulkupload'])) {
                     type: 'deleteZipFolder',
                     value: value
                 },
-                success: function (response) {
+                success: function(response) {
                     var result = JSON.parse(response);
                     const responseObject = JSON.parse(response);
                     if (responseObject.status === "success") {
@@ -765,13 +765,12 @@ if (isset($_POST['bulkupload'])) {
                         // something
                     }
                 },
-                error: function (xhr, textStatus, errorThrown) {
+                error: function(xhr, textStatus, errorThrown) {
                     // Handle any errors that occur during the AJAX request
                     console.error(error);
                 }
             });
         }
-
     </script>
 </body>
 
