@@ -78,10 +78,11 @@ if (isset($_REQUEST['verify'])) {
     <title>Certificate Verification</title>
 
     <!-- Test LinkedIn -->
-    <meta property="og:title" content="Your Title Here" />
-    <meta property="og:description" content="Your Description Here" />
+    <meta property="og:title" content="Certificate Verification - Edflix" />
+    <meta property="og:description" content="Verify and authenticate course completion certificates for <?php echo htmlentities($Student_Name); ?>." />
     <meta property="og:image" content="<?= htmlentities($certificateUrl); ?>" />
-    <meta property="og:url" content="<?= htmlentities($share_url); ?>" />
+    <meta property="og:url" content="https://<?= htmlentities($share_url); ?>" />
+    <meta property="og:type" content="website" />
 </head>
 
 <body>
