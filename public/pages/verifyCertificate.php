@@ -54,7 +54,7 @@ if (isset($_REQUEST['verify'])) {
             }
         }
 
-        $share_url = $Base_Path_URL . $Extract_File_name . "?$registration_number";
+        $share_url = $Base_Path_URL . "verifyCertificate.php?$registration_number";
         $title = "Certificate Verification - Edflix";
         $description = "Verify and authenticate course completion certificates.";
         $image = $certificateUrl;
