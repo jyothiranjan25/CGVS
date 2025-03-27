@@ -3,19 +3,19 @@
 include_once("../../config/dbconfig.php");
 include_once($Base_Path . "/public/code/Queries.php");
 
-// $QUERY_STRING = $_SERVER['QUERY_STRING'];
-// if ($QUERY_STRING != null && !empty($QUERY_STRING) && !isset($_REQUEST['verify'])) {
-//     $Registration_No = explode("&", $QUERY_STRING);
-//     $Registration_No = $Registration_No[0];
-//     $Registration_No = explode("=", $QUERY_STRING);
-//     $Registration_No = $Registration_No[0];
-//     $Redirect_URL = $Extract_File_name . "?registration_number=$Registration_No&verify=true";
-//     header("Location: $Redirect_URL");
-// }
+$QUERY_STRING = $_SERVER['QUERY_STRING'];
 
-if (isset($_REQUEST['verify'])) {
+if ($QUERY_STRING != null && !empty($QUERY_STRING)) {
     try {
         $reqistration_no = mysqli_real_escape_string($conn, trim($_REQUEST['registration_number']));
+
+        if ($reqistration_no == null || empty($reqistration_no)) {
+            $Registration_No = explode("&", $QUERY_STRING);
+            $Registration_No = $Registration_No[0];
+            $Registration_No = explode("=", $QUERY_STRING);
+            $reqistration_no = $Registration_No[0];
+        }
+
         $certificate = getverificationDetailsByRegNo($reqistration_no);
 
         $certificateId = $certificate['id'];
@@ -57,7 +57,6 @@ if (isset($_REQUEST['verify'])) {
         }
 
         // Get the full URL
-        // $share_url = $Base_Path_URL . $Extract_File_name . "?$registration_number=registration_number";
         $share_url = $_SERVER['HTTP_HOST'] . $_SERVER['REQUEST_URI'];
         $title = "Certificate Verification - Edflix";
         $description = "Verify and authenticate course completion certificates.";
@@ -110,7 +109,7 @@ if (isset($_REQUEST['verify'])) {
         <!-- partial -->
         <div class="container-fluid page-body-wrapper">
             <div class="main-panel" style="width: 100%;">
-                <?php if (isset($_REQUEST['verify']) && isset($_REQUEST['registration_number'])) {
+                <?php if ($QUERY_STRING != null && !empty($QUERY_STRING)) {
                     if ($certificate && $certificateExists) {
                 ?>
                         <div class="content-wrapper">
