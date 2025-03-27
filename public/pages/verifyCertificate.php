@@ -3,58 +3,58 @@
 include_once("../../config/dbconfig.php");
 include_once($Base_Path . "/public/code/Queries.php");
 
-// if (isset($_REQUEST['verify'])) {
-//     try {
-//         $reqistration_no = mysqli_real_escape_string($conn, trim($_REQUEST['registration_number']));
-//         $certificate = getverificationDetailsByRegNo($reqistration_no);
+if (isset($_REQUEST['verify'])) {
+    try {
+        $reqistration_no = mysqli_real_escape_string($conn, trim($_REQUEST['registration_number']));
+        $certificate = getverificationDetailsByRegNo($reqistration_no);
 
-//         $certificateId = $certificate['id'];
-//         $registration_number = $certificate['registration_number'];
-//         $Student_Name = $certificate['full_name'];
-//         $Course_Name = $certificate['course_name'];
-//         $Course_Duration = $certificate['duration'];
-//         $Course_Evaluation_Methodology = $certificate['evaluation_methodology'];
-//         $Completion_Date = $certificate['completion_date'];
-//         $Modules_Covered = $certificate['modules_covered'];
-//         $projects = $certificate['projects'];
+        $certificateId = $certificate['id'];
+        $registration_number = $certificate['registration_number'];
+        $Student_Name = $certificate['full_name'];
+        $Course_Name = $certificate['course_name'];
+        $Course_Duration = $certificate['duration'];
+        $Course_Evaluation_Methodology = $certificate['evaluation_methodology'];
+        $Completion_Date = $certificate['completion_date'];
+        $Modules_Covered = $certificate['modules_covered'];
+        $projects = $certificate['projects'];
 
-//         // get certificate path
-//         $certificatePath = getcertificatePath($Student_Name, $reqistration_no);
-//         if (file_exists($certificatePath['path'])) {
-//             $certificateExists = true;
-//             $certificateUrl = $certificatePath['url'];
-//         } else if ($registration_number != null) {
-//             $certificateExists = true;
-//             $start_date = $certificate['start_date'];
-//             $end_date = $certificate['end_date'];
-//             $qr_code = $certificate['qr_code'];
-//             $certificateUrl = generateCertificate($registration_number, $Student_Name, $start_date, $end_date, $Course_Name, $qr_code);
-//             $certificateUrl = $certificatePath['url'];
-//         }
+        // get certificate path
+        $certificatePath = getcertificatePath($Student_Name, $reqistration_no);
+        if (file_exists($certificatePath['path'])) {
+            $certificateExists = true;
+            $certificateUrl = $certificatePath['url'];
+        } else if ($registration_number != null) {
+            $certificateExists = true;
+            $start_date = $certificate['start_date'];
+            $end_date = $certificate['end_date'];
+            $qr_code = $certificate['qr_code'];
+            $certificateUrl = generateCertificate($registration_number, $Student_Name, $start_date, $end_date, $Course_Name, $qr_code);
+            $certificateUrl = $certificatePath['url'];
+        }
 
-//         // insert data in certificate verification table
-//         if ($certificate && $certificateExists) {
-//             // store data in database
-//             $ipAddress = $_SERVER['REMOTE_ADDR'];
-//             $customColumns = ['certificate_id' => $certificateId, 'AND', 'ip_address' => $ipAddress];
-//             $checkData = getCertificateVerificationByCustomColumns($customColumns, false);
-//             $checkData = $checkData['created_at'];
-//             $createdAt = date('Y-m-d H:i:s', strtotime($checkData));
-//             $checkTime = date('Y-m-d H:i:s', strtotime('-30 minutes'));
-//             if ($checkData == false || $createdAt < $checkTime) {
-//                 $storeData = insertCertificateVerification($certificateId, $ipAddress);
-//             }
-//         }
+        // insert data in certificate verification table
+        if ($certificate && $certificateExists) {
+            // store data in database
+            $ipAddress = $_SERVER['REMOTE_ADDR'];
+            $customColumns = ['certificate_id' => $certificateId, 'AND', 'ip_address' => $ipAddress];
+            $checkData = getCertificateVerificationByCustomColumns($customColumns, false);
+            $checkData = $checkData['created_at'];
+            $createdAt = date('Y-m-d H:i:s', strtotime($checkData));
+            $checkTime = date('Y-m-d H:i:s', strtotime('-30 minutes'));
+            if ($checkData == false || $createdAt < $checkTime) {
+                $storeData = insertCertificateVerification($certificateId, $ipAddress);
+            }
+        }
 
-//         $share_url = $_SERVER['HTTP_HOST'] . $_SERVER['REQUEST_URI'];
-//         $title = "Certificate Verification - Edflix";
-//         $description = "Verify and authenticate course completion certificates.";
-//         $image = $certificateUrl;
-//         $url = urlencode("https://" . $share_url);
-//     } catch (Exception $e) {
-//         CatchErrorLogs($e, null);
-//     }
-// }
+        $share_url = $_SERVER['HTTP_HOST'] . $_SERVER['REQUEST_URI'];
+        $title = "Certificate Verification - Edflix";
+        $description = "Verify and authenticate course completion certificates.";
+        $image = $certificateUrl;
+        $url = urlencode("https://" . $share_url);
+    } catch (Exception $e) {
+        CatchErrorLogs($e, null);
+    }
+}
 ?>
 
 <!DOCTYPE html>
