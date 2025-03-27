@@ -7,6 +7,8 @@ if (!isset($_REQUEST['verify'])) {
     $QUERY_STRING = $_SERVER['QUERY_STRING'];
     $Registration_No = explode("&", $QUERY_STRING);
     $Registration_No = $Registration_No[0];
+    $Registration_No = explode("=", $QUERY_STRING);
+    $Registration_No = $Registration_No[0];
     $Redirect_URL = $Extract_File_name . "?registration_number=$Registration_No&verify=true";
     header("Location: $Redirect_URL");
 }
@@ -54,7 +56,8 @@ if (isset($_REQUEST['verify'])) {
             }
         }
 
-        $share_url = $Base_Path_URL . "verifyCertificate.php?$registration_number";
+        // Get the full URL
+        $share_url = $Base_Path_URL . $Extract_File_name . "?$registration_number=registration_number";
         $title = "Certificate Verification - Edflix";
         $description = "Verify and authenticate course completion certificates.";
         $image = $certificateUrl;
