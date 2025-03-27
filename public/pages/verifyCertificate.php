@@ -75,7 +75,7 @@ if (isset($_REQUEST['verify'])) {
     <!-- favicon -->
     <link rel="shortcut icon" href="../images/EF-icon.png" />
 
-    <title>Certificate Verification</title>\
+    <title>Certificate Verification</title>
 </head>
 
 <body>
