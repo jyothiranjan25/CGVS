@@ -3,8 +3,8 @@
 include_once("../../config/dbconfig.php");
 include_once($Base_Path . "/public/code/Queries.php");
 
-if (!isset($_REQUEST['verify'])) {
-    $QUERY_STRING = $_SERVER['QUERY_STRING'];
+$QUERY_STRING = $_SERVER['QUERY_STRING'];
+if ($QUERY_STRING != null && !empty($QUERY_STRING) && !isset($_REQUEST['verify'])) {
     $Registration_No = explode("&", $QUERY_STRING);
     $Registration_No = $Registration_No[0];
     $Registration_No = explode("=", $QUERY_STRING);
@@ -57,7 +57,8 @@ if (isset($_REQUEST['verify'])) {
         }
 
         // Get the full URL
-        $share_url = $Base_Path_URL . $Extract_File_name . "?$registration_number=registration_number";
+        // $share_url = $Base_Path_URL . $Extract_File_name . "?$registration_number=registration_number";
+        $share_url = $_SERVER['HTTP_HOST'] . $_SERVER['REQUEST_URI'];
         $title = "Certificate Verification - Edflix";
         $description = "Verify and authenticate course completion certificates.";
         $image = $certificateUrl;
