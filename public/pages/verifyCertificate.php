@@ -22,14 +22,14 @@ if (isset($_REQUEST['verify'])) {
         $certificatePath = getcertificatePath($Student_Name, $reqistration_no);
         if (file_exists($certificatePath['path'])) {
             $certificateExists = true;
-            $certificateUrl = $certificatePath['url'];
+            $certificateUrl = $certificatePath['path'];
         } else if ($registration_number != null) {
             $certificateExists = true;
             $start_date = $certificate['start_date'];
             $end_date = $certificate['end_date'];
             $qr_code = $certificate['qr_code'];
             $certificateUrl = generateCertificate($registration_number, $Student_Name, $start_date, $end_date, $Course_Name, $qr_code);
-            $certificateUrl = $certificatePath['url'];
+            $certificateUrl = $certificatePath['path'];
         }
 
         // insert data in certificate verification table
@@ -46,7 +46,8 @@ if (isset($_REQUEST['verify'])) {
             }
         }
 
-        $share_url = $_SERVER['HTTP_HOST'] . $_SERVER['REQUEST_URI'];
+        // $share_url = $_SERVER['HTTP_HOST'] . $_SERVER['REQUEST_URI'];
+        $share_url = $Extract_File_name_with_params;
         $title = "Certificate Verification - Edflix";
         $description = "Verify and authenticate course completion certificates.";
         $image = $certificateUrl;
@@ -96,9 +97,8 @@ if (isset($_REQUEST['verify'])) {
         <!-- partial:partials/_navbar.html -->
         <nav class="navbar col-lg-12 col-12 p-0 fixed-top d-flex flex-row">
             <div class="text-center navbar-brand-wrapper d-flex align-items-center">
-                <a class="navbar-brand brand-logo" href="<?= $Extract_File_name_with_params ?>"><img
-                        src="../images/EF-logo.png" alt="logo" /></a>
-                <a class="navbar-brand brand-logo-mini"><img src="../images/EF-icon.png" alt="logo" /></a>
+                <a class="navbar-brand brand-logo" href="<?= $Extract_File_name_with_params ?>"><img src="../images/EF-logo.png" alt="logo" /></a>
+                <a class="navbar-brand brand-logo-mini" href="<?= $Extract_File_name_with_params ?>"><img src="../images/EF-icon.png" alt="logo" /></a>
             </div>
             <div class="navbar-menu-wrapper d-flex align-items-center justify-content-end"></div>
         </nav>
@@ -107,7 +107,7 @@ if (isset($_REQUEST['verify'])) {
             <div class="main-panel" style="width: 100%;">
                 <?php if (isset($_REQUEST['verify']) && isset($_REQUEST['registration_number'])) {
                     if ($certificate && $certificateExists) {
-                        ?>
+                ?>
                         <div class="content-wrapper">
                             <div class="row">
                                 <div class="col-lg-12 d-flex grid-margin stretch-card">
