@@ -22,7 +22,7 @@ if (isset($_REQUEST['verify'])) {
         $certificatePath = getcertificatePath($Student_Name, $reqistration_no);
         if (file_exists($certificatePath['path'])) {
             $certificateExists = true;
-            $certificateUrl = $certificatePath['path'];
+            $certificateUrl = $certificatePath['url'];
         } else if ($registration_number != null) {
             $certificateExists = true;
             $start_date = $certificate['start_date'];
