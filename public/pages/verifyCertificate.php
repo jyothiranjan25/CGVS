@@ -57,8 +57,7 @@ if (isset($_REQUEST['verify'])) {
         }
 
         // Get the full URL
-        // $share_url = $Base_Path_URL . $Extract_File_name . "?$registration_number=registration_number";
-        $share_url = $_SERVER['HTTP_HOST'] . $_SERVER['REQUEST_URI'];
+        $share_url = $Base_Path_URL . $Extract_File_name . "?$registration_number=registration_number";
         $title = "Certificate Verification - Edflix";
         $description = "Verify and authenticate course completion certificates.";
         $image = $certificateUrl;
