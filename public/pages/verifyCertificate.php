@@ -76,6 +76,12 @@ if (isset($_REQUEST['verify'])) {
     <link rel="shortcut icon" href="../images/EF-icon.png" />
 
     <title>Certificate Verification</title>
+
+    <!-- Test LinkedIn -->
+    <meta property="og:title" content="Your Title Here" />
+    <meta property="og:description" content="Your Description Here" />
+    <meta property="og:image" content="<?= htmlentities($certificateUrl); ?>" />
+    <meta property="og:url" content="<?= htmlentities($share_url); ?>" />
 </head>
 
 <body>
