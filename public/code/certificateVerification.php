@@ -23,8 +23,9 @@ function insertCertificateVerification($certificateId, $ipAddress)
 {
     try {
         global $conn, $certificateVerificationTable;
-        $stmt = $conn->prepare("INSERT INTO $certificateVerificationTable (certificate_id, ip_address) VALUES (?, ?)");
-        $stmt->bind_param("is", $certificateId, $ipAddress);
+        $created_at = date('Y-m-d H:i:s');
+        $stmt = $conn->prepare("INSERT INTO $certificateVerificationTable (certificate_id, ip_address,created_at) VALUES (?, ?,?)");
+        $stmt->bind_param("iss", $certificateId, $ipAddress, $created_at);
         return insertDatastmtQuery($conn, $certificateVerificationTable, $stmt);
     } finally {
         unset($_SESSION['toasts_title']);
