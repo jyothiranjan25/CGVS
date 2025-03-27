@@ -342,15 +342,15 @@ if (isset($_REQUEST['verify'])) {
 
     <script>
         function shareOnLinkedin() {
-            window.open("https://www.linkedin.com/sharing/share-offsite/?url=<?= $share_url ?>", "_blank");
+            window.open("https://www.linkedin.com/sharing/share-offsite/?url=<?= htmlentities($share_url); ?>", "_blank");
         }
 
         function shareOnFacebook() {
-            window.open("https://www.facebook.com/sharer/sharer.php?u=<?= $share_url ?>", "_blank");
+            window.open("https://www.facebook.com/sharer/sharer.php?u=<?= htmlentities($share_url); ?>", "_blank");
         }
 
         function shareOnTwitter() {
-            window.open("https://twitter.com/intent/tweet?url=<?= $share_url ?>&text=Check out this verified certificate!", "_blank");
+            window.open("https://twitter.com/intent/tweet?url=<?= htmlentities($share_url); ?>&text=Check out this verified certificate!", "_blank");
         }
     </script>
 </body>
