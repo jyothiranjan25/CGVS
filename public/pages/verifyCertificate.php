@@ -90,7 +90,7 @@ if ($QUERY_STRING != null && !empty($QUERY_STRING)) {
     <title>Certificate Verification</title>
 
     <!-- Test LinkedIn -->
-    <meta property="og:title" content="Certificate Verification - Edflix" />
+    <meta property="og:title" content="Certificate Verification - EDFLIX™" />
     <meta property="og:description" content="Verify and authenticate course completion certificates for <?php echo htmlentities($Student_Name); ?>." />
     <meta property="og:image" content="<?= htmlentities($certificateUrl); ?>" />
     <meta property="og:url" content="https://<?= htmlentities($share_url); ?>" />
