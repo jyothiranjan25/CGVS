@@ -328,7 +328,7 @@ if (isset($_POST['bulkupload'])) {
                                                             <a href="<?php echo $Redirect_URL ?>?edit=<?php echo ($row['id']); ?>"
                                                                 style="font-size: 20px; color: #007bff;"><i
                                                                     class="typcn typcn-edit"></i></a>
-                                                            <a href="<?php echo $Redirect_URL ?>?delete=<?php echo ($row['id']); ?>"
+                                                            <a data-toggle="modal" data-target="#deleteModal" data-whatever="<?php echo htmlentities($row['id']); ?>"
                                                                 style="font-size: 20px; color: #dc3545;">
                                                                 <i class="typcn typcn-delete"></i>
                                                             </a>
@@ -674,6 +674,30 @@ if (isset($_POST['bulkupload'])) {
                         </div>
                     </div>
                     <!-- Bulk Add Modal -->
+
+                    <!-- delete Modal -->
+                    <div class="modal fade" id="deleteModal" tabindex="-1" role="dialog" aria-labelledby="deleteModalLabel" aria-hidden="true">
+                        <div class="modal-dialog" role="document">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h5 class="modal-title" id="deleteModalLabel">Alert</h5>
+                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                        <span aria-hidden="true">&times;</span>
+                                    </button>
+                                </div>
+                                <div class="modal-body">
+                                    <form>
+                                        <div class="form-group">
+                                            <label for="recipient-name" class="col-form-label">Are you sure, you want to delete this record!</label>
+                                    </form>
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-light" data-dismiss="modal">Close</button>
+                                    <a type="button" class="btn btn-dark" id="deleteRecord" href="#">Delete</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                 </div>
                 <!-- content-wrapper ends -->
                 <!-- partial:partials/_footer.html -->
@@ -694,6 +718,15 @@ if (isset($_POST['bulkupload'])) {
             var modal = $(this)
             modal.find('#qr_code').attr('src', recipient);
         })
+        $('#deleteModal').on('show.bs.modal', function(event) {
+            var button = $(event.relatedTarget) // Button that triggered the modal
+            var recipient = button.data('whatever') // Extract info from data-* attributes
+            // If necessary, you could initiate an AJAX request here (and then do the updating in a callback).
+            // Update the modal's content. We'll use jQuery here, but you could use a data binding library or other methods instead.
+            var modal = $(this)
+            var url = "<?php echo $Redirect_URL ?>?delete=" + recipient;
+            modal.find('#deleteRecord').attr('href', url);
+        })
     </script>
     <script>
         $(document).ready(function() {
@@ -705,6 +738,15 @@ if (isset($_POST['bulkupload'])) {
                     url: "./helper/bulkDownloadCertificate.php",
                     data: {
                         type: 'bulkDownlaod'
+                    },
+                    beforeSend: function() {
+                        butterup.toast({
+                            title: "Processing",
+                            message: "Please wait while we prepare your download.",
+                            type: "info",
+                            dismissable: true,
+                            icon: true,
+                        });
                     },
                     success: function(response) {
                         var result = JSON.parse(response);
