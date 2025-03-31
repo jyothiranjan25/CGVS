@@ -214,7 +214,7 @@ if (isset($_GET['delete'])) {
                                                     </div>
                                                     <div class="col-md-12">
                                                         <div class="form-group row">
-                                                            <label class="col-sm-4 col-form-label">Tittle</label>
+                                                            <label class="col-sm-4 col-form-label">Title</label>
                                                             <div class="col-sm-8">
                                                                 <input type="text" name="project_title"
                                                                     id="project_title" class="form-control" required
@@ -309,7 +309,7 @@ if (isset($_GET['delete'])) {
                                                     </div>
                                                     <div class="col-md-12">
                                                         <div class="form-group row">
-                                                            <label class="col-sm-4 col-form-label">Tittle</label>
+                                                            <label class="col-sm-4 col-form-label">Title</label>
                                                             <div class="col-sm-8">
                                                                 <input type="text" name="project_title"
                                                                     id="project_title" class="form-control" required
