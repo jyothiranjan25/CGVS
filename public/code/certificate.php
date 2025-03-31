@@ -104,14 +104,28 @@ function deleteCertificateById($id)
 
 function getCertificateDetailsByRegNo($registrationNumber)
 {
-    global $conn, $certificateTable, $studentTable, $courseTable;
-    $sql = "SELECT s.full_name, c.course_name, cert.registration_number, cert.start_date, cert.completion_date, cert.qr_code
+    global $conn, $certificateTable, $studentTable, $courseTable, $moduleTable;
+    $sql = "SELECT s.full_name, 
+                    c.course_name, c.id AS course_id,
+                    cert.registration_number, cert.start_date, cert.completion_date, cert.qr_code
             FROM $certificateTable cert
             JOIN $studentTable s ON cert.student_id = s.id
             JOIN $courseTable c ON cert.course_id = c.id
             WHERE cert.registration_number = '$registrationNumber'";
 
-    return isSingleRowData($conn, $sql);
+    $certificate = isSingleRowData($conn, $sql);
+
+    $courseId = $certificate['course_id'];
+
+    // get modules details
+    $sql = "SELECT m.module_name, m.course_id
+            FROM $moduleTable m
+            WHERE m.course_id = $courseId ORDER BY id ASC";
+
+    $modules = isArrayData($conn, $sql);
+    $certificate['modules_covered'] = $modules;
+
+    return $certificate;
 }
 
 function getverificationDetailsByRegNo($registrationNumber)

@@ -83,7 +83,10 @@ if (isset($_GET['generateCertificate'])) {
         $completion_date = $certificate_details['completion_date'];
         $course_name = $certificate_details['course_name'];
         $qr_code = $certificate_details['qr_code'];
-        $certificate = generateCertificate($regNo, $student_name, $start_date, $completion_date, $course_name, $qr_code);
+        $otherData = [
+            'modules_covered' => $certificate_details['modules_covered']
+        ];
+        $certificate = generateCertificate($regNo, $student_name, $start_date, $completion_date, $course_name, $qr_code, $otherData);
         $certificatePath = $certificate['path'];
 
         // download the certificate

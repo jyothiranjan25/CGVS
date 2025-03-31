@@ -3,7 +3,8 @@
 use Intervention\Image\ImageManager;
 use Intervention\Image\Drivers\Gd\Driver;
 use Intervention\Image\Typography\FontFactory;
-function generateCertificate($regNo, $name, $startDate, $endDate, $course, $QrCode, $path = null)
+
+function generateCertificate($regNo, $name, $startDate, $endDate, $course, $QrCode, $otherData = [], $path = null)
 {
     global $imgPathFolder, $Base_Path;
 
@@ -47,81 +48,30 @@ function generateCertificate($regNo, $name, $startDate, $endDate, $course, $QrCo
     $startDate = date("Y-m-d", strtotime($startDate));
     $endDate = date("Y-m-d", strtotime($endDate));
 
-    // formate date as 2024 april 12
-    $startDate = date("jS F, Y", strtotime($startDate));
-    $endDate = date("jS F, Y", strtotime($endDate));
+    // formate date as 2024 april 12 (jS F, Y )
+    $startDate = date("F, Y", strtotime($startDate));
+    $endDate = date("F, Y", strtotime($endDate));
 
-    // create lines
-    $line1_start = "has completed an internship at EDFLIX™ from ";
-    $line1_start_date = $startDate;
-    $line1_to = " to ";
-    $line1_end_date = $endDate;
-    $line1_as = " as a ";
-    $line1_course = $course . ".";
+    // Set Modules Covered
+    $modules_covered = $otherData["modules_covered"] ?? [];
+    $module_names = [];
+    foreach ($modules_covered as $module) {
+        if (isset($module["module_name"])) {
+            $module_names[] = strtolower($module["module_name"]);
+        }
+    }
 
-    $line1 = $line1_start . $line1_start_date . $line1_to . $line1_end_date . $line1_as . $line1_course;
+    // Format the list with commas and "and" before the last item
+    $final_modules_list = implode(', ', array_slice($module_names, 0, -1));
+    if (count($module_names) > 1) {
+        $final_modules_list .= ', and ' . end($module_names);
+    } else {
+        $final_modules_list = implode('', $module_names);
+    }
 
+    $line1 = "has successfully completed the $course from $startDate to $endDate, demonstrating proficiency in $final_modules_list.";
 
-
-    $image->text($line1, 456, 1440, function (FontFactory $font) use ($Arialfont) {
-        $font->file($Arialfont);
-        $font->size(50);
-        $font->color('#000000');
-        $font->valign('middle');
-    });
-
-    // $image->text($line1_start_date, 1510, 1440, function (FontFactory $font) use ($ArialBoldfont) {
-    //     $font->file($ArialBoldfont);
-    //     $font->size(50);
-    //     $font->color('#000000');
-    //     // $font->align('center');
-    //     $font->valign('middle');
-    // });
-
-    // $image->text($line1_to, 2050, 1440, function (FontFactory $font) use ($Arialfont) {
-    //     $font->file($Arialfont);
-    //     $font->size(50);
-    //     $font->color('#000000');
-    //     // $font->align('center');
-    //     $font->valign('middle');
-    // });
-
-    // $image->text($line1_end_date, 2100, 1440, function (FontFactory $font) use ($ArialBoldfont) {
-    //     $font->file($ArialBoldfont);
-    //     $font->size(50);
-    //     $font->color('#000000');
-    //     // $font->align('center');
-    //     $font->valign('middle');
-    // });
-
-    // $image->text($line1_as, 2100, 1440, function (FontFactory $font) use ($Arialfont) {
-    //     $font->file($Arialfont);
-    //     $font->size(50);
-    //     $font->color('#000000');
-    //     // $font->align('center');
-    //     $font->valign('middle');
-    // });
-
-    // $image->text($line1_course, 9000, 1440, function (FontFactory $font) use ($Arialfont) {
-    //     $font->file($Arialfont);
-    //     $font->size(50);
-    //     $font->color('#000000');
-    //     // $font->align('center');
-    //     $font->valign('middle');
-    // });
-
-    $line2 = "During the internship, he was punctual and has displayed professionalism, hardworking and inquisitive.";
-
-    $image->text($line2, 1700, 1560, function (FontFactory $font) use ($Arialfont) {
-        $font->file($Arialfont);
-        $font->size(50);
-        $font->color('#000000');
-        $font->align('center');
-        $font->valign('middle');
-    });
-
-    $line3 = "During his time with us, he worked under the guidance and leadership team who have expressed their gratitude for his contributions to the team";
-    $image->text($line3, 1750, 1720, function (FontFactory $font) use ($Arialfont) {
+    $image->text($line1, 1750, 1490, function (FontFactory $font) use ($Arialfont) {
         $font->file($Arialfont);
         $font->size(50);
         $font->color('#000000');
@@ -130,6 +80,36 @@ function generateCertificate($regNo, $name, $startDate, $endDate, $course, $QrCo
         $font->lineHeight(2);
         $font->wrap(2700);
     });
+
+    // $line1 = "has completed an internship at EDFLIX™ from $startDate to $endDate as a $course.";
+
+    // $image->text($line1, 456, 1440, function (FontFactory $font) use ($Arialfont) {
+    //     $font->file($Arialfont);
+    //     $font->size(50);
+    //     $font->color('#000000');
+    //     $font->valign('middle');
+    // });
+
+    // $line2 = "During the internship, he was punctual and has displayed professionalism, hardworking and inquisitive.";
+
+    // $image->text($line2, 1700, 1560, function (FontFactory $font) use ($Arialfont) {
+    //     $font->file($Arialfont);
+    //     $font->size(50);
+    //     $font->color('#000000');
+    //     $font->align('center');
+    //     $font->valign('middle');
+    // });
+
+    // $line3 = "During his time with us, he worked under the guidance and leadership team who have expressed their gratitude for his contributions to the team";
+    // $image->text($line3, 1750, 1720, function (FontFactory $font) use ($Arialfont) {
+    //     $font->file($Arialfont);
+    //     $font->size(50);
+    //     $font->color('#000000');
+    //     $font->align('center');
+    //     $font->valign('middle');
+    //     $font->lineHeight(2);
+    //     $font->wrap(2700);
+    // });
 
     $savePath = getCertificatePath($name, $regNo, $path);
     $image->save($savePath['path']);
