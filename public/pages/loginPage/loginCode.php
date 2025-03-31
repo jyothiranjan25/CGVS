@@ -12,7 +12,7 @@ unset($_SESSION['login_user_role_name']);
 
 // redirect URL's
 $RedirectToLoginPage = $Extract_File_name;
-$RedirectToDashboard = $Base_Path . '/public/pages/index.php';
+$RedirectToDashboard = $Base_URL . '/public/pages/index.php';
 
 function AppUserLogin($email)
 {
