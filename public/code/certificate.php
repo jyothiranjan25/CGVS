@@ -51,12 +51,27 @@ function getAllCertificates()
 
 function getCertificateById($id)
 {
-    global $conn, $certificateTable, $studentTable, $courseTable;
-    $sql = "SELECT s.full_name,c.course_name, ct.* FROM $certificateTable ct
+    global $conn, $certificateTable, $studentTable, $courseTable, $moduleTable;
+    $sql = "SELECT s.full_name,
+                    c.id as course_id ,c.course_name,
+                    ct.* FROM $certificateTable ct
             LEFT JOIN $studentTable s ON ct.student_id = s.id
             LEFT JOIN $courseTable c ON ct.course_id = c.id
             WHERE ct.id = $id";
-    return isSingleRowData($conn, $sql);
+
+    $certificate = isSingleRowData($conn, $sql);
+
+    $courseId = $certificate['course_id'];
+
+    // get modules details
+    $sql = "SELECT m.module_name, m.course_id
+            FROM $moduleTable m
+            WHERE m.course_id = $courseId ORDER BY id ASC";
+
+    $modules = isArrayData($conn, $sql);
+    $certificate['modules_covered'] = $modules;
+
+    return $certificate;
 }
 
 

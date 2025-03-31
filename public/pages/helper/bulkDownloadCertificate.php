@@ -17,7 +17,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['type']) && $_POST['ty
             $endDate = $get_single_certificate['completion_date'];
             $course = $get_single_certificate['course_name'];
             $qrCode = $get_single_certificate['qr_code'];
-            $generateCertificate = generateCertificate($regNo, $name, $startDate, $endDate, $course, $qrCode, "tempCert/");
+            $otherData = [
+                'modules_covered' => $get_single_certificate['modules_covered']
+            ];
+            $generateCertificate = generateCertificate($regNo, $name, $startDate, $endDate, $course, $qrCode, $otherData, "tempCert/");
             $certificatePath = $generateCertificate['path'];
             $certificateURL = $generateCertificate['url'];
         }
@@ -46,7 +49,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['type']) && $_POST['ty
         }
 
         $returnData = ["status" => "success", "message" => "Certificates generated successfully", "zipFile" => $zipFile, "zipFileURL" => $zipFileURL, "zipFolder" => $directory];
-
     } catch (Exception $e) {
         $returnData = ["status" => "failed", "message" => $e->getMessage()];
         CatchErrorLogs($e, null);

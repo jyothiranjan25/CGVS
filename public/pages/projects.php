@@ -119,11 +119,11 @@ if (isset($_GET['delete'])) {
                                                 <?php
                                                 $data_result = getAllProjects();
                                                 // Check if there are any rows returned
-                                                
+
                                                 // Output data of each row
                                                 $cnt = 1;
                                                 foreach ($data_result as $row) {
-                                                    ?>
+                                                ?>
                                                     <tr>
                                                         <td><?php echo htmlentities($cnt); ?></td>
                                                         <td><?php echo htmlentities($row['full_name']); ?></td>
@@ -142,7 +142,7 @@ if (isset($_GET['delete'])) {
                                                             </a>
                                                         </td>
                                                     </tr>
-                                                    <?php
+                                                <?php
                                                     $cnt++;
                                                 }
                                                 ?>
@@ -179,12 +179,12 @@ if (isset($_GET['delete'])) {
                                                                     <?php
                                                                     $array_query_data = getAllStudents();
                                                                     foreach ($array_query_data as $row) {
-                                                                        ?>
+                                                                    ?>
                                                                         <option required=" required"
                                                                             value="<?php echo $row['id']; ?>">
                                                                             <?php echo $row['full_name']; ?>
                                                                         </option>
-                                                                        <?php
+                                                                    <?php
                                                                     }
                                                                     ?>
                                                                 </select>
@@ -200,12 +200,12 @@ if (isset($_GET['delete'])) {
                                                                     <?php
                                                                     $array_query_data = getAllCourses();
                                                                     foreach ($array_query_data as $row) {
-                                                                        ?>
+                                                                    ?>
                                                                         <option required=" required"
                                                                             value="<?php echo $row['id']; ?>">
                                                                             <?php echo $row['course_name']; ?>
                                                                         </option>
-                                                                        <?php
+                                                                    <?php
                                                                     }
                                                                     ?>
                                                                 </select>
@@ -214,8 +214,7 @@ if (isset($_GET['delete'])) {
                                                     </div>
                                                     <div class="col-md-12">
                                                         <div class="form-group row">
-                                                            <label class="col-sm-4 col-form-label">Project
-                                                                Tittle</label>
+                                                            <label class="col-sm-4 col-form-label">Tittle</label>
                                                             <div class="col-sm-8">
                                                                 <input type="text" name="project_title"
                                                                     id="project_title" class="form-control" required
@@ -225,7 +224,7 @@ if (isset($_GET['delete'])) {
                                                     </div>
                                                     <div class="col-md-12">
                                                         <div class="form-group row">
-                                                            <label class="col-sm-4 col-form-label">description</label>
+                                                            <label class="col-sm-4 col-form-label">Description</label>
                                                             <div class="col-sm-8">
                                                                 <textarea class="form-control" type="text"
                                                                     name="description" id="description"
@@ -278,10 +277,10 @@ if (isset($_GET['delete'])) {
                                                                     $array_query_data = getAllStudents();
                                                                     foreach ($array_query_data as $row) {
                                                                         $selected = ($row['id'] === $student_id) ? "selected" : "";
-                                                                        ?>
+                                                                    ?>
                                                                         <option required=" required"
                                                                             value="<?php echo $row['id']; ?>" <?= $selected ?>><?php echo $row['full_name']; ?></option>
-                                                                        <?php
+                                                                    <?php
                                                                     }
                                                                     ?>
                                                                 </select>
@@ -298,10 +297,10 @@ if (isset($_GET['delete'])) {
                                                                     $array_query_data = getAllCourses();
                                                                     foreach ($array_query_data as $row) {
                                                                         $selected = ($row['id'] === $course_id) ? "selected" : "";
-                                                                        ?>
+                                                                    ?>
                                                                         <option required=" required"
                                                                             value="<?php echo $row['id']; ?>" <?= $selected ?>><?php echo $row['course_name']; ?></option>
-                                                                        <?php
+                                                                    <?php
                                                                     }
                                                                     ?>
                                                                 </select>
@@ -310,8 +309,7 @@ if (isset($_GET['delete'])) {
                                                     </div>
                                                     <div class="col-md-12">
                                                         <div class="form-group row">
-                                                            <label class="col-sm-4 col-form-label">Project
-                                                                Tittle</label>
+                                                            <label class="col-sm-4 col-form-label">Tittle</label>
                                                             <div class="col-sm-8">
                                                                 <input type="text" name="project_title"
                                                                     id="project_title" class="form-control" required
@@ -322,7 +320,7 @@ if (isset($_GET['delete'])) {
                                                     </div>
                                                     <div class="col-md-12">
                                                         <div class="form-group row">
-                                                            <label class="col-sm-4 col-form-label">description</label>
+                                                            <label class="col-sm-4 col-form-label">Description</label>
                                                             <div class="col-sm-8">
                                                                 <textarea class="form-control" type="text"
                                                                     name="description" id="description"
