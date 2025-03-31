@@ -100,13 +100,13 @@ if ($QUERY_STRING != null && !empty($QUERY_STRING)) {
 <body>
     <div class="container-scroller">
         <!-- partial:partials/_navbar.html -->
-        <nav class="navbar col-lg-12 col-12 p-0 fixed-top d-flex flex-row">
-            <div class="text-center navbar-brand-wrapper d-flex align-items-center">
+        <nav class="navbar col-lg-12 col-12 p-0 fixed-top d-flex flex-row" style="width: 100% !important;">
+            <div class="text-center navbar-brand-wrapper d-flex align-items-center" style="width: 100% !important;">
                 <a class="navbar-brand brand-logo"><img src="../images/EF-logo.png" alt="logo" /></a>
-                <a class="navbar-brand brand-logo-mini"><img src="../images/EF-logo.png" alt="logo" /></a>
+                <a class="navbar-brand brand-logo-mini" style="padding: 15px;"><img style="width: calc(255px - 130px);height:34px;" src=" ../images/EF-logo.png" alt="logo" /></a>
             </div>
-            <!-- <div class="navbar-menu-wrapper d-flex align-items-center justify-content-end"></div> -->
         </nav>
+
         <!-- partial -->
         <div class="container-fluid page-body-wrapper">
             <div class="main-panel" style="width: 100%;">
