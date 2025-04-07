@@ -128,8 +128,8 @@ if (isset($_POST['bulkupload'])) {
                     $course_name = trim($conn->real_escape_string($data[3]));
                     $duration = trim($conn->real_escape_string($data[4]));
                     $registration_number = trim($conn->real_escape_string($data[5]));
-                    $start_date = trim($conn->real_escape_string($data[6]));
-                    $completion_date = trim($conn->real_escape_string($data[7]));
+                    $start_date_raw = trim($conn->real_escape_string($data[6]));
+                    $completion_date_raw = trim($conn->real_escape_string($data[7]));
                     //Get data from Excel
 
                     // Skip the first row (header)
@@ -183,7 +183,22 @@ if (isset($_POST['bulkupload'])) {
                         }
 
                         if (!empty($student_id) && !empty($course_id)) {
-                            if (!empty($registration_number) && !empty($start_date) && !empty($completion_date)) {
+                            if (!empty($registration_number) && !empty($start_date_raw) && !empty($completion_date_raw)) {
+
+                                echo $start_date_raw . "<br>";
+                                echo $completion_date_raw . "<br>";
+
+                                // Split into parts
+                                list($day1, $month1, $year1) = explode('/', $start_date_raw);
+                                list($day2, $month2, $year2) = explode('/', $completion_date_raw);
+
+                                // Convert 2-digit year to 4-digit (assume 2000s)
+                                $year1 = (int)$year1 < 50 ? "20$year1" : "19$year1";
+                                $year2 = (int)$year2 < 50 ? "20$year2" : "19$year2";
+
+                                // Create proper date strings
+                                $start_date = "$year1-$month1-$day1";        // Y-m-d
+                                $completion_date = "$year2-$month2-$day2";   // Y-m-d
 
                                 $start_date = date('Y-m-d', strtotime($start_date));
                                 $completion_date = date('Y-m-d', strtotime($completion_date));
