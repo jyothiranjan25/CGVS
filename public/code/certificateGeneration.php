@@ -26,13 +26,13 @@ function generateCertificate($regNo, $name, $startDate, $endDate, $course, $QrCo
 
 
     // corner with 10px offset and an opacity of 25%
-    $image->place(
-        $qrCodeImage,
-        'top-right',
-        300,
-        200,
-        100
-    );
+    // $image->place(
+    //     $qrCodeImage,
+    //     'top-right',
+    //     300,
+    //     200,
+    //     100
+    // );
 
 
     // Set Text

@@ -62,7 +62,7 @@ if ($QUERY_STRING != null && !empty($QUERY_STRING)) {
 
         // Get the full URL
         $share_url = $_SERVER['HTTP_HOST'] . $_SERVER['REQUEST_URI'];
-        $title = "Certificate Verification - Edflix";
+        $title = "Certificate Verification - EDFLIX™";
         $description = "Verify and authenticate course completion certificates.";
         $image = $certificateUrl;
         $url = urlencode("https://" . $share_url);
@@ -151,7 +151,7 @@ if ($QUERY_STRING != null && !empty($QUERY_STRING)) {
 
                                                                     <h4 class="mb-3 font-weight-bold">
                                                                         <?php echo $Student_Name; ?>'s
-                                                                        account is verified. Edflix certifies their
+                                                                        account is verified. EDFLIX™ certifies their
                                                                         successful completion of
                                                                         <u><?php echo $Course_Name; ?></u>
                                                                     </h4>

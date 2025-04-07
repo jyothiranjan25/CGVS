@@ -147,7 +147,11 @@ if (isset($_POST['bulkupload'])) {
                                         $error_message .= "Student name, email and mobile is required - ";
                                     } else {
                                         $new_student = insertStudent($student_name, $email, $mobile);
-                                        $student_id = $new_student['id'];
+                                        if ($insert["data"] == "DUPLICATE") {
+                                            $error_message .= " Duplicate Email - $email";
+                                        } else {
+                                            $student_id = $new_student['id'];
+                                        }
                                     }
                                 } else {
                                     $error_message .= "Student is Not Found - ";
@@ -188,6 +192,9 @@ if (isset($_POST['bulkupload'])) {
                                 $Qrcode = generateQRCodeBase64($QrText);
 
                                 $insert = insertCertificate($student_id, $course_id, $registration_number, $start_date, $completion_date, $Qrcode);
+                                if ($insert["data"] == "DUPLICATE") {
+                                    $error_message .= " Duplicate Registration Number - $registration_number";
+                                }
                             } else {
                                 $error_message .= " Registration number, start date and completion date is required";
                             }
@@ -644,8 +651,9 @@ if (isset($_POST['bulkupload'])) {
                                                 <div class="row">
                                                     <div class="col-md-12">
                                                         <div class="form-group row">
-                                                            <label class="col-sm-8 col-form-label">Add new Student
-                                                                (Create new student if not found in system)</label>
+                                                            <label class="col-sm-8 col-form-label">
+                                                                Add new Student (Create new student if not found in system)
+                                                            </label>
                                                             <div class="col-sm-4" style="align-content: center;">
                                                                 <input type="checkbox" name="add_student"
                                                                     id="add_student" />
@@ -654,8 +662,9 @@ if (isset($_POST['bulkupload'])) {
                                                     </div>
                                                     <div class="col-md-12">
                                                         <div class="form-group row">
-                                                            <label class="col-sm-8 col-form-label">Add Course (Create
-                                                                new course if not found in system)</label>
+                                                            <label class="col-sm-8 col-form-label">
+                                                                Add Course (Create new course if not found in system)
+                                                            </label>
                                                             <div class="col-sm-4" style="align-content: center;">
                                                                 <input type="checkbox" name="add_course"
                                                                     id="add_course" />

@@ -28,7 +28,7 @@ function insertCertificate($studentId, $courseId, $registrationNumber, $startDat
 {
     global $conn, $certificateTable;
 
-    $DucplicateCheckColumn = ['student_id' => $studentId, 'AND', 'course_id' => $courseId, 'AND', 'registration_number' => $registrationNumber];
+    $DucplicateCheckColumn = ['registration_number' => $registrationNumber];
     $DuplicateRecord = CheckDuplicateRecordBeforeInsert($conn, $certificateTable, $DucplicateCheckColumn);
 
     if ($DuplicateRecord == FALSE) {
@@ -89,7 +89,7 @@ function updateCertificateById($id, $updatedColumns)
     $studentId = $updatedColumns['student_id'];
     $courseId = $updatedColumns['course_id'];
     $registrationNumber = $updatedColumns['registration_number'];
-    $DucplicateCheckColumn = ['student_id' => $studentId, 'AND', 'course_id' => $courseId, 'AND', 'registration_number' => $registrationNumber];
+    $DucplicateCheckColumn = ['registration_number' => $registrationNumber];
     $DuplicateRecord = CheckDuplicateRecordToUpdate($conn, $id, $certificateTable, $DucplicateCheckColumn);
 
     if ($DuplicateRecord == FALSE) {
