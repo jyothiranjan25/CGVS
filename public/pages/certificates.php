@@ -185,16 +185,9 @@ if (isset($_POST['bulkupload'])) {
                         if (!empty($student_id) && !empty($course_id)) {
                             if (!empty($registration_number) && !empty($start_date_raw) && !empty($completion_date_raw)) {
 
-                                echo $start_date_raw . "<br>";
-                                echo $completion_date_raw . "<br>";
-
                                 // Split into parts
                                 list($day1, $month1, $year1) = explode('/', $start_date_raw);
                                 list($day2, $month2, $year2) = explode('/', $completion_date_raw);
-
-                                // Convert 2-digit year to 4-digit (assume 2000s)
-                                $year1 = (int)$year1 < 50 ? "20$year1" : "19$year1";
-                                $year2 = (int)$year2 < 50 ? "20$year2" : "19$year2";
 
                                 // Create proper date strings
                                 $start_date = "$year1-$month1-$day1";        // Y-m-d
