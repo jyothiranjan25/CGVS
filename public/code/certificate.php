@@ -63,13 +63,15 @@ function getCertificateById($id)
 
     $courseId = $certificate['course_id'];
 
-    // get modules details
-    $sql = "SELECT m.module_name, m.course_id
+    if ($courseId != null && $courseId != '') {
+        // get modules details
+        $sql = "SELECT m.module_name, m.course_id
             FROM $moduleTable m
             WHERE m.course_id = $courseId ORDER BY id ASC";
 
-    $modules = isArrayData($conn, $sql);
-    $certificate['modules_covered'] = $modules;
+        $modules = isArrayData($conn, $sql);
+        $certificate['modules_covered'] = $modules;
+    }
 
     return $certificate;
 }
@@ -132,14 +134,15 @@ function getCertificateDetailsByRegNo($registrationNumber)
 
     $courseId = $certificate['course_id'];
 
-    // get modules details
-    $sql = "SELECT m.module_name, m.course_id
+    if ($courseId != null && $courseId != '') {
+        // get modules details
+        $sql = "SELECT m.module_name, m.course_id
             FROM $moduleTable m
             WHERE m.course_id = $courseId ORDER BY id ASC";
 
-    $modules = isArrayData($conn, $sql);
-    $certificate['modules_covered'] = $modules;
-
+        $modules = isArrayData($conn, $sql);
+        $certificate['modules_covered'] = $modules;
+    }
     return $certificate;
 }
 
@@ -161,22 +164,26 @@ function getverificationDetailsByRegNo($registrationNumber)
     $studentId = $certificate['student_id'];
     $courseId = $certificate['course_id'];
 
-    // get modules details
-    $sql = "SELECT m.module_name, m.course_id
+    if ($courseId != null && $courseId != '') {
+        // get modules details
+        $sql = "SELECT m.module_name, m.course_id
             FROM $moduleTable m
             WHERE m.course_id = $courseId";
 
-    $modules = isArrayData($conn, $sql);
-    $certificate['modules_covered'] = $modules;
+        $modules = isArrayData($conn, $sql);
+        $certificate['modules_covered'] = $modules;
+    }
 
-    // get projects details
-    $sql = "SELECT p.project_title, p.description, p.course_id
+    if ($studentId != null && $studentId != '' && $courseId != null && $courseId != '') {
+        // get projects details
+        $sql = "SELECT p.project_title, p.description, p.course_id
             FROM $projectTable p
             WHERE p.student_id = $studentId AND p.course_id = $courseId";
 
-    $projects = isArrayData($conn, $sql);
+        $projects = isArrayData($conn, $sql);
 
-    $certificate['projects'] = $projects;
+        $certificate['projects'] = $projects;
+    }
 
     return $certificate;
 }
