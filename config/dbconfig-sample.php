@@ -86,4 +86,4 @@ $Extract_Query_params = $_SERVER['QUERY_STRING']; // Extract query params
 // Extract filename from URL
 $Extract_File_name = basename(parse_url($Extract_URL, PHP_URL_PATH));
 // Extract filename with params from URL
-$Extract_File_name_with_params = $Extract_File_name . !empty($Extract_Query_params) ? '?' . $Extract_Query_params : '';
+$Extract_File_name_with_params = $Extract_File_name . (!empty($Extract_Query_params) ? '?' . $Extract_Query_params : '');
