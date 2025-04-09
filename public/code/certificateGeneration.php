@@ -34,6 +34,14 @@ function generateCertificate($regNo, $name, $startDate, $endDate, $course, $QrCo
     //     100
     // );
 
+    // set Registration Number
+    $image->text($regNo, 3000, 350, function (FontFactory $font) use ($ArialBoldfont) {
+        $font->file($ArialBoldfont); // Add your font path
+        $font->size(50);
+        $font->color('#000000');
+        $font->align('center');
+        $font->valign('middle');
+    });
 
     // Set Text
     $image->text($name, 1830, 1160, function (FontFactory $font) use ($GreatVibesfont) {

@@ -6,3 +6,6 @@
 /config/dbconfig.php
 # certificates folder
 public/images/certificates/*
+# ignore qr codes
+public/images/qr_codes/*
+
