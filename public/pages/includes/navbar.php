@@ -6,7 +6,7 @@ if (isset($_GET['logout'])) {
     exit;
 }
 
-$Redirect_URL = $Extract_File_name_with_params;
+$RedirextToSamePage = $Extract_File_name_with_params;
 
 if (isset($_POST['resetPassword'])) {
     $username = mysqli_real_escape_string($conn, trim($_SESSION['login_user_name']));
@@ -39,9 +39,9 @@ if (isset($_POST['resetPassword'])) {
             $_SESSION['toasts_type'] = "error";
         }
     } catch (Exception $e) {
-        CatchErrorLogs($e, $Redirect_URL);
+        CatchErrorLogs($e, $RedirextToSamePage);
     } finally {
-        header("Location: $Redirect_URL");
+        header("Location: $RedirextToSamePage");
         exit;
     }
 }

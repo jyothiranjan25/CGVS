@@ -119,7 +119,7 @@ if (isset($_GET['delete'])) {
                                                 $data_result = getAllCourses();
                                                 $cnt = 1;
                                                 foreach ($data_result as $row) {
-                                                    ?>
+                                                ?>
                                                     <tr>
                                                         <td><?php echo htmlentities($cnt); ?></td>
                                                         <td><?php echo htmlentities($row['course_name']); ?></td>
@@ -138,7 +138,7 @@ if (isset($_GET['delete'])) {
                                                             </a>
                                                         </td>
                                                     </tr>
-                                                    <?php
+                                                <?php
                                                     $cnt++;
                                                 }
                                                 ?>
