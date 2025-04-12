@@ -24,27 +24,17 @@ function generateCertificate($regNo, $name, $startDate, $endDate, $course, $QrCo
     // create qr code image based on the qr code string
     $qrCodeImage = generateQRCodeImage($QrCode);
 
+    /**
+     * $font->align('left');
+     * Define the horizontal alignment of the text to be written starting from the base point. Possible values are left, right and center. Default: left
+     * 
+     * $font->valign('bottom');
+     * Define the vertical alignment of the text to be written starting from the base point. Possible values are top, bottom and middle. Default: bottom
+     */
 
-    // corner with 10px offset and an opacity of 25%
-    // $image->place(
-    //     $qrCodeImage,
-    //     'top-right',
-    //     300,
-    //     200,
-    //     100
-    // );
 
-    // set Registration Number
-    $image->text($regNo, 3000, 350, function (FontFactory $font) use ($ArialBoldfont) {
-        $font->file($ArialBoldfont); // Add your font path
-        $font->size(50);
-        $font->color('#000000');
-        $font->align('center');
-        $font->valign('middle');
-    });
-
-    // Set Text
-    $image->text($name, 1830, 1160, function (FontFactory $font) use ($GreatVibesfont) {
+    // Set Name Text
+    $image->text($name, 1750, 1160, function (FontFactory $font) use ($GreatVibesfont) {
         $font->file($GreatVibesfont); // Add your font path
         $font->size(250);
         $font->color('#000000');
@@ -79,45 +69,40 @@ function generateCertificate($regNo, $name, $startDate, $endDate, $course, $QrCo
 
     $line1 = "has successfully completed the $course from $startDate to $endDate, demonstrating proficiency in $final_modules_list.";
 
-    $image->text($line1, 1750, 1450, function (FontFactory $font) use ($Arialfont) {
+    // Set Context
+    $image->text($line1, 500, 1600, function (FontFactory $font) use ($Arialfont) {
         $font->file($Arialfont);
         $font->size(50);
         $font->color('#000000');
-        $font->align('center');
-        $font->valign('middle');
+        // $font->align(value: 'left');
+        // $font->valign('middle');
+        $font->angle(0);
         $font->lineHeight(2);
         $font->wrap(2700);
     });
 
-    // $line1 = "has completed an internship at EDFLIX™ from $startDate to $endDate as a $course.";
 
-    // $image->text($line1, 456, 1440, function (FontFactory $font) use ($Arialfont) {
-    //     $font->file($Arialfont);
-    //     $font->size(50);
-    //     $font->color('#000000');
-    //     $font->valign('middle');
-    // });
+    // set Registration Number
+    $image->text($regNo, 1750, 1750, function (FontFactory $font) use ($ArialBoldfont) {
+        $font->file($ArialBoldfont); // Add your font path
+        $font->size(value: 50);
+        $font->color('#000000');
+        $font->align('center');
+        $font->valign('middle');
+    });
 
-    // $line2 = "During the internship, he was punctual and has displayed professionalism, hardworking and inquisitive.";
-
-    // $image->text($line2, 1700, 1560, function (FontFactory $font) use ($Arialfont) {
-    //     $font->file($Arialfont);
-    //     $font->size(50);
-    //     $font->color('#000000');
-    //     $font->align('center');
-    //     $font->valign('middle');
-    // });
-
-    // $line3 = "During his time with us, he worked under the guidance and leadership team who have expressed their gratitude for his contributions to the team";
-    // $image->text($line3, 1750, 1720, function (FontFactory $font) use ($Arialfont) {
-    //     $font->file($Arialfont);
-    //     $font->size(50);
-    //     $font->color('#000000');
-    //     $font->align('center');
-    //     $font->valign('middle');
-    //     $font->lineHeight(2);
-    //     $font->wrap(2700);
-    // });
+    /**
+     * Positions
+     * top-left (default), top, top-right, left, center, right, bottom-left, bottom, bottom-right
+     */
+    // Set Qr Code Image
+    $image->place(
+        $qrCodeImage,
+        'bottom',
+        0,
+        250,
+        100
+    );
 
     $savePath = getCertificatePath($name, $regNo, $path);
     $image->save($savePath['path']);
@@ -126,7 +111,7 @@ function generateCertificate($regNo, $name, $startDate, $endDate, $course, $QrCo
     unlink($qrCodeImage);
 
 
-    return $savePath;
+    // return $savePath;
 
     // Test the certificate
     $certificateUrl = $savePath['url'];
