@@ -70,11 +70,11 @@ function generateCertificate($regNo, $name, $startDate, $endDate, $course, $QrCo
     $line1 = "has successfully completed the $course from $startDate to $endDate, demonstrating proficiency in $final_modules_list.";
 
     // Set Context
-    $image->text($line1, 500, 1600, function (FontFactory $font) use ($Arialfont) {
+    $image->text($line1, 1750, 1600, function (FontFactory $font) use ($Arialfont) {
         $font->file($Arialfont);
         $font->size(50);
         $font->color('#000000');
-        // $font->align(value: 'left');
+        $font->align(value: 'center');
         // $font->valign('middle');
         $font->angle(0);
         $font->lineHeight(2);
