@@ -806,6 +806,13 @@ if (isset($_POST['bulkupload'])) {
                     error: function(xhr, textStatus, errorThrown) {
                         // Handle any errors that occur during the AJAX request
                         console.error(error);
+                        butterup.toast({
+                            title: "Something went wrong",
+                            message: "An error occurred while processing your request.",
+                            type: "error",
+                            dismissable: true,
+                            icon: true,
+                        });
                     }
                 });
             });
