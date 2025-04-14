@@ -55,7 +55,7 @@ function generateCertificate($regNo, $name, $startDate, $endDate, $course, $QrCo
     $line1 = "has successfully completed the $course from $startDate to $endDate, demonstrating proficiency in $evaluation_methodology";
 
     // Set Context
-    $image->text($line1, 1750, 1600, function (FontFactory $font) use ($Arialfont) {
+    $image->text($line1, 1750, 1700, function (FontFactory $font) use ($Arialfont) {
         $font->file($Arialfont);
         $font->size(50);
         $font->color('#000000');
@@ -68,7 +68,7 @@ function generateCertificate($regNo, $name, $startDate, $endDate, $course, $QrCo
 
 
     // set Registration Number
-    $image->text($regNo, 1750, 1750, function (FontFactory $font) use ($ArialBoldfont) {
+    $image->text($regNo, 1750, 1850, function (FontFactory $font) use ($ArialBoldfont) {
         $font->file($ArialBoldfont); // Add your font path
         $font->size(value: 50);
         $font->color('#000000');
@@ -96,7 +96,7 @@ function generateCertificate($regNo, $name, $startDate, $endDate, $course, $QrCo
     unlink($qrCodeImage);
 
 
-    return $savePath;
+    // return $savePath;
 
     // Test the certificate
     $certificateUrl = $savePath['url'];
