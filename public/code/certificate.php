@@ -53,7 +53,7 @@ function getCertificateById($id)
 {
     global $conn, $certificateTable, $studentTable, $courseTable, $moduleTable;
     $sql = "SELECT s.full_name,
-                    c.id as course_id ,c.course_name,c.evaluation_methodology
+                    c.id as course_id ,c.course_name,c.evaluation_methodology,
                     ct.* FROM $certificateTable ct
             LEFT JOIN $studentTable s ON ct.student_id = s.id
             LEFT JOIN $courseTable c ON ct.course_id = c.id
