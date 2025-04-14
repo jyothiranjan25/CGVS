@@ -84,7 +84,7 @@ if (isset($_GET['generateCertificate'])) {
         $course_name = $certificate_details['course_name'];
         $qr_code = $certificate_details['qr_code'];
         $otherData = [
-            "evaluation_methodology" => $$certificate_details['evaluation_methodology'],
+            "evaluation_methodology" => $certificate_details['evaluation_methodology'],
             'modules_covered' => $certificate_details['modules_covered']
         ];
         $certificate = generateCertificate($regNo, $student_name, $start_date, $completion_date, $course_name, $qr_code, $otherData);
