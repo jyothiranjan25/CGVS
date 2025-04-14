@@ -206,7 +206,7 @@ if (isset($_GET['delete'])) {
                                                             <div class="col-sm-12">
                                                                 <textarea class="form-control" type="text"
                                                                     name="methodology" id="methodology"
-                                                                    rows="4"></textarea>
+                                                                    rows="4" maxlength="350"></textarea>
                                                             </div>
                                                         </div>
                                                     </div>
@@ -288,7 +288,7 @@ if (isset($_GET['delete'])) {
                                                             <div class="col-sm-12">
                                                                 <textarea class="form-control" type="text"
                                                                     name="methodology" id="methodology"
-                                                                    rows="4"><?php echo $methodology ?></textarea>
+                                                                    rows="4" maxlength="350"><?php echo $methodology ?></textarea>
                                                             </div>
                                                         </div>
                                                     </div>

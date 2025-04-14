@@ -50,24 +50,9 @@ function generateCertificate($regNo, $name, $startDate, $endDate, $course, $QrCo
     $startDate = date("F, Y", strtotime($startDate));
     $endDate = date("F, Y", strtotime($endDate));
 
-    // Set Modules Covered
-    $modules_covered = $otherData["modules_covered"] ?? [];
-    $module_names = [];
-    foreach ($modules_covered as $module) {
-        if (isset($module["module_name"])) {
-            $module_names[] = strtolower($module["module_name"]);
-        }
-    }
+    $evaluation_methodology = $otherData["evaluation_methodology"] ?? "";
 
-    // Format the list with commas and "and" before the last item
-    $final_modules_list = implode(', ', array_slice($module_names, 0, -1));
-    if (count($module_names) > 1) {
-        $final_modules_list .= ', and ' . end($module_names);
-    } else {
-        $final_modules_list = implode('', $module_names);
-    }
-
-    $line1 = "has successfully completed the $course from $startDate to $endDate, demonstrating proficiency in $final_modules_list.";
+    $line1 = "has successfully completed the $course from $startDate to $endDate, demonstrating proficiency in $evaluation_methodology.";
 
     // Set Context
     $image->text($line1, 1750, 1600, function (FontFactory $font) use ($Arialfont) {
@@ -163,3 +148,20 @@ function deleteCertificate($name, $regNo, $path = null)
     }
     return true;
 }
+
+    // // Set Modules Covered
+    // $modules_covered = $otherData["modules_covered"] ?? [];
+    // $module_names = [];
+    // foreach ($modules_covered as $module) {
+    //     if (isset($module["module_name"])) {
+    //         $module_names[] = strtolower($module["module_name"]);
+    //     }
+    // }
+
+    // // Format the list with commas and "and" before the last item
+    // $final_modules_list = implode(', ', array_slice($module_names, 0, -1));
+    // if (count($module_names) > 1) {
+    //     $final_modules_list .= ', and ' . end($module_names);
+    // } else {
+    //     $final_modules_list = implode('', $module_names);
+    // }

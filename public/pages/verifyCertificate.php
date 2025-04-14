@@ -39,6 +39,7 @@ if ($QUERY_STRING != null && !empty($QUERY_STRING)) {
             $end_date = $certificate['completion_date'];
             $qr_code = $certificate['qr_code'];
             $otherData = [
+                'evaluation_methodology' => $certificate['evaluation_methodology'],
                 'modules_covered' => $certificate['modules_covered']
             ];
             $certificateUrl = generateCertificate($registration_number, $Student_Name, $start_date, $end_date, $Course_Name, $qr_code, $otherData);

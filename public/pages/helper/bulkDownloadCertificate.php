@@ -18,6 +18,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['type']) && $_POST['ty
             $course = $get_single_certificate['course_name'];
             $qrCode = $get_single_certificate['qr_code'];
             $otherData = [
+                'evaluation_methodology' => $get_single_certificate['evaluation_methodology'],
                 'modules_covered' => $get_single_certificate['modules_covered']
             ];
             $generateCertificate = generateCertificate($regNo, $name, $startDate, $endDate, $course, $qrCode, $otherData, "tempCert/");
