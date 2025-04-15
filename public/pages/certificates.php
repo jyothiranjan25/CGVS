@@ -745,6 +745,13 @@ if (isset($_POST['bulkupload'])) {
                                                 <div class="row">
                                                     <div class="col-md-12">
                                                         <div class="form-group row">
+                                                            <label class="col-sm-12 col-form-label">
+                                                                "Inactivate old certificates to faster bulk downloading."
+                                                            </label>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-md-12">
+                                                        <div class="form-group row">
                                                             <label class="col-sm-4 col-form-label">Start
                                                                 Date</label>
                                                             <div class="col-sm-8">
