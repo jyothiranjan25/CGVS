@@ -298,6 +298,17 @@ if (isset($_POST['bulkupload'])) {
                                             </button>
                                         </div>
                                     </div>
+                                    <!-- This should be hidden initially -->
+                                    <div id="progressContainer" style="display: none;">
+                                        <div class="template-demo">
+                                            <div class="d-flex justify-content-between">
+                                                <small>Downloading.....</small>
+                                            </div>
+                                            <div class="progress progress-lg mt-2">
+                                                <div class="progress-bar bg-warning" role="progressbar" style="width: 0%" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100">0% completed</div>
+                                            </div>
+                                        </div>
+                                    </div>
 
                                     <div class=" table-responsive pt-3">
                                         <table class="table table-bordered" id="order-listing">
@@ -850,7 +861,7 @@ if (isset($_POST['bulkupload'])) {
         let progressInterval;
 
         function startProgressPolling() {
-            $("#progressModal").modal("show");
+            $("#progressContainer").show();
 
             progressInterval = setInterval(function() {
                 $.ajax({
@@ -864,21 +875,25 @@ if (isset($_POST['bulkupload'])) {
                         var result = JSON.parse(response);
                         const responseObject = JSON.parse(response);
                         if (responseObject.status === "success") {
-                            var progress = responseObject.progress;
-                            // Update the progress bar or any other UI element with the progress value
-                            console.log("Progress: " + progress + "%");
+                            const progress = responseObject.progress;
 
                             $(".progress-bar")
                                 .css("width", progress + "%")
                                 .attr("aria-valuenow", progress)
-                                .text(progress + "%");
+                                .text(progress + "% completed")
+                                .removeClass("bg-danger bg-warning bg-info bg-success") // remove previous color
+                                .addClass(
+                                    progress < 35 ? "bg-danger" :
+                                    progress < 65 ? "bg-warning" :
+                                    progress < 95 ? "bg-info" :
+                                    "bg-success"
+                                );
 
                             if (progress >= 100) {
                                 clearIntervalPoll();
                             }
                         } else {
                             clearIntervalPoll();
-                            // Handle other scenarios if needed
                         }
                     },
                     error: function(xhr, textStatus, errorThrown) {
