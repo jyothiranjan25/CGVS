@@ -2,6 +2,7 @@
 require_once '../../../config/dbconfig.php';
 include_once($Base_Path . "/public/code/Queries.php");
 
+session_write_close();
 
 function setProgress($percent)
 {
@@ -10,7 +11,13 @@ function setProgress($percent)
 
 function getProgress()
 {
-    return isset($_SESSION['bulk_progress']) ? $_SESSION['bulk_progress'] : 0;
+    $ProgressPoll = isset($_SESSION['bulk_progress']) ? $_SESSION['bulk_progress'] : 0;
+
+    if ($ProgressPoll >= 100) {
+        clearProgress();
+    }
+
+    return $ProgressPoll;
 }
 function clearProgress()
 {

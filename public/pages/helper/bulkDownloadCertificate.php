@@ -124,7 +124,9 @@ function deleteFolderRecursively($folderPath)
 
 function setProgress($percent)
 {
+    session_start();
     $_SESSION['bulk_progress'] = $percent;
+    session_write_close();
 }
 
 function getProgress()
