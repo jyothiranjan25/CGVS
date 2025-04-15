@@ -11,6 +11,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['type']) && $_POST['ty
         $total = count($allActiveCertificates);
         $current = 0;
 
+        $ProgressStatus = [];
+        $ProgressStatus['totalRecords'] = $total;
+        $currentStatus = [];
+
         foreach ($allActiveCertificates as $certificate) {
             $certificateId = $certificate['id'];
             $get_single_certificate = getCertificateById($certificateId);
@@ -33,7 +37,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['type']) && $_POST['ty
             $current++;
             $progress = intval(($current / $total) * 100);
             setProgress($progress); // Update progress in session
+            $currentStatus[$current] = $progress;
         }
+        $ProgressStatus['currentStatus'] = $currentStatus;
+        $ProgressStatus['successPercent'] = getProgress();
 
         $directory = dirname($certificatePath);
         $directoryURL = dirname($certificateURL);
@@ -58,7 +65,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['type']) && $_POST['ty
             throw new Exception("Could not create zip file.");
         }
 
-        $returnData = ["status" => "success", "message" => "Certificates generated successfully", "zipFile" => $zipFile, "zipFileURL" => $zipFileURL, "zipFolder" => $directory];
+        $returnData = ["status" => "success", "message" => "Certificates generated successfully", "zipFile" => $zipFile, "zipFileURL" => $zipFileURL, "zipFolder" => $directory, "progress" => $ProgressStatus];
     } catch (Exception $e) {
         $returnData = ["status" => "failed", "message" => $e->getMessage()];
         CatchErrorLogs($e, null);
@@ -118,4 +125,13 @@ function deleteFolderRecursively($folderPath)
 function setProgress($percent)
 {
     $_SESSION['bulk_progress'] = $percent;
+}
+
+function getProgress()
+{
+    return isset($_SESSION['bulk_progress']) ? $_SESSION['bulk_progress'] : 0;
+}
+function clearProgress()
+{
+    unset($_SESSION['bulk_progress']);
 }

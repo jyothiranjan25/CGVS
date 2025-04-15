@@ -753,6 +753,7 @@ if (isset($_POST['bulkupload'])) {
         $(document).ready(function() {
             // Handle the subcribe button click
             $("#bulkDownload").click(function() {
+                startProgressPolling();
                 // Perform an AJAX request
                 $.ajax({
                     type: "POST",
@@ -760,6 +761,7 @@ if (isset($_POST['bulkupload'])) {
                     data: {
                         type: 'bulkDownlaod'
                     },
+                    async: true,
                     beforeSend: function() {
                         butterup.toast({
                             title: "Processing",
@@ -790,6 +792,7 @@ if (isset($_POST['bulkupload'])) {
                                     dismissable: true,
                                     icon: true,
                                 });
+                                clearIntervalPoll();
                                 deleteZipFolder(responseObject.zipFolder);
                             }
                         } else {
@@ -840,6 +843,53 @@ if (isset($_POST['bulkupload'])) {
                     console.error(error);
                 }
             });
+        }
+    </script>
+
+    <script>
+        let progressInterval;
+
+        function startProgressPolling() {
+            $("#progressModal").modal("show");
+
+            progressInterval = setInterval(function() {
+                $.ajax({
+                    type: "POST",
+                    url: "./helper/ProgressBar.php",
+                    data: {
+                        type: 'getProgress'
+                    },
+                    async: true,
+                    success: function(response) {
+                        var result = JSON.parse(response);
+                        const responseObject = JSON.parse(response);
+                        if (responseObject.status === "success") {
+                            var progress = responseObject.progress;
+                            // Update the progress bar or any other UI element with the progress value
+                            console.log("Progress: " + progress + "%");
+
+                            $(".progress-bar")
+                                .css("width", progress + "%")
+                                .attr("aria-valuenow", progress)
+                                .text(progress + "%");
+
+                            if (progress >= 100) {
+                                clearIntervalPoll();
+                            }
+                        } else {
+                            clearIntervalPoll();
+                            // Handle other scenarios if needed
+                        }
+                    },
+                    error: function(xhr, textStatus, errorThrown) {
+                        clearIntervalPoll();
+                    }
+                });
+            }, 1000);
+        }
+
+        function clearIntervalPoll() {
+            clearInterval(progressInterval);
         }
     </script>
 </body>
