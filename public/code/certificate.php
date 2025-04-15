@@ -102,6 +102,20 @@ function updateCertificateById($id, $updatedColumns)
     }
 }
 
+function updateCertificateByCustomColumns($startDate, $endDate, $status)
+{
+    global $conn, $certificateTable;
+    $sql = "SELECT * FROM $certificateTable WHERE `start_date` >= '$startDate' AND `completion_date` <= '$endDate'";
+
+    $getData = isArrayData($conn, $sql);
+
+    foreach ($getData as $row) {
+        $id = $row["id"];
+        $updatedColumns = ["status" => $status];
+        updateCertificateById($id, $updatedColumns);
+    }
+}
+
 function deleteCertificateById($id)
 {
     global $conn, $certificateTable;

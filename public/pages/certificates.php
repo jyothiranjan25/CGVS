@@ -62,6 +62,22 @@ if (isset($_POST['update'])) {
     }
 }
 
+if (isset($_POST['statusUpdate'])) {
+
+    $start_date = mysqli_real_escape_string($conn, trim($_POST['start_date']));
+    $completion_date = mysqli_real_escape_string($conn, trim($_POST['completion_date']));
+    $status = mysqli_real_escape_string($conn, trim($_POST['status']));
+
+    try {
+        updateCertificateByCustomColumns($start_date, $completion_date, $status);
+    } catch (Exception $e) {
+        CatchErrorLogs($e, $Redirect_URL);
+    } finally {
+        header("Location: $Redirect_URL");
+        exit;
+    }
+}
+
 if (isset($_GET['delete'])) {
     try {
         $id = $_GET['delete'];
@@ -292,6 +308,10 @@ if (isset($_POST['bulkupload'])) {
                                             <button type="button" class="btn btn-light btn-sm" data-toggle="modal"
                                                 data-target="#bulkAddModal">
                                                 Bulk Add
+                                            </button>
+                                            <button type="button" class="btn btn-light btn-sm" data-toggle="modal"
+                                                data-target="#statusUpdateModal">
+                                                Bulk Status Update
                                             </button>
                                             <button type="button" class="btn btn-light btn-sm" id="bulkDownload">
                                                 Bulk Download
@@ -706,6 +726,71 @@ if (isset($_POST['bulkupload'])) {
                         </div>
                     </div>
                     <!-- Bulk Add Modal -->
+
+                    <!-- Bulk Status update Modal -->
+                    <div class="modal fade bd-example-modal-lg" id="statusUpdateModal" tabindex="-1" role="dialog"
+                        aria-labelledby="statusUpdateModalLabel" aria-hidden="true">
+                        <div class="modal-dialog modal-lg" role="document">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h5 class="modal-title" id="statusUpdateModalLabel">Status Update</h5>
+                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                        <span aria-hidden="true">&times;</span>
+                                    </button>
+                                </div>
+                                <div class="modal-body">
+                                    <div class="card">
+                                        <div class="card-body">
+                                            <form class="form-sample" method="POST">
+                                                <div class="row">
+                                                    <div class="col-md-12">
+                                                        <div class="form-group row">
+                                                            <label class="col-sm-4 col-form-label">Start
+                                                                Date</label>
+                                                            <div class="col-sm-8">
+                                                                <input class="form-control" type="date"
+                                                                    name="start_date" id="start_date" required value="2024-09-23" />
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-md-12">
+                                                        <div class="form-group row">
+                                                            <label class="col-sm-4 col-form-label">Completion
+                                                                Date</label>
+                                                            <div class="col-sm-8">
+                                                                <input class="form-control" type="date"
+                                                                    name="completion_date" id="completion_date" value="2025-02-18"
+                                                                    required />
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-md-12">
+                                                        <div class="form-group row">
+                                                            <label class="col-sm-4 col-form-label">Status</label>
+                                                            <div class="col-sm-8">
+                                                                <select name="status" id="status"
+                                                                    class="form-control select2" required>
+                                                                    <option value="1">Active</option>
+                                                                    <option value="0">Inactive</option>
+                                                                </select>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div style="display: flex; justify-content:end; gap: 10px;">
+                                                    <button type="button" class="btn btn-light"
+                                                        data-dismiss="modal">Close</button>
+                                                    <button type="submit" name="statusUpdate" id="statusUpdate"
+                                                        class="btn btn-dark">Update</button>
+                                                </div>
+                                            </form>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- End Bulk Status update Modal -->
 
                     <!-- delete Modal -->
                     <div class="modal fade" id="deleteModal" tabindex="-1" role="dialog" aria-labelledby="deleteModalLabel" aria-hidden="true">
