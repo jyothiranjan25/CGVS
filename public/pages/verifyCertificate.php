@@ -258,7 +258,7 @@ if ($QUERY_STRING != null && !empty($QUERY_STRING)) {
                                                             <div class="card h-100"> <!-- Ensures equal height -->
                                                                 <div class="card-body d-flex flex-column">
                                                                     <!-- Makes content stretch -->
-                                                                    <h3 class="mb-3 font-weight-bold">WHAT YOU WILL LEARN</h3>
+                                                                    <h3 class="mb-3 font-weight-bold">Modules covered in this course</h3>
                                                                     <div class="d-flex flex-wrap">
                                                                         <?php foreach ($Modules_Covered as $Modules) { ?>
                                                                             <div class="w-50 p-1"
