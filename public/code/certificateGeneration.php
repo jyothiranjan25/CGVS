@@ -52,7 +52,7 @@ function generateCertificate($regNo, $name, $startDate, $endDate, $course, $QrCo
 
     $evaluation_methodology = $otherData["evaluation_methodology"] ?? "";
 
-    $line1 = "has successfully completed the $course from $startDate to $endDate, demonstrating proficiency in $evaluation_methodology";
+    $line1 = "has successfully completed the $course from $startDate to $endDate, $evaluation_methodology";
 
     // Set Context
     $image->text($line1, 1750, 1400, function (FontFactory $font) use ($Arialfont) {
