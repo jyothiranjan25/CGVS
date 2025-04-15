@@ -378,7 +378,7 @@ if (isset($_POST['bulkupload'])) {
                                                             <a href="<?php echo $Redirect_URL ?>?edit=<?php echo ($row['id']); ?>"
                                                                 style="font-size: 20px; color: #007bff;"><i
                                                                     class="typcn typcn-edit"></i></a>
-                                                            <a data-toggle="modal" data-target="#deleteModal" data-whatever="<?php echo htmlentities($row['id']); ?>"
+                                                            <a href="#" data-toggle="modal" data-target="#deleteModal" data-whatever="<?php echo htmlentities($row['id']); ?>"
                                                                 style="font-size: 20px; color: #dc3545;">
                                                                 <i class="typcn typcn-delete"></i>
                                                             </a>
