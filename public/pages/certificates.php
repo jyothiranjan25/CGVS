@@ -305,7 +305,7 @@ if (isset($_POST['bulkupload'])) {
                                                 <small>Processing........</small>
                                             </div>
                                             <div class="progress progress-lg mt-2">
-                                                <div class="progress-bar bg-warning" role="progressbar" style="width: 0%" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100">0% completed</div>
+                                                <div class="progress-bar progress-bar-striped bg-warning" role="progressbar" style="width: 0%" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100">0% completed</div>
                                             </div>
                                         </div>
                                     </div>
