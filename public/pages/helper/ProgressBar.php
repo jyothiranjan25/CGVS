@@ -2,11 +2,11 @@
 require_once '../../../config/dbconfig.php';
 include_once($Base_Path . "/public/code/Queries.php");
 
-session_write_close();
-
 function setProgress($percent)
 {
+    session_start();
     $_SESSION['bulk_progress'] = $percent;
+    session_write_close();
 }
 
 function getProgress()
