@@ -368,7 +368,7 @@ if (isset($_POST['bulkupload'])) {
                                                                     width="100" height="100" alt="QR Code">
                                                             </button>
                                                         </td>
-                                                        <td style="text-align: center;">
+                                                        <td style="text-align: center;padding :10px; width: 100px;">
                                                             <a href="<?php echo $Redirect_URL ?>?generateCertificate=<?php echo ($row['registration_number']); ?>"
                                                                 style="font-size: 20px; color: #007bff;"><i
                                                                     class="typcn typcn-document"></i></a>
