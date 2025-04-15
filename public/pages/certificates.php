@@ -749,7 +749,7 @@ if (isset($_POST['bulkupload'])) {
                                                                 Date</label>
                                                             <div class="col-sm-8">
                                                                 <input class="form-control" type="date"
-                                                                    name="start_date" id="start_date" required value="2024-09-23" />
+                                                                    name="start_date" id="start_date" required />
                                                             </div>
                                                         </div>
                                                     </div>
@@ -759,7 +759,7 @@ if (isset($_POST['bulkupload'])) {
                                                                 Date</label>
                                                             <div class="col-sm-8">
                                                                 <input class="form-control" type="date"
-                                                                    name="completion_date" id="completion_date" value="2025-02-18"
+                                                                    name="completion_date" id="completion_date"
                                                                     required />
                                                             </div>
                                                         </div>
