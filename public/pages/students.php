@@ -114,11 +114,11 @@ if (isset($_GET['delete'])) {
                                                 <?php
                                                 $data_result = getAllStudents();
                                                 // Check if there are any rows returned
-                                                
+
                                                 // Output data of each row
                                                 $cnt = 1;
                                                 foreach ($data_result as $row) {
-                                                    ?>
+                                                ?>
                                                     <tr>
                                                         <td><?php echo htmlentities($cnt); ?></td>
                                                         <td><?php echo htmlentities($row['full_name']); ?></td>
@@ -126,17 +126,12 @@ if (isset($_GET['delete'])) {
                                                         <td><?php echo htmlentities($row['mobile']); ?></td>
                                                         <td style="text-align: center;">
                                                             <a href="<?php echo $Redirect_URL ?>?edit=<?php echo ($row['id']); ?>"
-                                                                style="font-size: 25px; color: #007bff;">
-                                                                <i class="typcn typcn-edit"></i>
-                                                            </a>
-                                                            &nbsp;
+                                                                style="font-size: 25px; color: #007bff;"><i class="typcn typcn-edit"></i></a>
                                                             <a href="<?php echo $Redirect_URL ?>?delete=<?php echo ($row['id']); ?>"
-                                                                style="font-size: 25px; color: #dc3545;">
-                                                                <i class="typcn typcn-delete"></i>
-                                                            </a>
+                                                                style="font-size: 25px; color: #dc3545;"><i class="typcn typcn-delete"></i></a>
                                                         </td>
                                                     </tr>
-                                                    <?php
+                                                <?php
                                                     $cnt++;
                                                 }
                                                 ?>

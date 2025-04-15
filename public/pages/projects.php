@@ -132,14 +132,9 @@ if (isset($_GET['delete'])) {
                                                         <td><?php echo htmlentities($row['description']); ?></td>
                                                         <td style="text-align: center;">
                                                             <a href="<?php echo $Redirect_URL ?>?edit=<?php echo ($row['id']); ?>"
-                                                                style="font-size: 25px; color: #007bff;">
-                                                                <i class="typcn typcn-edit"></i>
-                                                            </a>
-                                                            &nbsp;
+                                                                style="font-size: 25px; color: #007bff;"><i class="typcn typcn-edit"></i></a>
                                                             <a href="<?php echo $Redirect_URL ?>?delete=<?php echo ($row['id']); ?>"
-                                                                style="font-size: 25px; color: #dc3545;">
-                                                                <i class="typcn typcn-delete"></i>
-                                                            </a>
+                                                                style="font-size: 25px; color: #dc3545;"><i class="typcn typcn-delete"></i></a>
                                                         </td>
                                                     </tr>
                                                 <?php
