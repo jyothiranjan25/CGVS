@@ -7,6 +7,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['type']) && $_POST['ty
         $customColumns = ['status' => '1'];
         $allActiveCertificates = getCertificateByCustomColumns($customColumns, true);
 
+
+        $total = count($allActiveCertificates);
+        $current = 0;
+
         foreach ($allActiveCertificates as $certificate) {
             $certificateId = $certificate['id'];
             $get_single_certificate = getCertificateById($certificateId);
@@ -24,6 +28,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['type']) && $_POST['ty
             $generateCertificate = generateCertificate($regNo, $name, $startDate, $endDate, $course, $qrCode, $otherData, "tempCert/");
             $certificatePath = $generateCertificate['path'];
             $certificateURL = $generateCertificate['url'];
+
+            // for percentage calcuation
+            $current++;
+            $progress = intval(($current / $total) * 100);
+            setProgress($progress); // Update progress in session
         }
 
         $directory = dirname($certificatePath);
@@ -103,4 +112,10 @@ function deleteFolderRecursively($folderPath)
         }
     }
     rmdir($folderPath); // Delete the empty folder
+}
+
+
+function setProgress($percent)
+{
+    $_SESSION['bulk_progress'] = $percent;
 }

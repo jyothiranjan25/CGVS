@@ -28,6 +28,9 @@
 <!-- endinject -->
 <!-- plugin js for this page -->
 <script src="../vendors/progressbar.js/progressbar.min.js"></script>
+<!-- Custom js for this page-->
+<script src="../js/progress-bar.js"></script>
+<!-- End custom js for this page-->
 <script src="../vendors/chart.js/Chart.min.js"></script>
 <!-- End plugin js for this page -->
 <!-- Custom js for this page-->
@@ -46,19 +49,19 @@
 <!-- Edit modal script-->
 <?php
 if (isset($_REQUEST['edit'])) {
-    ?>
+?>
     <script type="text/javascript">
-        $(window).on('load', function () {
+        $(window).on('load', function() {
             $('#editModal').modal('show');
         });
     </script>
-    <?php
+<?php
 }
 ?>
 
 <?php
 if ((isset($_SESSION['toasts_title']) && $_SESSION['toasts_title'])) {
-    ?>
+?>
     <script>
         butterup.options.maxToasts = 3;
         butterup.options.toastLife = 3000;
@@ -70,7 +73,7 @@ if ((isset($_SESSION['toasts_title']) && $_SESSION['toasts_title'])) {
             icon: true,
         });
     </script>
-    <?php
+<?php
     unset($_SESSION['toasts_title']);
     unset($_SESSION['toasts_message']);
     unset($_SESSION['toasts_type']);
