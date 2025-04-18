@@ -261,8 +261,7 @@ if ($QUERY_STRING != null && !empty($QUERY_STRING)) {
                                                                     <h3 class="mb-3 font-weight-bold">Modules covered in this course</h3>
                                                                     <div class="d-flex flex-wrap">
                                                                         <?php foreach ($Modules_Covered as $Modules) { ?>
-                                                                            <div class="w-50 p-1"
-                                                                                style="display: flex; align-items: flex-start; gap: 10px;">
+                                                                            <div class="col-12 col-md-6 p-1 d-flex align-items-start gap-2">
                                                                                 <svg xmlns="http://www.w3.org/2000/svg" x="0px" y="0px"
                                                                                     width="20" height="20" viewBox="0 0 48 48">
                                                                                     <path fill="#43A047"
@@ -283,27 +282,28 @@ if ($QUERY_STRING != null && !empty($QUERY_STRING)) {
                                                     <?php }
                                                     if ($projects) { ?>
                                                         <div class="col-lg-6 mb-4">
-
                                                             <div class="card h-100">
                                                                 <div class="card-body d-flex flex-column">
                                                                     <!-- Makes content stretch -->
                                                                     <h3 class="mb-3 font-weight-bold">
                                                                         Projects Completed
                                                                     </h3>
-                                                                    <div class="flex-grow-1">
+                                                                    <div class="d-flex flex-wrap">
                                                                         <?php foreach ($projects as $project) { ?>
-                                                                            <ul>
-                                                                                <li>
-                                                                                    <h4 class="mb-3 font-weight-bold">
-                                                                                        <?php echo $project['project_title']; ?>
-                                                                                    </h4>
-                                                                                    <?php if ($project['description']) { ?>
-                                                                                        <p>
-                                                                                            <?php echo $project['description']; ?>
-                                                                                        </p>
-                                                                                    <?php } ?>
-                                                                                </li>
-                                                                            </ul>
+                                                                            <div class="col-12 col-md-6 p-1 d-flex align-items-start gap-2">
+                                                                                <ul style="margin-bottom: 0;">
+                                                                                    <li>
+                                                                                        <h4 class="font-weight-bold">
+                                                                                            <?php echo $project['project_title']; ?>
+                                                                                        </h4>
+                                                                                        <?php if ($project['description']) { ?>
+                                                                                            <p>
+                                                                                                <?php echo $project['description']; ?>
+                                                                                            </p>
+                                                                                        <?php } ?>
+                                                                                    </li>
+                                                                                </ul>
+                                                                            </div>
                                                                         <?php } ?>
                                                                     </div>
                                                                     <div class="mt-auto"></div>
